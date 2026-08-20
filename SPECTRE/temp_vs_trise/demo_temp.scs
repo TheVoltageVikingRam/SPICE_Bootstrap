@@ -1,0 +1,29 @@
+*********LOAD OUTPUT NETLIST****
+simulator lang=spectre
+globalopts options temp=27
+
+******* SUB-CIRCUIT DEFINTIONS *********
+
+X1 (out 0) LoadOutput trise=43
+
+subckt LoadOutput a b
+r1 (a b) resistor r=50k
+c1 (a b) capacitor c=2p
+xx1 (a b) RCsub temp=5
+ends LoadOutput
+
+subckt RCsub 1 2
+rr1 (1 2) resistor r=10k
+cc1 (1 2) capacitor c=2p
+ends RCsub
+
+**************SIMULATOR OPTIONS AND ANALYSIS ***********
+
+simOptions options
++	pwr=total
++	tnom=27
++	gmin_check=no
+
+tran1 tran  stop=10u
+
+outputInfo info what=allparameters where=logfile
