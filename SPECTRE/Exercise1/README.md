@@ -35,18 +35,40 @@ $$
 
 `k` was swept from `1` to `2` in steps of `0.1`, and `tPHL` and `tPLH` were measured for each value.
 
-The two curves intersect at approximately:
+### Sweep Result
+
+<img src="./tplh_vs_tphl_as_a_function_of_k.png" width="800">
+
+The intersection of the two curves gives approximately:
 
 $$
 k \approx 1.293
 $$
 
-At this value:
+At this point:
 
 $$
 t_{PHL} \approx t_{PLH} \approx 2.13\ \text{ps}
 $$
 
-### Sweep Result
+### Calculator Utility Result
 
-<img src="./tplh_vs_tphl_as_a_function_of_k.png" width="800">
+The intersection was also obtained using the Spectre calculator:
+
+<img src="./k_value_for_tplh_equal_tphl_from_calc_utility.png" width="600">
+
+The calculator gives:
+
+$$
+\boxed{k \approx 1.293}
+$$
+
+with the corresponding delay of approximately:
+
+$$
+\boxed{2.13\ \text{ps}}
+$$
+
+The sweep data is also provided as a CSV file:
+
+[`tplh_vs_tphl_as_func_of_k.csv`](./tplh_vs_tphl_as_func_of_k.csv)
