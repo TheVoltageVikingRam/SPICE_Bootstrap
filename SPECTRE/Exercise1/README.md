@@ -72,3 +72,6 @@ $$
 The sweep data is also provided as a CSV file:
 
 [`tplh_vs_tphl_as_func_of_k.csv`](./tplh_vs_tphl_as_func_of_k.csv)
+
+
+## Part B
