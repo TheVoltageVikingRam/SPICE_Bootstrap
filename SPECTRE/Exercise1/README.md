@@ -37,7 +37,9 @@ $$
 
 ### Sweep Result
 
-<img src="./tplh_vs_tphl_as_a_function_of_k.png" width="800">
+| Spectre Result | Python Generated Result |
+|---|---|
+| <img src="./tplh_vs_tphl_as_a_function_of_k.png" width="500"> | <img src="./tplh_vs_tphl_python_generated.png" width="500"> |
 
 The intersection of the two curves gives approximately:
 
@@ -73,5 +75,28 @@ The sweep data is also provided as a CSV file:
 
 [`tplh_vs_tphl_as_func_of_k.csv`](./tplh_vs_tphl_as_func_of_k.csv)
 
+### Rise and Fall Time Analysis
+
+Similarly, `t_rise` and `t_fall` were measured as `k` was swept.
+
+| Spectre Result | Python Generated Result |
+|---|---|
+| <img src="./trise_vs_tfall_values_as_k_is_swept_at_x_of10p.png" width="500"> | <img src="./trise_vs_tfall_python_generated.png" width="500"> |
+
+The intersection of the two curves gives approximately:
+
+$$
+k \approx 1.82
+$$
+
+At this point:
+
+$$
+t_{rise} \approx t_{fall} \approx 4.55\ \text{ps}
+$$
+
+The sweep data for rise and fall times is also provided as a CSV file:
+
+[`trise_tfall_at_x_equal_to10p.csv`](./trise_tfall_at_x_equal_to10p.csv)
 
 ## Part B
