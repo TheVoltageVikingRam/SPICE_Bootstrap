@@ -1,0 +1,39 @@
+simulator lang=spectre
+
+global 0 vdd vss
+include "./22nm_HP.pm"
+
+******************INVERTER SUBCIRCUIT***************
+parameters L=22n Ln=L Wn=2*Ln k=1.293
+
+subckt inv (out in)
+m1 ( out in vdd vdd ) pmos l=L w=k*Wn
+m2 ( out in vss vss ) nmos l=Ln w=Wn
+ends inv
+
+xinv1 ( 1 21 ) inv
+xinv2 ( 2 1 ) inv
+xinv3 ( 3 2 ) inv
+xinv4 ( 4 3 ) inv
+xinv5 ( 5 4 ) inv
+xinv6 ( 6 5 ) inv
+xinv7 ( 7 6 ) inv
+xinv8 ( 8 7 ) inv
+xinv9 ( 9 8 ) inv 
+xinv10 ( 10 9 ) inv
+xinv11 ( 11 10 ) inv 
+xinv12 ( 12 11 ) inv 
+xinv13 ( 13 12 ) inv 
+xinv14 ( 14 13 ) inv
+xinv15 ( 15 14 ) inv
+xinv16 ( 16 15 ) inv
+xinv17 ( 17 16 ) inv
+xinv18 ( 18 17 ) inv
+xinv19 ( 19 18 ) inv
+xinv20 ( 20 19 ) inv 
+xinv21 ( 21 20 ) inv
+
+
+
+
+
