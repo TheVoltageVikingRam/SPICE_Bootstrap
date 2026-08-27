@@ -99,4 +99,28 @@ The sweep data for rise and fall times is also provided as a CSV file:
 
 [`trise_tfall_at_x_equal_to10p.csv`](./trise_tfall_at_x_equal_to10p.csv)
 
-## Part B
+## Part B — Sweep of X for Rise and Fall Times
+
+In this part, `X` was varied, and `t_rise` and `t_fall` were measured to find the point where they intersect.
+
+### Sweep Result
+
+| Spectre Result & Calculator Utility | Python Generated Result |
+|---|---|
+| <img src="./viva_trise_tfall_as_X_is_varied_with_their_intersection_graphically_and_calculator_utility.png" width="500"> | <img src="./trise_and_tfall_as_x_is_varied_python_generated.png" width="500"> |
+
+The intersection of the two curves gives approximately:
+
+$$
+X \approx 2 \times 10^{-10}
+$$
+
+At this point, the rise and fall times are equal:
+
+$$
+t_{rise} \approx t_{fall} \approx 6.145\ \text{ps}
+$$
+
+The sweep data for this analysis is provided as a CSV file:
+
+[`trise_tfall_as_X_is_varied.csv`](./trise_tfall_as_X_is_varied.csv)
