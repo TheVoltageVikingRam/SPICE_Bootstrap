@@ -35,7 +35,7 @@
 \lstset{style=mystyle}
 
 \title{SPICE Exercises Progress Report}
-\author{Getting Ready for my PhD!}
+\author{PhD Preparation — SPICE Proficiency}
 \date{\today}
 
 \begin{document}
@@ -43,13 +43,13 @@
 \maketitle
 
 \section*{Introduction}
-I've put together this report to track my progress on the SPICE exercises suggested by Prof. Sunil Khatri (Texas A\&M). The goal is to get myself completely comfortable with SPICE before starting my PhD next year. Here, I'm documenting the key learnings and simulations I've run so far, mainly focusing on Cadence Spectre.
+This report documents the progress on SPICE exercises based on the problem sets suggested by Prof. Sunil Khatri (Texas A\&M). The objective is to develop thorough proficiency with SPICE simulation tools prior to PhD research. The key learnings and simulation results are presented below, with primary focus on Cadence Spectre.
 
 \section{Control Statements}
-I started by getting a handle on control statements in Spectre. It's pretty cool how I can dynamically change parameters on the fly without restarting the whole simulator.
+This section covers the control statements available in Spectre, which allow dynamic modification of simulation parameters without restarting the simulator.
 
 \subsection{Dynamic Parameter Modification (\texttt{alter})}
-I used the \texttt{alter} statement to change the temperature between distinct analysis runs. 
+The \texttt{alter} statement can be used to change parameters (such as temperature) between distinct analysis runs.
 \begin{lstlisting}[language=C, caption=Spectre Alter Statement Example]
 // DC analysis at nominal temperature
 dc1 dc oppoint=logfile homotopy=gmin 
@@ -66,7 +66,7 @@ tran1 tran stop=1u
 \end{figure}
 
 \subsection{Output Data Extraction (\texttt{info})}
-I figured out how to extract specific component parameters using the \texttt{info} statement and route it straight to my logfile.
+The \texttt{info} statement enables extraction of specific component parameters and routes the output directly to the logfile.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{SPECTRE/Control_statements/use_of_info_control_statement.png}
@@ -74,7 +74,7 @@ I figured out how to extract specific component parameters using the \texttt{inf
 \end{figure}
 
 \subsection{Profiling Performance (\texttt{simstat})}
-By setting \texttt{simstat=detailed}, I was able to get an in-depth breakdown of memory usage and CPU time. This will definitely be handy for larger simulations during my PhD.
+Setting \texttt{simstat=detailed} provides an in-depth breakdown of memory usage and CPU time, which is particularly useful for profiling larger simulations.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{SPECTRE/Control_statements/simstat_detailed_output.png}
@@ -82,9 +82,9 @@ By setting \texttt{simstat=detailed}, I was able to get an in-depth breakdown of
 \end{figure}
 
 \section{Temperature vs Trise}
-Next, I dug into how temperature is handled in device models. There's a fundamental difference between \texttt{temp} and \texttt{trise} that I needed to clarify for myself. 
+This section explores how temperature is handled in device models. There is a fundamental difference between the \texttt{temp} and \texttt{trise} parameters.
 
-I found that \texttt{temp} is \textbf{exclusive} (it overrides ambient settings) whereas \texttt{trise} is \textbf{accumulative} (it adds on top of the ambient temperature).
+The \texttt{temp} parameter is \textbf{exclusive} (it overrides ambient settings), whereas \texttt{trise} is \textbf{accumulative} (it adds on top of the ambient temperature).
 
 \begin{figure}[H]
     \centering
@@ -106,10 +106,10 @@ I found that \texttt{temp} is \textbf{exclusive} (it overrides ambient settings)
 
 
 \section{Exercise 1: CMOS Inverter Chain}
-For the first formal exercise, I simulated a 7-stage CMOS inverter chain using the 22-nm PTM HP model. 
+A 7-stage CMOS inverter chain was simulated using the 22-nm PTM HP model.
 
 \subsection{Initial Smoke Test ($k=2$)}
-For my initial smoke test, I set $L = 22\text{ nm}$, $W_n = 44\text{ nm}$, $W_p = 88\text{ nm}$, and $V_{DD} = 1\text{ V}$. Measuring graphically at the 50\% $V_{DD}$ crossing, I got:
+For the initial smoke test, the following parameters were used: $L = 22\text{ nm}$, $W_n = 44\text{ nm}$, $W_p = 88\text{ nm}$, and $V_{DD} = 1\text{ V}$. Propagation delays were measured graphically at the 50\% $V_{DD}$ crossing:
 \begin{itemize}
     \item $t_{PHL} \approx 1.9286\text{ ps}$
     \item $t_{PLH} \approx 2.668\text{ ps}$
@@ -131,7 +131,7 @@ Clearly, $t_{PLH} > t_{PHL}$.
 \end{figure}
 
 \subsection{Part A: Sweep of $k$}
-I wanted to find the exact PMOS-to-NMOS width ratio ($k$) where $t_{PHL} = t_{PLH}$. So, I swept $k$ from 1 to 2 in steps of 0.1.
+To determine the PMOS-to-NMOS width ratio ($k$) at which $t_{PHL} = t_{PLH}$, $k$ was swept from 1 to 2 in steps of 0.1.
 
 \begin{figure}[H]
     \centering
@@ -139,7 +139,7 @@ I wanted to find the exact PMOS-to-NMOS width ratio ($k$) where $t_{PHL} = t_{PL
     \caption{Sweep result showing $t_{PLH}$ and $t_{PHL}$ as a function of $k$.}
 \end{figure}
 
-From my sweep data, the curves intersect around $k \approx 1.293$, where $t_{PHL} \approx t_{PLH} \approx 2.13\text{ ps}$. I verified this using the Spectre calculator, which gave me the exact same intersection point.
+From the sweep data, the curves intersect at $k \approx 1.293$, where $t_{PHL} \approx t_{PLH} \approx 2.13\text{ ps}$. This was verified using the Spectre calculator utility, which yielded the same intersection point.
 
 \begin{figure}[H]
     \centering
@@ -147,7 +147,7 @@ From my sweep data, the curves intersect around $k \approx 1.293$, where $t_{PHL
     \caption{Spectre calculator utility confirming $k \approx 1.293$.}
 \end{figure}
 
-I also looked at the rise and fall times ($t_{rise}$ and $t_{fall}$) over the same $k$ sweep. These two intersect at a different point than the propagation delays.
+The rise and fall times ($t_{rise}$ and $t_{fall}$) were also measured over the same $k$ sweep. These two quantities intersect at a different point than the propagation delays.
 
 \begin{figure}[H]
     \centering
@@ -166,7 +166,7 @@ I also looked at the rise and fall times ($t_{rise}$ and $t_{fall}$) over the sa
 The rise and fall times become equal at $k \approx 1.82$, where $t_{rise} \approx t_{fall} \approx 4.55\text{ ps}$.
 
 \subsection{Part B: Sweep of $X$ for Symmetric Rise/Fall Times}
-Next, I wanted to find the input transition time ($X$) that makes $t_{rise} = t_{fall}$. I varied $X$ while keeping $k$ fixed and measured both rise and fall times.
+To find the input transition time ($X$) at which $t_{rise} = t_{fall}$, $X$ was varied while keeping $k$ fixed, and both rise and fall times were measured.
 
 \begin{figure}[H]
     \centering
@@ -182,10 +182,10 @@ Next, I wanted to find the input transition time ($X$) that makes $t_{rise} = t_
     \end{minipage}
 \end{figure}
 
-The two curves intersect at $X \approx 200\text{ ps}$, giving $t_{rise} \approx t_{fall} \approx 6.145\text{ ps}$. This is the symmetric input transition time I'll use going forward.
+The two curves intersect at $X \approx 200\text{ ps}$, giving $t_{rise} \approx t_{fall} \approx 6.145\text{ ps}$. This symmetric input transition time is used in the subsequent analysis.
 
 \subsection{Part C: Sweep of $k$ at Symmetric $X$}
-With the symmetric $X \approx 200\text{ ps}$ from Part B in hand, I swept $k$ again (this time from 1 to 5) to re-examine both the propagation delays and the rise/fall times.
+Using the symmetric $X \approx 200\text{ ps}$ obtained from Part B, $k$ was swept from 1 to 5 to re-examine both the propagation delays and the rise/fall times.
 
 \subsubsection{$t_{PHL}$ vs $t_{PLH}$}
 
@@ -203,7 +203,7 @@ With the symmetric $X \approx 200\text{ ps}$ from Part B in hand, I swept $k$ ag
     \end{minipage}
 \end{figure}
 
-The propagation delays are now equal at $k \approx 1.38$, with $t_{PHL} \approx t_{PLH} \approx 2.45\text{ ps}$. Interestingly, this is a slightly different $k$ than Part A ($k \approx 1.293$), which makes sense since the input transition time affects the switching behavior.
+The propagation delays are equal at $k \approx 1.38$, with $t_{PHL} \approx t_{PLH} \approx 2.45\text{ ps}$. Notably, this differs from the Part A result ($k \approx 1.293$), which is expected since the input transition time influences the switching behavior.
 
 \subsubsection{$t_{rise}$ vs $t_{fall}$}
 
@@ -221,9 +221,9 @@ The propagation delays are now equal at $k \approx 1.38$, with $t_{PHL} \approx 
     \end{minipage}
 \end{figure}
 
-Here, the rise and fall times intersect at $k \approx 2.0$, with $t_{rise} \approx t_{fall} \approx 6.14\text{ ps}$.
+The rise and fall times intersect at $k \approx 2.0$, with $t_{rise} \approx t_{fall} \approx 6.14\text{ ps}$.
 
 \section*{Conclusion}
-I'm making solid progress through Prof. Khatri's exercises. Getting hands-on with Spectre's control statements and understanding the nuances of the simulator will definitely pay off during my PhD research!
+Significant progress has been made through Prof. Khatri's SPICE exercises. The hands-on experience with Spectre's control statements and the detailed understanding of simulator nuances developed through these exercises provide a strong foundation for future PhD research.
 
 \end{document}
