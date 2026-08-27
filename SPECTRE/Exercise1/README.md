@@ -127,7 +127,7 @@ The sweep data for this analysis is provided as a CSV file:
 
 ## Part C — Sweep of k at Symmetric X Value
 
-Using the symmetric `X` value obtained from Part B ($X \approx 200\ \text{ps}$), `k` was swept again from `1` to `5` and both propagation delays and rise/fall times were measured.
+Using the symmetric `X` value obtained from Part B ($X \approx 6.145\ \text{ps}$), `k` was swept again from `1` to `10` in steps of 0.05 and both propagation delays and rise/fall times were measured.
 
 ### tPHL vs tPLH
 
@@ -138,13 +138,13 @@ Using the symmetric `X` value obtained from Part B ($X \approx 200\ \text{ps}$),
 The intersection of `tPHL` and `tPLH` gives approximately:
 
 $$
-k \approx 1.38
+k \approx 1.292
 $$
 
 At this point:
 
 $$
-t_{PHL} \approx t_{PLH} \approx 2.45\ \text{ps}
+t_{PHL} \approx t_{PLH} \approx 2.124\ \text{ps}
 $$
 
 The sweep data is provided as a CSV file:
@@ -160,13 +160,13 @@ The sweep data is provided as a CSV file:
 The intersection of `t_rise` and `t_fall` gives approximately:
 
 $$
-k \approx 2.0
+k \approx 1.814
 $$
 
 At this point:
 
 $$
-t_{rise} \approx t_{fall} \approx 6.14\ \text{ps}
+t_{rise} \approx t_{fall} \approx 4.537\ \text{ps}
 $$
 
 The sweep data is provided as a CSV file:
