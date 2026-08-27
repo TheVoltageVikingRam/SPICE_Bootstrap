@@ -36,17 +36,11 @@ xinv5 ( 5 4 ) inv
 xinv6 ( 6 5 ) inv
 xinv7 ( out1 6 ) inv 
 
-//Instantiation of piece wise linear model
+//Instantiation of piece-wise linear model
 
 parameters VDD=1 X=10p
 
 V1 (in1 0) vsource type=pwl wave=[ 0 VDD X 0 40n 0 (40n+X) VDD (80n+X) VDD ] 
-
-
-
-// Transient Analysis run
-
-//tran_run tran stop=85n step=0.1p
 
 //SWEEPING THE VALUE OF K
 
@@ -55,25 +49,21 @@ tran_run2 tran stop=85n step=1p
 }
 
 
-
-//save in1 3 4 out1
-
-
-
 simulator lang=spice
+
+.MEASURE TRAN trise
++ TRIG V(4) VAL='0.1*VDD' RISE=1
++ TARG V(4) VAL='0.9*VDD' RISE=1
+
+
+.MEASURE TRAN tfall
++ TRIG V(4) VAL='0.9*VDD' FALL=1
++ TARG V(4) VAL='0.1*VDD' FALL=1
+
+
 
 .MEASURE TRAN tphl TRIG V(3) VAL='VDD/2' RISE=1
 + TARG V(4) VAL='VDD/2' FALL=1
 
 .MEASURE TRAN tplh TRIG V(3) VAL='VDD/2' FALL=1
 + TARG V(4) VAL='VDD/2' RISE=1
-
-.MEASURE TRAN diff_tp PARAM='abs(tplh-tphl)'
-
-simulator lang=spectre
-
-print tphl
-print tplh
-
-
-
