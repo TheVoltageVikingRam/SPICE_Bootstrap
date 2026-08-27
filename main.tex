@@ -45,65 +45,6 @@
 \section*{Introduction}
 This report documents the progress on SPICE exercises based on the problem sets suggested by Prof. Sunil Khatri (Texas A\&M). The objective is to develop thorough proficiency with SPICE simulation tools prior to PhD research. The key learnings and simulation results are presented below, with primary focus on Cadence Spectre.
 
-\section{Control Statements}
-This section covers the control statements available in Spectre, which allow dynamic modification of simulation parameters without restarting the simulator.
-
-\subsection{Dynamic Parameter Modification (\texttt{alter})}
-The \texttt{alter} statement can be used to change parameters (such as temperature) between distinct analysis runs.
-\begin{lstlisting}[language=C, caption=Spectre Alter Statement Example]
-// DC analysis at nominal temperature
-dc1 dc oppoint=logfile homotopy=gmin 
-
-// Change temperature and run transient analysis
-Change1 alter param=temp value=100
-tran1 tran stop=1u
-\end{lstlisting}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{SPECTRE/Control_statements/change_in_temperature_parameter_via_alter_statement.png}
-    \caption{Changing temperature via alter statement.}
-\end{figure}
-
-\subsection{Output Data Extraction (\texttt{info})}
-The \texttt{info} statement enables extraction of specific component parameters and routes the output directly to the logfile.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{SPECTRE/Control_statements/use_of_info_control_statement.png}
-    \caption{Routing specific output data to the logfile.}
-\end{figure}
-
-\subsection{Profiling Performance (\texttt{simstat})}
-Setting \texttt{simstat=detailed} provides an in-depth breakdown of memory usage and CPU time, which is particularly useful for profiling larger simulations.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{SPECTRE/Control_statements/simstat_detailed_output.png}
-    \caption{Detailed simstat output for performance profiling.}
-\end{figure}
-
-\section{Temperature vs Trise}
-This section explores how temperature is handled in device models. There is a fundamental difference between the \texttt{temp} and \texttt{trise} parameters.
-
-The \texttt{temp} parameter is \textbf{exclusive} (it overrides ambient settings), whereas \texttt{trise} is \textbf{accumulative} (it adds on top of the ambient temperature).
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{SPECTRE/temp_vs_trise/temp_command_exclusive_temperature.png}
-    \caption{Exclusive nature of the temp parameter.}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{SPECTRE/temp_vs_trise/trise_accumulative_effect_demo.png}
-    \caption{Accumulative nature of the trise parameter.}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{SPECTRE/temp_vs_trise/demo_showing_accumulative_nature_of_trise_and_exclusive_nature_of_temp_same_time.png}
-    \caption{Combined effect: trise accumulates while temp acts exclusively.}
-\end{figure}
-
 
 \section{Exercise 1: CMOS Inverter Chain}
 A 7-stage CMOS inverter chain was simulated using the 22-nm PTM HP model.
