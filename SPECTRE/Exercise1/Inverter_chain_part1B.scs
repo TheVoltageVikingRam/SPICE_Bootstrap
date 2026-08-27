@@ -1,0 +1,64 @@
+// INVERTER CHAIN
+
+simulator lang=spectre
+global 0 vdd vss 
+include "./22nm_HP.pm"
+
+
+vdd_I1 ( vdd 0 ) vsource dc=1.0
+vss_I1 ( vss 0 ) vsource dc=0
+
+*********INVERTER***************
+parameters L=22n Ln=L Wn=2*Ln k=2 
+subckt inv (out in)
+m1 ( out in vdd vdd ) pmos l=L w=k*Wn
+m2 ( out in vss vss ) nmos l=Ln w=Wn
+
+ends inv
+
+
+
+
+***************TOP LEVEL CIRCUIT - NON RING INVERTERS CHAINS **********
+
+xinv1 ( 1 in1 ) inv
+xinv2 ( 2 1 ) inv
+xinv3 ( 3 2 ) inv
+xinv4 ( 4 3 ) inv
+xinv5 ( 5 4 ) inv
+xinv6 ( 6 5 ) inv
+xinv7 ( out1 6 ) inv 
+
+//Instantiation of piece-wise linear model
+
+parameters VDD=1 X=10p
+
+V1 (in1 0) vsource type=pwl wave=[ 0 VDD X 0 40n 0 (40n+X) VDD (80n+X) VDD ] 
+
+//SWEEPING THE VALUE OF X
+
+ksweep sweep param=X start=90p stop=250p step=1p {
+tran_run2 tran stop=85n step=1p
+}
+
+
+simulator lang=spice
+
+.MEASURE TRAN trise
++ TRIG V(4) VAL='0.1*VDD' RISE=1
++ TARG V(4) VAL='0.9*VDD' RISE=1
+
+
+.MEASURE TRAN tfall
++ TRIG V(4) VAL='0.9*VDD' FALL=1
++ TARG V(4) VAL='0.1*VDD' FALL=1
+
+
+
+.MEASURE TRAN tphl TRIG V(3) VAL='VDD/2' RISE=1
++ TARG V(4) VAL='VDD/2' FALL=1
+
+.MEASURE TRAN tplh TRIG V(3) VAL='VDD/2' FALL=1
++ TARG V(4) VAL='VDD/2' RISE=1
+
+
