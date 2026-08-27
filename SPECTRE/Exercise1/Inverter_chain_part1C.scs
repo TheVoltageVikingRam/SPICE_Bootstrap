@@ -31,7 +31,7 @@ xinv7 ( out1 6 ) inv
 
 //Instantiation of piece wise linear model
 
-parameters VDD=1 X=199.98p
+parameters VDD=1 X=6.145p
 
 V1 (in1 0) vsource type=pwl wave=[ 0 VDD X 0 40n 0 (40n+X) VDD (80n+X) VDD ] 
 

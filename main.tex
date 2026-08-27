@@ -126,7 +126,7 @@ To find the input transition time ($X$) at which $t_{rise} = t_{fall}$, $X$ was 
 The two curves intersect at $X \approx 200\text{ ps}$, giving $t_{rise} \approx t_{fall} \approx 6.145\text{ ps}$. This symmetric input transition time is used in the subsequent analysis.
 
 \subsection{Part C: Sweep of $k$ at Symmetric $X$}
-Using the symmetric $X \approx 200\text{ ps}$ obtained from Part B, $k$ was swept from 1 to 5 to re-examine both the propagation delays and the rise/fall times.
+Using the symmetric $X \approx 6.145\text{ ps}$ obtained from Part B, $k$ was swept from 1 to 10 in steps of 0.05 to re-examine both the propagation delays and the rise/fall times.
 
 \subsubsection{$t_{PHL}$ vs $t_{PLH}$}
 
@@ -135,7 +135,7 @@ Using the symmetric $X \approx 200\text{ ps}$ obtained from Part B, $k$ was swep
     \begin{minipage}{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{SPECTRE/Exercise1/tplh_vs_tphl_as_k_swept_for_x_at_200.png}
-        \caption{Spectre result: $t_{PHL}$ vs $t_{PLH}$ at $X = 200\text{ ps}$.}
+        \caption{Spectre result: $t_{PHL}$ vs $t_{PLH}$ at $X = 6.145\text{ ps}$.}
     \end{minipage}\hfill
     \begin{minipage}{0.45\textwidth}
         \centering
@@ -144,7 +144,7 @@ Using the symmetric $X \approx 200\text{ ps}$ obtained from Part B, $k$ was swep
     \end{minipage}
 \end{figure}
 
-The propagation delays are equal at $k \approx 1.38$, with $t_{PHL} \approx t_{PLH} \approx 2.45\text{ ps}$. Notably, this differs from the Part A result ($k \approx 1.293$), which is expected since the input transition time influences the switching behavior.
+The propagation delays are equal at $k \approx 1.292$, with $t_{PHL} \approx t_{PLH} \approx 2.124\text{ ps}$. Notably, this is very close to the Part A result ($k \approx 1.293$), which is expected since the input transition time $X = 6.145\text{ ps}$ is relatively short and has minimal effect on the switching behavior.
 
 \subsubsection{$t_{rise}$ vs $t_{fall}$}
 
@@ -153,7 +153,7 @@ The propagation delays are equal at $k \approx 1.38$, with $t_{PHL} \approx t_{P
     \begin{minipage}{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{SPECTRE/Exercise1/trise_vs_tfall_as_k_swept_for_x_at_200.png}
-        \caption{Spectre result: $t_{rise}$ vs $t_{fall}$ at $X = 200\text{ ps}$.}
+        \caption{Spectre result: $t_{rise}$ vs $t_{fall}$ at $X = 6.145\text{ ps}$.}
     \end{minipage}\hfill
     \begin{minipage}{0.45\textwidth}
         \centering
@@ -162,7 +162,7 @@ The propagation delays are equal at $k \approx 1.38$, with $t_{PHL} \approx t_{P
     \end{minipage}
 \end{figure}
 
-The rise and fall times intersect at $k \approx 2.0$, with $t_{rise} \approx t_{fall} \approx 6.14\text{ ps}$.
+The rise and fall times intersect at $k \approx 1.814$, with $t_{rise} \approx t_{fall} \approx 4.537\text{ ps}$.
 
 \section*{Conclusion}
 Significant progress has been made through Prof. Khatri's SPICE exercises. The hands-on experience with Spectre's control statements and the detailed understanding of simulator nuances developed through these exercises provide a strong foundation for future PhD research.

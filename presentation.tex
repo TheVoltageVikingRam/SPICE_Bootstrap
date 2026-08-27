@@ -388,7 +388,7 @@ tran1 tran stop=1u
 \end{frame}
 
 % ── Part C: Propagation Delays ──────────────────────────────
-\begin{frame}{Part C — $t_{PHL}$ vs $t_{PLH}$ at Symmetric $X = 200$ ps}
+\begin{frame}{Part C — $t_{PHL}$ vs $t_{PLH}$ at Symmetric $X = 6.145$ ps}
     \begin{columns}[c]
         \begin{column}{0.48\textwidth}
             \centering
@@ -406,13 +406,13 @@ tran1 tran stop=1u
     \vspace{0.5em}
     \centering
     \begin{block}{Result}
-        \alert{$k \approx 1.38$}, with $t_{PHL} \approx t_{PLH} \approx 2.45$ ps.
-        {\footnotesize (Differs from Part A's $k \approx 1.293$ due to the changed input transition time.)}
+        \alert{$k \approx 1.292$}, with $t_{PHL} \approx t_{PLH} \approx 2.124$ ps.
+        {\footnotesize (Very close to Part A's $k \approx 1.293$ since $X = 6.145$ ps is a short transition time.)}
     \end{block}
 \end{frame}
 
 % ── Part C: Rise / Fall Times ───────────────────────────────
-\begin{frame}{Part C — $t_{rise}$ vs $t_{fall}$ at Symmetric $X = 200$ ps}
+\begin{frame}{Part C — $t_{rise}$ vs $t_{fall}$ at Symmetric $X = 6.145$ ps}
     \begin{columns}[c]
         \begin{column}{0.48\textwidth}
             \centering
@@ -430,7 +430,7 @@ tran1 tran stop=1u
     \vspace{0.5em}
     \centering
     \begin{block}{Result}
-        \alert{$k \approx 2.0$}, with $t_{rise} \approx t_{fall} \approx 6.14$ ps.
+        \alert{$k \approx 1.814$}, with $t_{rise} \approx t_{fall} \approx 4.537$ ps.
     \end{block}
 \end{frame}
 
@@ -448,8 +448,8 @@ tran1 tran stop=1u
             \midrule
             B & $t_{rise} = t_{fall}$ (vary $X$) & $X \approx 200$ ps & 6.145 ps \\
             \midrule
-            C & $t_{PHL} = t_{PLH}$ ($X = 200$ ps) & $k \approx 1.38$ & 2.45 ps \\
-            C & $t_{rise} = t_{fall}$ ($X = 200$ ps) & $k \approx 2.0$ & 6.14 ps \\
+            C & $t_{PHL} = t_{PLH}$ ($X = 6.145$ ps) & $k \approx 1.292$ & 2.124 ps \\
+            C & $t_{rise} = t_{fall}$ ($X = 6.145$ ps) & $k \approx 1.814$ & 4.537 ps \\
             \bottomrule
         \end{tabular}
     \end{table}
