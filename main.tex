@@ -147,6 +147,82 @@ From my sweep data, the curves intersect around $k \approx 1.293$, where $t_{PHL
     \caption{Spectre calculator utility confirming $k \approx 1.293$.}
 \end{figure}
 
+I also looked at the rise and fall times ($t_{rise}$ and $t_{fall}$) over the same $k$ sweep. These two intersect at a different point than the propagation delays.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise1/trise_vs_tfall_values_as_k_is_swept_at_x_of10p.png}
+        \caption{Spectre result: $t_{rise}$ vs $t_{fall}$ as $k$ is swept.}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise1/trise_vs_tfall_python_generated.png}
+        \caption{Python-generated plot of $t_{rise}$ vs $t_{fall}$.}
+    \end{minipage}
+\end{figure}
+
+The rise and fall times become equal at $k \approx 1.82$, where $t_{rise} \approx t_{fall} \approx 4.55\text{ ps}$.
+
+\subsection{Part B: Sweep of $X$ for Symmetric Rise/Fall Times}
+Next, I wanted to find the input transition time ($X$) that makes $t_{rise} = t_{fall}$. I varied $X$ while keeping $k$ fixed and measured both rise and fall times.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise1/viva_trise_tfall_as_X_is_varied_with_their_intersection_graphically_and_calculator_utility.png}
+        \caption{Spectre result and calculator utility showing $t_{rise}$ vs $t_{fall}$ as $X$ is varied.}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise1/trise_and_tfall_as_x_is_varied_python_generated.png}
+        \caption{Python-generated plot of $t_{rise}$ vs $t_{fall}$ as $X$ is varied.}
+    \end{minipage}
+\end{figure}
+
+The two curves intersect at $X \approx 200\text{ ps}$, giving $t_{rise} \approx t_{fall} \approx 6.145\text{ ps}$. This is the symmetric input transition time I'll use going forward.
+
+\subsection{Part C: Sweep of $k$ at Symmetric $X$}
+With the symmetric $X \approx 200\text{ ps}$ from Part B in hand, I swept $k$ again (this time from 1 to 5) to re-examine both the propagation delays and the rise/fall times.
+
+\subsubsection{$t_{PHL}$ vs $t_{PLH}$}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise1/tplh_vs_tphl_as_k_swept_for_x_at_200.png}
+        \caption{Spectre result: $t_{PHL}$ vs $t_{PLH}$ at $X = 200\text{ ps}$.}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise1/partc_tphl_vs_tplh_as_k_is_varied_python_at_symmetric_X.png}
+        \caption{Python-generated plot of $t_{PHL}$ vs $t_{PLH}$ at symmetric $X$.}
+    \end{minipage}
+\end{figure}
+
+The propagation delays are now equal at $k \approx 1.38$, with $t_{PHL} \approx t_{PLH} \approx 2.45\text{ ps}$. Interestingly, this is a slightly different $k$ than Part A ($k \approx 1.293$), which makes sense since the input transition time affects the switching behavior.
+
+\subsubsection{$t_{rise}$ vs $t_{fall}$}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise1/trise_vs_tfall_as_k_swept_for_x_at_200.png}
+        \caption{Spectre result: $t_{rise}$ vs $t_{fall}$ at $X = 200\text{ ps}$.}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise1/python_partc_tr_vs_tf_t_X_symmetric_value_vs_k.png}
+        \caption{Python-generated plot of $t_{rise}$ vs $t_{fall}$ at symmetric $X$.}
+    \end{minipage}
+\end{figure}
+
+Here, the rise and fall times intersect at $k \approx 2.0$, with $t_{rise} \approx t_{fall} \approx 6.14\text{ ps}$.
+
 \section*{Conclusion}
 I'm making solid progress through Prof. Khatri's exercises. Getting hands-on with Spectre's control statements and understanding the nuances of the simulator will definitely pay off during my PhD research!
 
