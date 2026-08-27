@@ -124,3 +124,51 @@ $$
 The sweep data for this analysis is provided as a CSV file:
 
 [`trise_tfall_as_X_is_varied.csv`](./trise_tfall_as_X_is_varied.csv)
+
+## Part C — Sweep of k at Symmetric X Value
+
+Using the symmetric `X` value obtained from Part B ($X \approx 200\ \text{ps}$), `k` was swept again from `1` to `5` and both propagation delays and rise/fall times were measured.
+
+### tPHL vs tPLH
+
+| Spectre Result | Python Generated Result |
+|---|---|
+| <img src="./tplh_vs_tphl_as_k_swept_for_x_at_200.png" width="500"> | <img src="./partc_tphl_vs_tplh_as_k_is_varied_python_at_symmetric_X.png" width="500"> |
+
+The intersection of `tPHL` and `tPLH` gives approximately:
+
+$$
+k \approx 1.38
+$$
+
+At this point:
+
+$$
+t_{PHL} \approx t_{PLH} \approx 2.45\ \text{ps}
+$$
+
+The sweep data is provided as a CSV file:
+
+[`tplh_vs_tphl_at_X_symmetric_value.csv`](./tplh_vs_tphl_at_X_symmetric_value.csv)
+
+### trise vs tfall
+
+| Spectre Result | Python Generated Result |
+|---|---|
+| <img src="./trise_vs_tfall_as_k_swept_for_x_at_200.png" width="500"> | <img src="./python_partc_tr_vs_tf_t_X_symmetric_value_vs_k.png" width="500"> |
+
+The intersection of `t_rise` and `t_fall` gives approximately:
+
+$$
+k \approx 2.0
+$$
+
+At this point:
+
+$$
+t_{rise} \approx t_{fall} \approx 6.14\ \text{ps}
+$$
+
+The sweep data is provided as a CSV file:
+
+[`trise_vs_tfall_at_X_symmetric_value.csv`](./trise_vs_tfall_at_X_symmetric_value.csv)
