@@ -35,7 +35,7 @@
 \lstset{style=mystyle}
 
 \title{SPICE Exercises Progress Report}
-\author{Getting Ready for my PhD!}
+\author{Ram Tripathi}
 \date{\today}
 
 \begin{document}
@@ -43,7 +43,7 @@
 \maketitle
 
 \section*{Introduction}
-I've put together this report to track my progress on the SPICE exercises suggested by Prof. Sunil Khatri (Texas A\&M). The goal is to get myself completely comfortable with SPICE before starting my PhD next year. Here, I'm documenting the key learnings and simulations I've run so far, mainly focusing on Cadence Spectre.
+Solutions regarding SPICE exercises suggested by Prof. Sunil Khatri (Texas A\&M). The goal is to get myself completely comfortable with SPICE.
 
 \section{Control Statements}
 I started by getting a handle on control statements in Spectre. It's pretty cool how I can dynamically change parameters on the fly without restarting the whole simulator.
@@ -74,7 +74,7 @@ I figured out how to extract specific component parameters using the \texttt{inf
 \end{figure}
 
 \subsection{Profiling Performance (\texttt{simstat})}
-By setting \texttt{simstat=detailed}, I was able to get an in-depth breakdown of memory usage and CPU time. This will definitely be handy for larger simulations during my PhD.
+By setting \texttt{simstat=detailed}, I was able to get an in-depth breakdown of memory usage and CPU time. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{SPECTRE/Control_statements/simstat_detailed_output.png}
@@ -82,7 +82,7 @@ By setting \texttt{simstat=detailed}, I was able to get an in-depth breakdown of
 \end{figure}
 
 \section{Temperature vs Trise}
-Next, I dug into how temperature is handled in device models. There's a fundamental difference between \texttt{temp} and \texttt{trise} that I needed to clarify for myself. 
+ There's a fundamental difference between \texttt{temp} and \texttt{trise} that  one needs to be familiar with.
 
 I found that \texttt{temp} is \textbf{exclusive} (it overrides ambient settings) whereas \texttt{trise} is \textbf{accumulative} (it adds on top of the ambient temperature).
 
@@ -146,8 +146,6 @@ From my sweep data, the curves intersect around $k \approx 1.293$, where $t_{PHL
     \includegraphics[width=0.8\textwidth]{SPECTRE/Exercise1/k_value_for_tplh_equal_tphl_from_calc_utility.png}
     \caption{Spectre calculator utility confirming $k \approx 1.293$.}
 \end{figure}
-
-\section*{Conclusion}
-I'm making solid progress through Prof. Khatri's exercises. Getting hands-on with Spectre's control statements and understanding the nuances of the simulator will definitely pay off during my PhD research!
+\subsection{Part B: Changing X to make tr and tf equal}
 
 \end{document}
