@@ -3,6 +3,10 @@ simulator lang=spectre
 global 0 vdd vss
 include "./22nm_HP.pm"
 
+vdd_I1 (vdd 0 ) vsource dc=1.0
+vss_I1 ( vss 0 ) vsource dc=0
+
+
 ******************INVERTER SUBCIRCUIT***************
 parameters L=22n Ln=L Wn=2*Ln k=1.293
 
@@ -33,7 +37,26 @@ xinv19 ( 19 18 ) inv
 xinv20 ( 20 19 ) inv 
 xinv21 ( 21 20 ) inv
 
+TRANSIENT tran stop=3n maxstep=1p method=trap skipdc=yes
+ic 1=1
+
+simulator lang=spice
 
 
+.MEASURE TRAN tphl
++ TRIG V(1) VAL=0.5 FALL=5
++ TARG V(2) VAL=0.5 RISE=5
 
+.MEASURE TRAN tplh
++ TRIG V(1) VAL=0.5 FALL=5
++ TARG V(2) VAL=0.5 RISE=5
 
+.MEASURE TRAN time_period
++ TRIG V(1) VAL=0.5 RISE=5
++ TARG V(1) VAL=0.5 RISE=6
+
+simulator lang=spectre
+
+print tplh
+print tphl
+print time_period
