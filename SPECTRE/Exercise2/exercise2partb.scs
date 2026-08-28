@@ -1,0 +1,45 @@
+simulator lang=spectre
+
+global 0 vdd vss
+include "./22nm_HP.pm"
+parameters voltage=0
+vdd_I1 ( vdd 0 ) vsource dc=1.0
+vss_I1 ( vss 0 ) vsource dc=voltage
+
+
+******************INVERTER SUBCIRCUIT****************
+
+parameters L=22n Ln=L Wn=2*Ln k=1.293
+
+subckt inv (out in)
+m1 ( out in vdd vdd ) pmos l=L w=k*Wn
+m2 ( out in vss vss ) nmos l=Ln w=Wn
+ends inv
+
+
+
+************Top level circuit******************
+
+xinv1 ( 1 3 ) inv
+xinv2 ( 2 1 ) inv
+xinv3 ( 3 2 ) inv
+
+
+tran1 tran stop=3n maxstep=1p method=trap skipdc=yes
+ic 1=1
+
+vsweep sweep param=voltage start=0 stop=0.4 step=0.01 {
+tran_run tran stop=4n step=1p method=trap
+}
+
+
+
+
+
+simulator lang=spice
+
+.MEASURE TRAN time_period
++ TRIG V(1) VAL=0.5 RISE=5
++ TARG V(1) VAL=0.5 RISE=6
+
+
