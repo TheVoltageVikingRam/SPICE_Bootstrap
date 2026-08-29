@@ -164,6 +164,114 @@ The propagation delays are equal at $k \approx 1.292$, with $t_{PHL} \approx t_{
 
 The rise and fall times intersect at $k \approx 1.814$, with $t_{rise} \approx t_{fall} \approx 4.537\text{ ps}$.
 
+\section{Exercise 2: Ring Oscillator}
+A ring oscillator was simulated using the 22-nm PTM HP model, with the symmetric delay ratio $k = 1.293$ obtained from Exercise 1. The design parameters were $L = 22\text{ nm}$, $W_n = 44\text{ nm}$, and $V_{DD} = 1\text{ V}$.
+
+\subsection{Part A: 21-Stage Ring Oscillator}
+A 21-stage ring oscillator was constructed by feeding the output of inverter 21 back to the input of inverter 1.
+
+\subsubsection{SPICE \texttt{.measure} Results}
+The Spectre \texttt{.measure} directive yielded:
+\begin{itemize}
+    \item $T_{\text{period}} = 89.385\text{ ps}$
+    \item $t_{PHL} = 2.1287\text{ ps}$
+    \item $t_{PLH} = 2.1287\text{ ps}$
+\end{itemize}
+As expected, $t_{PHL} \approx t_{PLH}$ since $k = 1.293$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{SPECTRE/Exercise2/SPICE_MEASURMENT_OF_T_PERIOD_TPHL_TPLH.png}
+    \caption{Spectre \texttt{.measure} output for the 21-stage ring oscillator.}
+\end{figure}
+
+\subsubsection{Graphical Measurements}
+Propagation delays and the oscillation period were also measured graphically at the 50\% $V_{DD}$ crossing:
+\begin{itemize}
+    \item $t_{PHL} \approx 776.4239 - 774.2987 = 2.125\text{ ps}$
+    \item $t_{PLH} \approx 2.13\text{ ps}$
+    \item $T = 863.6816 - 774.2987 = 89.383\text{ ps}$
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise2/TPHL_GRAPHICAL.png}
+        \caption{Graphical $t_{PHL}$ measurement.}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise2/TPLH_GRAPHICAL.png}
+        \caption{Graphical $t_{PLH}$ measurement.}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{SPECTRE/Exercise2/TIME_PERIOD_BY_GRAPHICAL.png}
+    \caption{Graphical measurement of the oscillation period $T$.}
+\end{figure}
+
+\subsubsection{Python Verification}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{SPECTRE/Exercise2/PYTHON_TRANSIENT_ANALYSIS_FOR_TPLH_TPHL_TPERIOD.png}
+    \caption{Python-generated transient analysis confirming $t_{PLH}$, $t_{PHL}$, and $T$.}
+\end{figure}
+
+The Python verification yielded $t_{PLH} \approx 2.18\text{ ps}$, $t_{PHL} \approx 2.13\text{ ps}$, and $T \approx 89.38\text{ ps}$, in close agreement with the Spectre results.
+
+\subsubsection{Summary}
+The oscillation period is:
+\[
+    \boxed{T = 89.385\text{ ps}} \qquad f_{\text{osc}} = \frac{1}{T} \approx 11.19\text{ GHz}
+\]
+The theoretical relationship $T = 2N \cdot t_p = 42 \cdot t_p$ was verified:
+\[
+    42 \times 2.1287 = 89.405\text{ ps} \approx T_{\text{measured}} = 89.385\text{ ps} \quad \checkmark
+\]
+
+\subsection{Part B: 3-Stage Current-Starved Ring Oscillator}
+A 3-stage ring oscillator was constructed, with $V_{SS}$ swept from 0~V to 0.4~V to current-starve the NMOS transistors.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{SPECTRE/Exercise2/RING_OSCILLATOR_WITH_VSS_AT_0_AND_CURRENT_STRIVED.png}
+    \caption{Transient waveform of the 3-stage current-starved ring oscillator. With only 3 stages, the output is more sinusoidal.}
+\end{figure}
+
+\subsubsection{Oscillation Frequency vs $V_{SS}$}
+As $V_{SS}$ increases, the NMOS $V_{GS}$ drops, limiting pull-down current and slowing the oscillation frequency.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{SPECTRE/Exercise2/PART2B_FRQUENCY_AS_VSS_VARIES.png}
+    \caption{Oscillation frequency as a function of $V_{SS}$.}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ccc}
+        \hline
+        $V_{SS}$ (V) & Period (ps) & Frequency (GHz) \\
+        \hline
+        0.00 & 11.74 & 85.2 \\
+        0.10 & 14.08 & 71.0 \\
+        0.20 & 17.82 & 56.1 \\
+        0.30 & 24.76 & 40.4 \\
+        0.40 & 41.35 & 24.2 \\
+        \hline
+    \end{tabular}
+    \caption{Oscillation frequency of the 3-stage ring oscillator as $V_{SS}$ is varied.}
+\end{table}
+
+The frequency tuning range is:
+\[
+    \frac{f_{\max}}{f_{\min}} = \frac{85.2}{24.2} \approx 3.52\times
+\]
+
 \section*{Conclusion}
 Significant progress has been made through Prof. Khatri's SPICE exercises. The hands-on experience with Spectre's control statements and the detailed understanding of simulator nuances developed through these exercises provide a strong foundation for future PhD research.
 

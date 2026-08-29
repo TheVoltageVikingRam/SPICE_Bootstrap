@@ -314,24 +314,248 @@
 \end{frame}
 
 % ============================================================
+\section{Exercise 2: Ring Oscillator}
+% ============================================================
+
+\begin{frame}{Exercise 2 — Setup}
+    \begin{block}{Circuit Configuration}
+        Ring oscillator \textemdash\ 22-nm PTM HP model, $k = 1.293$ (from Exercise~1).
+    \end{block}
+    \vspace{0.4em}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \textbf{Design Parameters:}
+            \begin{table}
+                \centering
+                \begin{tabular}{@{}ll@{}}
+                    \toprule
+                    Parameter & Value \\
+                    \midrule
+                    $L$ & 22 nm \\
+                    $W_n$ & 44 nm \\
+                    $W_p$ & $1.293 \times W_n$ \\
+                    $V_{DD}$ & 1 V \\
+                    \bottomrule
+                \end{tabular}
+            \end{table}
+        \end{column}
+        \begin{column}{0.52\textwidth}
+            \textbf{Two Sub-Problems:}
+            \begin{itemize}
+                \item \textbf{Part A:} 21-stage ring oscillator — find oscillation period $T$ and verify $T = 2N \cdot t_p$
+                \item \textbf{Part B:} 3-stage current-starved ring oscillator — sweep $V_{SS}$ to observe frequency tuning
+            \end{itemize}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ── Part 2A: SPICE Measurements ────────────────────────────
+\begin{frame}{Part A — 21-Stage Ring Oscillator: SPICE Results}
+    \begin{columns}[c]
+        \begin{column}{0.52\textwidth}
+            \textbf{Spectre \texttt{.measure} output:}
+            \vspace{0.5em}
+            \begin{table}
+                \centering
+                \begin{tabular}{@{}lc@{}}
+                    \toprule
+                    Parameter & Value \\
+                    \midrule
+                    $T_{\text{period}}$ & 89.385 ps \\
+                    $t_{PHL}$ & 2.1287 ps \\
+                    $t_{PLH}$ & 2.1287 ps \\
+                    \bottomrule
+                \end{tabular}
+            \end{table}
+            \vspace{0.5em}
+            As expected, $t_{PHL} \approx t_{PLH}$ since $k = 1.293$.
+        \end{column}
+        \begin{column}{0.45\textwidth}
+            \centering
+            \includegraphics[width=0.95\textwidth]{SPECTRE/Exercise2/SPICE_MEASURMENT_OF_T_PERIOD_TPHL_TPLH.png}
+
+            {\scriptsize Spectre \texttt{.measure} output.}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ── Part 2A: Graphical Measurements ────────────────────────
+\begin{frame}{Part A — Graphical Measurements}
+    \begin{columns}[c]
+        \begin{column}{0.48\textwidth}
+            \centering
+            \includegraphics[width=0.92\textwidth]{SPECTRE/Exercise2/TPHL_GRAPHICAL.png}
+
+            {\scriptsize $t_{PHL} \approx 2.125$ ps}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \centering
+            \includegraphics[width=0.92\textwidth]{SPECTRE/Exercise2/TPLH_GRAPHICAL.png}
+
+            {\scriptsize $t_{PLH} \approx 2.13$ ps}
+        \end{column}
+    \end{columns}
+    \vspace{0.5em}
+    \centering
+    \begin{block}{Graphical Verification}
+        $t_{PHL} = 776.4239 - 774.2987 = 2.125\text{ ps}$, \quad $t_{PLH} \approx 2.13\text{ ps}$
+    \end{block}
+\end{frame}
+
+% ── Part 2A: Period Measurement ────────────────────────────
+\begin{frame}{Part A — Oscillation Period}
+    \begin{columns}[c]
+        \begin{column}{0.55\textwidth}
+            \centering
+            \includegraphics[width=0.95\textwidth]{SPECTRE/Exercise2/TIME_PERIOD_BY_GRAPHICAL.png}
+
+            {\scriptsize Graphical measurement of $T$.}
+        \end{column}
+        \begin{column}{0.42\textwidth}
+            \begin{exampleblock}{Measured Period}
+                \centering
+                \large
+                $\boxed{T = 89.385\text{ ps}}$
+                \vspace{0.3em}
+
+                $f_{\text{osc}} \approx 11.19\text{ GHz}$
+            \end{exampleblock}
+            \vspace{0.5em}
+            {\small $T = 863.68 - 774.30 = 89.383\text{ ps}$}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ── Part 2A: Python Verification ───────────────────────────
+\begin{frame}{Part A — Python Verification}
+    \centering
+    \includegraphics[width=0.72\textwidth]{SPECTRE/Exercise2/PYTHON_TRANSIENT_ANALYSIS_FOR_TPLH_TPHL_TPERIOD.png}
+
+    {\scriptsize Python-generated transient analysis for $t_{PLH}$, $t_{PHL}$, and $T$.}
+    \vspace{0.4em}
+    \begin{block}{Cross-Verification}
+        Python yields $t_{PLH} \approx 2.18$ ps, $t_{PHL} \approx 2.13$ ps, $T \approx 89.38$ ps — consistent with Spectre.
+    \end{block}
+\end{frame}
+
+% ── Part 2A: Formula Verification ──────────────────────────
+\begin{frame}{Part A — Period Formula Verification}
+    \centering
+    \vspace{0.5em}
+    For $N = 21$ stages, the theoretical period is $T = 2N \cdot t_p = 42 \cdot t_p$:
+    \vspace{0.8em}
+
+    \begin{exampleblock}{Verification}
+        \centering
+        \large
+        $42 \times 2.1287 = 89.405\text{ ps}$
+        \vspace{0.3em}
+
+        $T_{\text{measured}} = 89.385\text{ ps}$
+        \vspace{0.3em}
+
+        $\boxed{\text{Error} < 0.03\%} \quad \checkmark$
+    \end{exampleblock}
+    \vspace{0.8em}
+    \begin{alertblock}{Observation}
+        The $T = 2N \cdot t_p$ relationship holds to excellent accuracy, confirming the simulation integrity.
+    \end{alertblock}
+\end{frame}
+
+% ── Part 2B: Current-Starved Waveform ──────────────────────
+\begin{frame}{Part B — 3-Stage Current-Starved Ring Oscillator}
+    \centering
+    \includegraphics[width=0.75\textwidth]{SPECTRE/Exercise2/RING_OSCILLATOR_WITH_VSS_AT_0_AND_CURRENT_STRIVED.png}
+
+    {\scriptsize Transient waveform at $V_{SS} = 0\text{ V}$.}
+    \vspace{0.3em}
+    \begin{block}{Observation}
+        With only 3 stages the output is more sinusoidal — not enough gain stages for sharp rail-to-rail transitions.
+    \end{block}
+\end{frame}
+
+% ── Part 2B: Frequency vs VSS ─────────────────────────────
+\begin{frame}{Part B — Frequency Tuning via $V_{SS}$}
+    \begin{columns}[c]
+        \begin{column}{0.52\textwidth}
+            \centering
+            \includegraphics[width=0.95\textwidth]{SPECTRE/Exercise2/PART2B_FRQUENCY_AS_VSS_VARIES.png}
+
+            {\scriptsize Oscillation frequency vs $V_{SS}$.}
+        \end{column}
+        \begin{column}{0.45\textwidth}
+            \begin{table}
+                \centering
+                \begin{tabular}{@{}ccc@{}}
+                    \toprule
+                    $V_{SS}$ (V) & $T$ (ps) & $f$ (GHz) \\
+                    \midrule
+                    0.00 & 11.74 & 85.2 \\
+                    0.10 & 14.08 & 71.0 \\
+                    0.20 & 17.82 & 56.1 \\
+                    0.30 & 24.76 & 40.4 \\
+                    0.40 & 41.35 & 24.2 \\
+                    \bottomrule
+                \end{tabular}
+            \end{table}
+        \end{column}
+    \end{columns}
+    \vspace{0.3em}
+    \centering
+    \begin{alertblock}{Key Result}
+        Tuning range: $f_{\max} / f_{\min} = 85.2 / 24.2 \approx \alert{3.52\times}$ — achieved by current-starving the NMOS.
+    \end{alertblock}
+\end{frame}
+
+% ── Exercise 2 Consolidated Results ────────────────────────
+\begin{frame}{Exercise 2 — Consolidated Results}
+    \centering
+    \vspace{0.3em}
+    \begin{table}
+        \centering
+        \begin{tabular}{@{}llc@{}}
+            \toprule
+            \textbf{Part} & \textbf{Key Result} & \textbf{Value} \\
+            \midrule
+            A & Oscillation period ($N = 21$) & 89.385 ps \\
+            A & Oscillation frequency & 11.19 GHz \\
+            A & Per-stage delay $t_p$ & 2.1287 ps \\
+            \midrule
+            B & Frequency at $V_{SS} = 0$ V & 85.2 GHz \\
+            B & Frequency at $V_{SS} = 0.4$ V & 24.2 GHz \\
+            B & Tuning range & $3.52\times$ \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+    \vspace{0.5em}
+    \begin{alertblock}{Takeaway}
+        Ring oscillator period matches $T = 2N \cdot t_p$ to $< 0.03\%$. Current starvation via $V_{SS}$ provides a $3.52\times$ frequency tuning range.
+    \end{alertblock}
+\end{frame}
+
+% ============================================================
 \section*{Conclusion}
 % ============================================================
 
 \begin{frame}{Conclusion}
     \begin{block}{Summary}
-        Complete timing characterisation of a 7-stage CMOS inverter chain (22-nm PTM HP) through parametric sweeps of $k$ and input transition time $X$.
+        \begin{itemize}
+            \item \textbf{Exercise 1:} Complete timing characterisation of a 7-stage CMOS inverter chain (22-nm PTM HP) through parametric sweeps of $k$ and input transition time $X$.
+            \item \textbf{Exercise 2:} Ring oscillator period analysis and current-starved frequency tuning for a 21-stage and 3-stage ring oscillator.
+        \end{itemize}
     \end{block}
 
-    \vspace{0.8em}
+    \vspace{0.6em}
 
     \begin{itemize}
         \item Identified $k$ for symmetric propagation delay and symmetric rise/fall times
         \item Found the input transition time $X$ that equalises $t_{rise}$ and $t_{fall}$
-        \item Re-examined timing symmetry at the new $X$ value
+        \item Verified $T = 2N \cdot t_p$ relationship for ring oscillators
+        \item Demonstrated current-starved frequency tuning ($3.52\times$ range)
         \item All simulation results cross-verified with Python scripts
     \end{itemize}
 
-    \vspace{0.8em}
+    \vspace{0.6em}
     \centering
     {\color{gray}\small More exercises to follow \dots}
 \end{frame}
