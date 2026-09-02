@@ -1,0 +1,24 @@
+simulator lang=spectre
+
+global 0 vdd vss
+include "./22nm_HP.pm"
+
+vdd_I1 ( vdd 0 ) vsource dc = 1.0
+vss_I1 ( vss 0 ) vsource dc = 0
+
+
+*********Inverter*********
+
+
+parameters L=22n Ln=L Wn=2*Ln k=1.292
+subckt inv ( out in )
+m1 ( out in vdd vdd ) pmos l=L w=k*Wn
+m3 ( out in vss vss ) nmos l=Ln w=Wn
+ends inv
+
+
+xinv0 ( 1 1 ) inv
+
+dc1 dc param=k start=0.5 stop=10 step=0.1
+
+saveOptions options save=all
