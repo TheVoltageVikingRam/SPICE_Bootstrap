@@ -313,6 +313,28 @@
     \end{alertblock}
 \end{frame}
 
+
+% ── Q&A — Exercise 1 ───────────────────────────────────────
+\begin{frame}
+    \begin{block}{Question 1}
+        What is $k$?
+    \end{block}
+    \vspace{0.01em}
+    \begin{exampleblock}{Answer}
+        $K$ is the PMOS to NMOS width ratio. Since PMOS has a lower mobility than NMOS, it is inherently weaker for the same dimensions. So we use this factor to compensate for the mobility differences so as to equalize timing characteristics.
+    \end{exampleblock}
+
+    \vspace{0.01em}
+
+    \begin{block}{Question 2}
+        Why 3 dummy inverters?
+    \end{block}
+    \vspace{0.01em}
+    \begin{exampleblock}{Answer}
+        Three dummy inverters are placed before our Inverter of focus (the 4th one) so as to condition the input signal into a realistic waveform, and three after it for realistic capacitive loading. These efforts ensure that the 4th inverter operates under conditions representative of a logic gate embedded in a real logic chain.
+    \end{exampleblock}
+\end{frame}
+
 % ============================================================
 \section{Exercise 2: Ring Oscillator}
 % ============================================================
@@ -534,30 +556,6 @@
 \end{frame}
 
 % ============================================================
-\section*{Conclusion}
-% ============================================================
 
-\begin{frame}{Conclusion}
-    \begin{block}{Summary}
-        \begin{itemize}
-            \item \textbf{Exercise 1:} Complete timing characterisation of a 7-stage CMOS inverter chain (22-nm PTM HP) through parametric sweeps of $k$ and input transition time $X$.
-            \item \textbf{Exercise 2:} Ring oscillator period analysis and current-starved frequency tuning for a 21-stage and 3-stage ring oscillator.
-        \end{itemize}
-    \end{block}
-
-    \vspace{0.6em}
-
-    \begin{itemize}
-        \item Identified $k$ for symmetric propagation delay and symmetric rise/fall times
-        \item Found the input transition time $X$ that equalises $t_{rise}$ and $t_{fall}$
-        \item Verified $T = 2N \cdot t_p$ relationship for ring oscillators
-        \item Demonstrated current-starved frequency tuning ($3.52\times$ range)
-        \item All simulation results cross-verified with Python scripts
-    \end{itemize}
-
-    \vspace{0.6em}
-    \centering
-    {\color{gray}\small More exercises to follow \dots}
-\end{frame}
 
 \end{document}
