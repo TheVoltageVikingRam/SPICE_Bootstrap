@@ -532,8 +532,9 @@
 
 % ── Part 2C: Switching Point ───────────────────────────────
 \begin{frame}{Part C — Inverter Switching Point vs $k$}
-    \begin{block}{Circuit Configuration}
-        Single inverter with output shorted to input (self-biased loop). DC sweep of $k$ from 0.5 to 10.
+    \begin{block}
+    
+        Single inverter with output shorted to input (self-biased loop). DC sweep $k$ from 0.5 to 10.
     \end{block}
     \vspace{0.2em}
     \begin{columns}[c]
@@ -576,7 +577,7 @@
     \end{table}
     \vspace{0.8em}
     \begin{alertblock}{Key Insight}
-        The $k$ for symmetric switching point ($\approx 1.503$) differs from the $k$ for symmetric propagation delay ($\approx 1.293$). The switching point is a \textbf{static} (DC) property, while propagation delay is a \textbf{dynamic} (transient) property — they depend on different aspects of the PMOS/NMOS balance.
+        The $k$ for symmetric switching point ($\approx 1.503$) differs from the $k$ for symmetric propagation delay ($\approx 1.293$). The switching point \textbf{static} (DC) property, while propagation delay is a \textbf{dynamic} (transient) property; that is, they depend on different aspects of the PMOS/NMOS balance.
     \end{alertblock}
 \end{frame}
 
