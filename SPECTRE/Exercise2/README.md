@@ -112,3 +112,41 @@ $$
 The sweep data is provided as a CSV file:
 
 [`ring_osc_3_time_period.csv`](./ring_osc_3_time_period.csv)
+
+---
+
+## Part 2C — Inverter Switching Point vs $k$
+
+A single inverter with output shorted to input forms a self-biased loop. A DC sweep of $k$ from 0.5 to 10 reveals the switching point $V_{sp}$ — the voltage at which $V_{in} = V_{out}$.
+
+### SPICE Netlist
+
+The inverter is instantiated as `xinv0 (1 1) inv`, shorting output to input. A DC analysis sweeps $k$:
+
+[`part2c.scs`](./part2c.scs)
+
+### Viva Viewer Measurement
+
+<img src="./switching_point_viva_viewier.png" width="700">
+
+The crosshair shows $V_{sp} = 500.0$ mV at $k \approx 1.5023$.
+
+### Python Verification
+
+<img src="./python_visualzation_of_single_looped_inverter_k_sweep.png" width="700">
+
+The Python plot confirms the symmetric point at $k \approx 1.503$ where $V_{sp} = V_{DD}/2 = 0.5$ V.
+
+### Answer
+
+**Find the $k$ value for which the switching point equals $V_{DD}/2$:**
+
+$$
+\boxed{k \approx 1.503 \quad \text{for} \quad V_{sp} = \frac{V_{DD}}{2} = 0.5\ \text{V}}
+$$
+
+**Key Insight:** The $k$ for symmetric switching point ($k \approx 1.503$) differs from the $k$ for symmetric propagation delay ($k \approx 1.293$). The switching point is a static (DC) property, while propagation delay is a dynamic (transient) property — they depend on different aspects of the PMOS/NMOS balance.
+
+The sweep data is provided as a CSV file:
+
+[`SIngle_looped_inverter_Switching_point.csv`](./SIngle_looped_inverter_Switching_point.csv)

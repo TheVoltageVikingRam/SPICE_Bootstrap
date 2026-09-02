@@ -272,6 +272,45 @@ The frequency tuning range is:
     \frac{f_{\max}}{f_{\min}} = \frac{85.2}{24.2} \approx 3.52\times
 \]
 
-\subsection{Part C: }
+\subsection{Part C: Inverter Switching Point}
+A single inverter with its output shorted to its input forms a self-biased loop. A DC analysis sweeps $k$ from 0.5 to 10 to determine the switching point $V_{sp}$ — the voltage at which $V_{in} = V_{out}$.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise2/switching_point_viva_viewier.png}
+        \caption{Viva viewer measurement: $V_{sp} = 500.0$ mV at $k \approx 1.5023$.}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{SPECTRE/Exercise2/python_visualzation_of_single_looped_inverter_k_sweep.png}
+        \caption{Python verification of the inverter switching point vs $k$.}
+    \end{minipage}
+\end{figure}
+
+The switching point equals $V_{DD}/2 = 0.5$ V at:
+\[
+    \boxed{k \approx 1.503 \quad \text{for} \quad V_{sp} = \frac{V_{DD}}{2} = 0.5\text{ V}}
+\]
+
+\subsubsection{Static vs Dynamic Symmetry}
+The $k$ values required for different symmetry conditions are summarized below:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lcc}
+        \hline
+        Symmetry Condition & $k$ value & Type \\
+        \hline
+        $t_{PHL} = t_{PLH}$ & 1.293 & Dynamic (transient) \\
+        $V_{sp} = V_{DD}/2$ & 1.503 & Static (DC) \\
+        $t_{rise} = t_{fall}$ & 1.82 & Dynamic (transient) \\
+        \hline
+    \end{tabular}
+    \caption{Comparison of $k$ values for different symmetry conditions.}
+\end{table}
+
+The switching point is a static (DC) property determined by the balance of NMOS and PMOS I--V characteristics at the operating point, while propagation delay is a dynamic (transient) property that also depends on capacitive loading and current drive during switching.
 
 \end{document}

@@ -362,10 +362,11 @@
             \end{table}
         \end{column}
         \begin{column}{0.52\textwidth}
-            \textbf{Two Sub-Problems:}
+            \textbf{Three Sub-Problems:}
             \begin{itemize}
                 \item \textbf{Part A:} 21-stage ring oscillator — find oscillation period $T$ and verify $T = 2N \cdot t_p$
                 \item \textbf{Part B:} 3-stage current-starved ring oscillator — sweep $V_{SS}$ to observe frequency tuning
+                \item \textbf{Part C:} Self-looped inverter — find $k$ for symmetric switching point $V_{sp} = V_{DD}/2$
             \end{itemize}
         \end{column}
     \end{columns}
@@ -529,6 +530,57 @@
     \end{alertblock}
 \end{frame}
 
+% ── Part 2C: Switching Point ───────────────────────────────
+\begin{frame}{Part C — Inverter Switching Point vs $k$}
+    \begin{block}{Circuit Configuration}
+        Single inverter with output shorted to input (self-biased loop). DC sweep of $k$ from 0.5 to 10.
+    \end{block}
+    \vspace{0.3em}
+    \begin{columns}[c]
+        \begin{column}{0.48\textwidth}
+            \centering
+            \includegraphics[width=0.92\textwidth]{SPECTRE/Exercise2/switching_point_viva_viewier.png}
+
+            {\scriptsize Viva viewer: $V_{sp} = 500$ mV at $k \approx 1.5023$.}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \centering
+            \includegraphics[width=0.92\textwidth]{SPECTRE/Exercise2/python_visualzation_of_single_looped_inverter_k_sweep.png}
+
+            {\scriptsize Python verification: $k \approx 1.503$.}
+        \end{column}
+    \end{columns}
+    \vspace{0.3em}
+    \centering
+    \begin{exampleblock}{Result}
+        \centering
+        \large
+        $\boxed{k \approx 1.503 \quad \text{for} \quad V_{sp} = V_{DD}/2 = 0.5\text{ V}}$
+    \end{exampleblock}
+\end{frame}
+
+% ── Part 2C: Key Insight ──────────────────────────────────
+\begin{frame}{Part C — Static vs Dynamic Symmetry}
+    \centering
+    \vspace{0.5em}
+    \begin{table}
+        \centering
+        \begin{tabular}{@{}lcc@{}}
+            \toprule
+            \textbf{Symmetry Condition} & \textbf{$k$ value} & \textbf{Type} \\
+            \midrule
+            $t_{PHL} = t_{PLH}$ & 1.293 & Dynamic (transient) \\
+            $V_{sp} = V_{DD}/2$ & 1.503 & Static (DC) \\
+            $t_{rise} = t_{fall}$ & 1.82 & Dynamic (transient) \\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+    \vspace{0.8em}
+    \begin{alertblock}{Key Insight}
+        The $k$ for symmetric switching point ($\approx 1.503$) differs from the $k$ for symmetric propagation delay ($\approx 1.293$). The switching point is a \textbf{static} (DC) property, while propagation delay is a \textbf{dynamic} (transient) property — they depend on different aspects of the PMOS/NMOS balance.
+    \end{alertblock}
+\end{frame}
+
 % ── Exercise 2 Consolidated Results ────────────────────────
 \begin{frame}{Exercise 2 — Consolidated Results}
     \centering
@@ -546,12 +598,14 @@
             B & Frequency at $V_{SS} = 0$ V & 85.2 GHz \\
             B & Frequency at $V_{SS} = 0.4$ V & 24.2 GHz \\
             B & Tuning range & $3.52\times$ \\
+            \midrule
+            C & $k$ for $V_{sp} = V_{DD}/2$ & 1.503 \\
             \bottomrule
         \end{tabular}
     \end{table}
     \vspace{0.5em}
     \begin{alertblock}{Takeaway}
-        Ring oscillator period matches $T = 2N \cdot t_p$ to $< 0.03\%$. Current starvation via $V_{SS}$ provides a $3.52\times$ frequency tuning range.
+        Ring oscillator period matches $T = 2N \cdot t_p$ to $< 0.03\%$. Current starvation via $V_{SS}$ provides a $3.52\times$ frequency tuning range. The switching-point symmetry ($k \approx 1.503$) differs from the delay symmetry ($k \approx 1.293$).
     \end{alertblock}
 \end{frame}
 
