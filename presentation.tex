@@ -535,26 +535,25 @@
     \begin{block}{Circuit Configuration}
         Single inverter with output shorted to input (self-biased loop). DC sweep of $k$ from 0.5 to 10.
     \end{block}
-    \vspace{0.3em}
+    \vspace{0.2em}
     \begin{columns}[c]
         \begin{column}{0.48\textwidth}
             \centering
-            \includegraphics[width=0.92\textwidth]{SPECTRE/Exercise2/switching_point_viva_viewier.png}
+            \includegraphics[width=0.85\textwidth]{SPECTRE/Exercise2/switching_point_viva_viewier.png}
 
             {\scriptsize Viva viewer: $V_{sp} = 500$ mV at $k \approx 1.5023$.}
         \end{column}
         \begin{column}{0.48\textwidth}
             \centering
-            \includegraphics[width=0.92\textwidth]{SPECTRE/Exercise2/python_visualzation_of_single_looped_inverter_k_sweep.png}
+            \includegraphics[width=0.85\textwidth]{SPECTRE/Exercise2/python_visualzation_of_single_looped_inverter_k_sweep.png}
 
             {\scriptsize Python verification: $k \approx 1.503$.}
         \end{column}
     \end{columns}
-    \vspace{0.3em}
+    \vspace{0.2em}
     \centering
     \begin{exampleblock}{Result}
         \centering
-        \large
         $\boxed{k \approx 1.503 \quad \text{for} \quad V_{sp} = V_{DD}/2 = 0.5\text{ V}}$
     \end{exampleblock}
 \end{frame}
@@ -584,9 +583,8 @@
 % ── Exercise 2 Consolidated Results ────────────────────────
 \begin{frame}{Exercise 2 — Consolidated Results}
     \centering
-    \vspace{0.3em}
     \begin{table}
-        \centering
+        \centering\small
         \begin{tabular}{@{}llc@{}}
             \toprule
             \textbf{Part} & \textbf{Key Result} & \textbf{Value} \\
@@ -595,17 +593,16 @@
             A & Oscillation frequency & 11.19 GHz \\
             A & Per-stage delay $t_p$ & 2.1287 ps \\
             \midrule
-            B & Frequency at $V_{SS} = 0$ V & 85.2 GHz \\
-            B & Frequency at $V_{SS} = 0.4$ V & 24.2 GHz \\
+            B & Freq.\ at $V_{SS} = 0$ V / $0.4$ V & 85.2 / 24.2 GHz \\
             B & Tuning range & $3.52\times$ \\
             \midrule
             C & $k$ for $V_{sp} = V_{DD}/2$ & 1.503 \\
             \bottomrule
         \end{tabular}
     \end{table}
-    \vspace{0.5em}
+    \vspace{0.3em}
     \begin{alertblock}{Takeaway}
-        Ring oscillator period matches $T = 2N \cdot t_p$ to $< 0.03\%$. Current starvation via $V_{SS}$ provides a $3.52\times$ frequency tuning range. The switching-point symmetry ($k \approx 1.503$) differs from the delay symmetry ($k \approx 1.293$).
+        $T = 2N \cdot t_p$ verified to $< 0.03\%$. Current starvation gives $3.52\times$ tuning. Switching-point symmetry ($k \approx 1.503$) $\neq$ delay symmetry ($k \approx 1.293$).
     \end{alertblock}
 \end{frame}
 
