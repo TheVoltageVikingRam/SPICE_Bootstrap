@@ -55,7 +55,7 @@ cdelay g gnd 'CperMicron*32*(16+32)*25n/1u'      * linear capacitor
 
 .measure capR
 +  TRIG  v(c) VAL='SUPPLY/2' FALL=1
-+  TARG  v(d) VAL='SUPPLY/2' RISE=1
++  TARG  v(g) VAL='SUPPLY/2' RISE=1
 
 .measure invF
 +  TRIG v(c) VAL='SUPPLY/2' RISE=1
@@ -63,7 +63,7 @@ cdelay g gnd 'CperMicron*32*(16+32)*25n/1u'      * linear capacitor
 
 .measure capF
 +  TRIG v(c) VAL='SUPPLY/2' RISE=1
-+  TARG v(d) VAL='SUPPLY/2' FALL=1
++  TARG v(g) VAL='SUPPLY/2' FALL=1
 
 .end
 
