@@ -53,3 +53,30 @@ imag(leafValue( i("PORTx:p" ?result "sweepVG_ac1-sweep" ?resultsDir "./<name>.ra
 - **NMOS Cgg rises with VG_VAL** — effective `Vgs ≈ VG_VAL` in both configs, so higher VG_VAL drives deeper inversion.
 - **PMOS Cgg falls with VG_VAL** — effective `Vsg ≈ VDD − VG_VAL`, so higher VG_VAL reduces overdrive, moving the device toward cutoff.
 - **Standard vs. cross-biased configs differ by only a few aF** at matched VG_VAL — this gap reflects the Vds-dependence of inversion-charge partitioning between the two channel terminals.
+
+---
+
+# Part B — Model-Card Estimate of Gate Capacitance
+
+From the 22 nm PTM-HP model file:
+
+$$t_{ox} = 1.05\;\text{nm}$$
+
+$$C_{ox} = \frac{\varepsilon_{ox}}{t_{ox}} = \frac{3.9 \times 8.854 \times 10^{-12}}{1.05 \times 10^{-9}} \approx 0.03289\;\text{F/m}^2$$
+
+Gate capacitance (parallel-plate, $C_{gg} = C_{ox} \cdot W \cdot L$):
+
+| Device | W | L | $C_{gg}$ (fF) |
+|---|---|---|---|
+| NMOS | 44 nm | 22 nm | **0.0318** |
+| PMOS ($k=1.3$) | 57.2 nm | 22 nm | **0.0414** |
+
+These first-order estimates sit comfortably within the range of the AC-extracted values in Part A, confirming that the simulated capacitances are physically consistent with $\varepsilon_{ox}/t_{ox}$.
+
+---
+
+# Part C — Inverter Input Gate Capacitance
+
+The input of a CMOS inverter drives both an NMOS and a PMOS gate in parallel, so:
+
+$$C_{inv} = C_{gg,n} + C_{gg,p} = 0.0318 + 0.0414 = \mathbf{0.0732}\;\text{fF}$$
