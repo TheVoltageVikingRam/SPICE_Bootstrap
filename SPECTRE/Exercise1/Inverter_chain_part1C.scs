@@ -5,7 +5,7 @@ global 0 vdd vss
 include "./22nm_HP.pm"
 
 
-vdd_I1 ( vdd 0 ) vsource dc=1.0
+vdd_I1 ( vdd 0 ) vsource dc=0.8
 vss_I1 ( vss 0 ) vsource dc=0
 
 *********INVERTER***************
@@ -31,7 +31,7 @@ xinv7 ( out1 6 ) inv
 
 //Instantiation of piece wise linear model
 
-parameters VDD=1 X=6.145p
+parameters VDD=0.8 X=6.145p
 
 V1 (in1 0) vsource type=pwl wave=[ 0 VDD X 0 40n 0 (40n+X) VDD (80n+X) VDD ] 
 

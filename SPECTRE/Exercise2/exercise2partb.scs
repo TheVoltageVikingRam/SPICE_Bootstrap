@@ -3,7 +3,7 @@ simulator lang=spectre
 global 0 vdd vss
 include "./22nm_HP.pm"
 parameters voltage=0
-vdd_I1 ( vdd 0 ) vsource dc=1.0
+vdd_I1 ( vdd 0 ) vsource dc=0.8
 vss_I1 ( vss 0 ) vsource dc=voltage
 
 
@@ -26,7 +26,7 @@ xinv3 ( 3 2 ) inv
 
 
 tran1 tran stop=3n maxstep=1p method=trap skipdc=yes
-ic 1=1
+ic 1=0.8
 
 vsweep sweep param=voltage start=0 stop=0.4 step=0.01 {
 tran_run tran stop=4n step=1p method=trap
@@ -39,7 +39,7 @@ tran_run tran stop=4n step=1p method=trap
 simulator lang=spice
 
 .MEASURE TRAN time_period
-+ TRIG V(1) VAL=0.5 RISE=5
-+ TARG V(1) VAL=0.5 RISE=6
++ TRIG V(1) VAL=0.4 RISE=5
++ TARG V(1) VAL=0.4 RISE=6
 
 
