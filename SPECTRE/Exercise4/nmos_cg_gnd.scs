@@ -7,13 +7,17 @@ include "22nm_HP.pm"
 
 parameters k=1.3
 parameters Wn=44n
-parameters Lp=22n
+parameters Ln=22n
 
 // Transistor Instantiation
 
 M0 (0 net4 0 0) nmos w=Wn l=Ln
 PORT0 (net4 0) vsource dc=VG_VAL type=sine ampl=1m mag=1m phase=0
+
+sweepVG sweep param=VG_VAL values=[0.2 0.4 0.6 0.8] {
 ac1 ac start=100 stop=10M step=1000 annotate=status
+
+}
 
 save PORT0:p
 saveOptions options save=allpub
