@@ -217,31 +217,10 @@
     \end{alertblock}
 \end{frame}
 
-% ── Part B ──────────────────────────────────────────────────
-\begin{frame}{Part B — Sweep of $X$ for Symmetric $t_{rise}$ / $t_{fall}$}
-    \begin{columns}[c]
-        \begin{column}{0.48\textwidth}
-            \centering
-            \includegraphics[width=0.92\textwidth]{SPECTRE/Exercise1/viva_trise_tfall_as_X_is_varied_with_their_intersection_graphically_and_calculator_utility.png}
 
-            {\scriptsize Spectre result with calculator utility.}
-        \end{column}
-        \begin{column}{0.48\textwidth}
-            \centering
-            \includegraphics[width=0.92\textwidth]{SPECTRE/Exercise1/trise_and_tfall_as_x_is_varied_python_generated.png}
-
-            {\scriptsize Python-generated verification plot.}
-        \end{column}
-    \end{columns}
-    \vspace{0.3em}
-    \centering
-    \begin{block}{Result}
-        Symmetric input transition time: \alert{$X \approx 200$ ps}, giving $t_{rise} \approx t_{fall} \approx 6.145$ ps.
-    \end{block}
-\end{frame}
 
 % ── Part C: Propagation Delays ──────────────────────────────
-\begin{frame}{Part C — $t_{PHL}$ vs $t_{PLH}$ at $X = 6.145$ ps}
+\begin{frame}{Part B — $t_{PHL}$ vs $t_{PLH}$ at $X = 6.145$ ps}
     \begin{columns}[c]
         \begin{column}{0.48\textwidth}
             \centering
@@ -265,7 +244,7 @@
 \end{frame}
 
 % ── Part C: Rise / Fall Times ───────────────────────────────
-\begin{frame}{Part C — $t_{rise}$ vs $t_{fall}$ at $X = 6.145$ ps}
+\begin{frame}{Part B — $t_{rise}$ vs $t_{fall}$ at $X = 6.145$ ps}
     \begin{columns}[c]
         \begin{column}{0.48\textwidth}
             \centering
@@ -300,10 +279,9 @@
             A & $t_{PHL} = t_{PLH}$ & $k \approx 1.293$ & 2.13 ps \\
             A & $t_{rise} = t_{fall}$ & $k \approx 1.82$ & 4.55 ps \\
             \midrule
-            B & $t_{rise} = t_{fall}$ (vary $X$) & $X \approx 200$ ps & 6.145 ps \\
-            \midrule
-            C & $t_{PHL} = t_{PLH}$ ($X = 6.145$ ps) & $k \approx 1.292$ & 2.124 ps \\
-            C & $t_{rise} = t_{fall}$ ($X = 6.145$ ps) & $k \approx 1.814$ & 4.537 ps \\
+            
+            B & $t_{PHL} = t_{PLH}$ ($X = 6.145$ ps) & $k \approx 1.292$ & 2.124 ps \\
+            B & $t_{rise} = t_{fall}$ ($X = 6.145$ ps) & $k \approx 1.814$ & 4.537 ps \\
             \bottomrule
         \end{tabular}
     \end{table}
