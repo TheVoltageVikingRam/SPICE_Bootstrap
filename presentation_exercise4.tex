@@ -68,14 +68,14 @@
     \;\;{\tiny (flat to 4+ sig.\ fig.\ $\Rightarrow$ purely capacitive)}\\[0.3em]
     \textbf{Bias configurations:}\\[0.1em]
     {\tiny
-    \begin{tabular}{@{}llll@{}}
+    \begin{tabular}{@{}lllll@{}}
         \toprule
-        Netlist & Device & D\,/\,S & Type \\
+        Netlist & Device & D & S\,/\,B & Type \\
         \midrule
-        \texttt{nmos\_cg\_gnd}  & NMOS & D=S=GND & Standard ($V_{ds}\!=\!0$) \\
-        \texttt{cgs\_nmos\_vdd} & NMOS & D=GND, S=VDD & Cross-biased \\
-        \texttt{cgs\_pmos\_vdd} & PMOS & D=S=VDD & Standard ($V_{ds}\!=\!0$) \\
-        \texttt{cgs\_pmos\_gnd} & PMOS & D=VDD, S=GND & Cross-biased \\
+        \texttt{nmos\_cg\_gnd}  & NMOS & GND & GND & Standard ($V_{ds}\!=\!0$) \\
+        \texttt{cgs\_nmos\_vdd} & NMOS & GND & VDD & Cross ($V_{sb}\!=\!-V_{DD}$) \\
+        \texttt{cgs\_pmos\_vdd} & PMOS & VDD & VDD & Standard ($V_{ds}\!=\!0$) \\
+        \texttt{cgs\_pmos\_gnd} & PMOS & VDD & GND & Cross ($V_{sb}\!=\!V_{DD}$) \\
         \bottomrule
     \end{tabular}}
 }
