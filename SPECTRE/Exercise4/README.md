@@ -33,10 +33,10 @@ imag(leafValue( i("PORTx:p" ?result "sweepVG_ac1-sweep" ?resultsDir "./<name>.ra
 
 | VG_VAL (V) | NMOS — D=S=GND | NMOS — D=S=VDD | PMOS — D=S=VDD | PMOS — D=S=GND |
 |---:|---:|---:|---:|---:|
-| 0.2 | 0.0314 | 0.0213 | 0.0551 | 0.0301 |
-| 0.4 | 0.0329 | 0.0211 | 0.0457 | 0.0267 |
-| 0.6 | 0.0399 | 0.0230 | 0.0433 | 0.0254 |
-| 0.8 | 0.0418 | 0.0276 | 0.0380 | 0.0250 |
+| 0.2 | 0.0314 | 0.0185 | 0.0551 | 0.0301 |
+| 0.4 | 0.0329 | 0.0194 | 0.0457 | 0.0267 |
+| 0.6 | 0.0399 | 0.0218 | 0.0433 | 0.0254 |
+| 0.8 | 0.0418 | 0.0268 | 0.0380 | 0.0250 |
 
 *Values are magnitudes; the raw `Im(I)` sign is negative in every file, a current-reference-direction artifact, not a physically negative capacitance.*
 
