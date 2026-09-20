@@ -18,7 +18,7 @@ vss_I1 ( vss 0 ) vsource dc=0
 
 // Transistor Instantiation
 
-M1 ( 0 net1 vdd	vdd ) nmos w=Wn	l=Ln
+M1 ( vdd net1 vdd	vdd ) nmos w=Wn	l=Ln
 PORT1 (net1 0) vsource dc=VG_VAL type=sine ampl=1m mag=1m phase=0
 
 
