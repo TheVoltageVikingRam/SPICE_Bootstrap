@@ -9,21 +9,17 @@
 \usepackage{geometry}
 \usepackage{tikz}
 \usepackage{booktabs}
-\usepackage{helvet} % Sans-serif font for a presentation look
+\usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
-% Minimalistic margins to maximize space for the 4 boxes
 \geometry{margin=1cm}
 
-% Custom command to draw the exact slide box layout
-% Usage: \slidebox{Slide Number}{Content}
+% Slide box: fixed 13.5cm × 8.5cm, content clipped to fit
 \newcommand{\slidebox}[2]{%
     \begin{tikzpicture}
-        % Draw the slide outline (13.5cm wide, 8.5cm high)
         \draw[thick] (0,0) rectangle (13.5, 8.5);
-        % Place the slide number below the bottom-left corner
         \node[anchor=north west, inner sep=0pt, yshift=-5pt] at (0,0) {\footnotesize #1};
-        % Place the content perfectly centered inside the box
+        \clip (0.1,0.1) rectangle (13.4,8.4);
         \node[anchor=center] at (6.75, 4.25) {
             \begin{minipage}{12.5cm}
                 #2
@@ -33,24 +29,20 @@
 }
 
 \begin{document}
-\pagestyle{empty} % Remove default page numbers
+\pagestyle{empty}
 
 % ==================== PAGE 1 ====================
-% Three empty boxes for professor's handwritten notes,
-% fourth box is the exercise title slide.
-
 \noindent
-\slidebox{1}{} % Empty box — professor notes
+\slidebox{1}{} % Empty — professor notes
 \hfill
-\slidebox{2}{} % Empty box — professor notes
+\slidebox{2}{} % Empty — professor notes
 
-\vspace{0.8cm}
+\vspace{0.5cm}
 
 \noindent
-\slidebox{3}{} % Empty box — professor notes
+\slidebox{3}{} % Empty — professor notes
 \hfill
 \slidebox{4}{
-    % Title slide
     \vspace{1.5cm}
     \hspace{1cm}
     \begin{tabular}{l}
@@ -62,130 +54,117 @@
 
 \newpage
 % ==================== PAGE 2 ====================
-% Results page — distills all findings from Exercise 4 (Parts A, B, C).
 
 \noindent
 \slidebox{5}{
-    \textbf{Part A --- Method \& Setup}\\[0.2cm]
+    \centering
+    \textbf{Part A --- Setup \& Method}\\[0.15cm]
     \scriptsize
-    \textbf{Objective:} Extract intrinsic gate capacitance of NMOS \& PMOS\\
-    (22\,nm PTM-HP, $W_n = 44$\,nm, $L = 22$\,nm, $k = 1.3$, $V_{DD} = 0.8$\,V)\\[0.3em]
-
-    \textbf{Simulation:} Spectre \texttt{ac} analysis, $f = 100$\,Hz\,--\,10\,MHz\\
-    AC stimulus: 1\,mV;\quad $V_{G}$ swept over \{0.2, 0.4, 0.6, 0.8\}\,V\\[0.3em]
-
-    \textbf{Extraction formula:}
-    \vspace{-0.2cm}
-    \[
-        C = \frac{\mathrm{Im}(I_g)}{2\pi f \cdot V_{ac}}
-    \]
-    \vspace{-0.2cm}
-    Verified \textbf{flat to 4+ sig.\ figures} across full frequency sweep\\
-    $\Rightarrow$ purely capacitive, no resonant behaviour.\\[0.3em]
-
-    \textbf{Four bias configurations tested:}\\[0.1em]
+    \flushleft
+    \textbf{Device:} 22\,nm PTM-HP, $W_n\!=\!44$\,nm, $L\!=\!22$\,nm, $k\!=\!1.3$, $V_{DD}\!=\!0.8$\,V\\[0.2em]
+    \textbf{Sim:} Spectre \texttt{ac}, $f\!=\!100$\,Hz--10\,MHz, $V_{ac}\!=\!1$\,mV\\
+    $V_G$ swept: \{0.2,\,0.4,\,0.6,\,0.8\}\,V\\[0.2em]
+    \textbf{Extraction:}\; $\displaystyle C = \frac{\mathrm{Im}(I_g)}{2\pi f \cdot V_{ac}}$
+    \;\;{\tiny (flat to 4+ sig.\ fig.\ $\Rightarrow$ purely capacitive)}\\[0.3em]
+    \textbf{Bias configurations:}\\[0.1em]
+    {\tiny
     \begin{tabular}{@{}llll@{}}
         \toprule
-        \textbf{Netlist} & \textbf{Device} & \textbf{D / S} & \textbf{Type} \\
+        Netlist & Device & D\,/\,S & Type \\
         \midrule
-        \texttt{nmos\_cg\_gnd}   & NMOS & D=S=GND & Standard \\
-        \texttt{cgs\_nmos\_vdd}  & NMOS & D=GND, S=VDD & Cross \\
-        \texttt{cgs\_pmos\_vdd}  & PMOS & D=S=VDD & Standard \\
-        \texttt{cgs\_pmos\_gnd}  & PMOS & D=VDD, S=GND & Cross \\
+        \texttt{nmos\_cg\_gnd}  & NMOS & D=S=GND & Standard ($V_{ds}\!=\!0$) \\
+        \texttt{cgs\_nmos\_vdd} & NMOS & D=GND, S=VDD & Cross-biased \\
+        \texttt{cgs\_pmos\_vdd} & PMOS & D=S=VDD & Standard ($V_{ds}\!=\!0$) \\
+        \texttt{cgs\_pmos\_gnd} & PMOS & D=VDD, S=GND & Cross-biased \\
         \bottomrule
-    \end{tabular}
+    \end{tabular}}
 }
 \hfill
 \slidebox{6}{
-    \textbf{Part A --- AC-Extracted $C_{gg}$ Results}\\[0.3cm]
     \centering
+    \textbf{Part A --- AC-Extracted $C_{gg}$ (fF)}\\[0.2cm]
+    \small
     \begin{tabular}{@{}r|cc|cc@{}}
         \toprule
         & \multicolumn{2}{c|}{\textbf{NMOS}} & \multicolumn{2}{c}{\textbf{PMOS}} \\
-        $V_G$ (V) & Standard & Cross & Standard & Cross \\
+        $V_G$ & Std & Cross & Std & Cross \\
         \midrule
-        0.2 & 0.0314 & 0.0276 & 0.0551 & 0.0494 \\
-        0.4 & 0.0329 & 0.0334 & 0.0457 & 0.0461 \\
-        0.6 & 0.0399 & 0.0358 & 0.0433 & 0.0397 \\
-        0.8 & 0.0418 & 0.0388 & 0.0380 & 0.0330 \\
-        \bottomrule
-    \end{tabular}\\[0.15cm]
-    {\scriptsize All values in fF (magnitudes).}\\[0.4cm]
-
-    \flushleft
-    \scriptsize
-    \textbf{Key Observations:}\\[0.15em]
-    $\bullet$ \textbf{NMOS $C_{gg}$ rises} with $V_G$ --- higher $V_{gs}$ drives deeper\\
-    \hspace{0.35cm} inversion $\Rightarrow$ more charge under gate.\\[0.2em]
-    $\bullet$ \textbf{PMOS $C_{gg}$ falls} with $V_G$ --- effective $V_{sg} = V_{DD} - V_G$\\
-    \hspace{0.35cm} decreases, moving device toward cutoff.\\[0.2em]
-    $\bullet$ Standard vs.\ cross-biased differ by \textbf{only a few aF} ---\\
-    \hspace{0.35cm} reflects $V_{ds}$-dependent inversion-charge partitioning.
-}
-
-\vspace{0.8cm}
-
-\noindent
-\slidebox{7}{
-    \textbf{Part B --- Model-Card Estimate}\\[0.3cm]
-    \normalsize
-    From the 22\,nm PTM-HP model card:\\[0.3em]
-    \begin{align*}
-        t_{ox}  &= \text{TOXE} = 1.05\;\text{nm (NMOS)};\; 1.1\;\text{nm (PMOS)}\\[4pt]
-        \varepsilon_{ox} &= \text{EPSROX} \times \varepsilon_0 = 3.9 \times 8.854 \times 10^{-12}\\[4pt]
-        C_{ox}  &= \frac{\varepsilon_{ox}}{t_{ox}} \approx 0.03289\;\text{F/m}^2 \;\text{(NMOS)}
-    \end{align*}
-    \vspace{-0.2cm}
-    Parallel-plate gate capacitance $C_{gg} = C_{ox} \cdot W \cdot L$:\\[0.3em]
-    \centering
-    \begin{tabular}{@{}lccc@{}}
-        \toprule
-        \textbf{Device} & $W$ & $L$ & $C_{gg}$ (fF) \\
-        \midrule
-        NMOS          & 44\,nm   & 22\,nm & \textbf{0.0318} \\
-        PMOS ($k\!=\!1.3$) & 57.2\,nm & 22\,nm & \textbf{0.0414} \\
-        \bottomrule
-    \end{tabular}\\[0.4cm]
-    \flushleft
-    \scriptsize
-    First-order estimates sit \textbf{within the range} of the AC-extracted\\
-    values in Part A, confirming physical consistency with $\varepsilon_{ox}/t_{ox}$.
-}
-\hfill
-\slidebox{8}{
-    \textbf{Part C --- Inverter Input Capacitance \& Summary}\\[0.3cm]
-    \normalsize
-    A CMOS inverter input drives both gates in parallel:\\[0.2em]
-    \[
-        \boxed{C_{inv} = C_{gg,n} + C_{gg,p} = 0.0318 + 0.0414 = \mathbf{0.0732}\;\text{fF}}
-    \]
-
-    \vspace{0.3cm}
-    \rule{12cm}{0.4pt}\\[0.3cm]
-
-    \textbf{Consolidated Results}\\[0.2cm]
-    \centering
-    \scriptsize
-    \begin{tabular}{@{}lc@{}}
-        \toprule
-        \textbf{Quantity} & \textbf{Value} \\
-        \midrule
-        $C_{gg}$ NMOS (model-card) & 0.0318 fF \\
-        $C_{gg}$ PMOS (model-card) & 0.0414 fF \\
-        $C_{gg}$ NMOS (AC, $V_G\!=\!0.8$\,V, std.) & 0.0418 fF \\
-        $C_{gg}$ PMOS (AC, $V_G\!=\!0.2$\,V, std.) & 0.0551 fF \\
-        $C_{inv}$ (model-card) & \textbf{0.0732 fF} \\
-        \midrule
-        NMOS trend & $C_{gg} \uparrow$ with $V_G$ \\
-        PMOS trend & $C_{gg} \downarrow$ with $V_G$ \\
-        Std.\ vs.\ cross diff. & $\sim$ few aF \\
+        0.2\,V & 0.0314 & 0.0276 & 0.0551 & 0.0494 \\
+        0.4\,V & 0.0329 & 0.0334 & 0.0457 & 0.0461 \\
+        0.6\,V & 0.0399 & 0.0358 & 0.0433 & 0.0397 \\
+        0.8\,V & 0.0418 & 0.0388 & 0.0380 & 0.0330 \\
         \bottomrule
     \end{tabular}\\[0.3cm]
     \flushleft
     \scriptsize
-    \textbf{Takeaway:} AC-extracted $C_{gg}$ is bias-dependent and\\
-    consistent with $C_{ox} \cdot W \cdot L$. The inverter input sees\\
-    $C_{inv} \approx 73.2$\,aF, setting the speed--power trade-off.
+    \textbf{Observations:}\\[0.1em]
+    $\bullet$ NMOS $C_{gg}$ \textbf{rises} with $V_G$ --- deeper inversion\\[0.1em]
+    $\bullet$ PMOS $C_{gg}$ \textbf{falls} with $V_G$ --- $V_{sg} = V_{DD}-V_G$ shrinks\\[0.1em]
+    $\bullet$ Std vs.\ cross differ by \textbf{few aF} --- $V_{ds}$-dependent\\
+    \hspace{0.35cm} inversion-charge partitioning
+}
+
+\vspace{0.5cm}
+
+\noindent
+\slidebox{7}{
+    \centering
+    \textbf{Part B --- Model-Card Estimate}\\[0.2cm]
+    \small
+    \flushleft
+    From the PTM-HP model card:
+    \vspace{-0.1cm}
+    \begin{align*}
+        C_{ox} &= \frac{\varepsilon_{ox}}{t_{ox}}
+               = \frac{3.9 \times 8.854 \times 10^{-12}}{1.05 \times 10^{-9}}
+               \approx 0.03289\;\text{F/m}^2\\[3pt]
+        C_{gg} &= C_{ox} \cdot W \cdot L
+    \end{align*}
+    \vspace{-0.3cm}
+    \centering
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        Device & $W$ & $L$ & $C_{gg}$ (fF) \\
+        \midrule
+        NMOS          & 44\,nm   & 22\,nm & \textbf{0.0318} \\
+        PMOS ($k\!=\!1.3$) & 57.2\,nm & 22\,nm & \textbf{0.0414} \\
+        \bottomrule
+    \end{tabular}\\[0.3cm]
+    \flushleft
+    \scriptsize
+    First-order estimates sit within the range of AC-extracted\\
+    values, confirming consistency with $\varepsilon_{ox}/t_{ox}$.
+}
+\hfill
+\slidebox{8}{
+    \centering
+    \textbf{Part C \& Summary}\\[0.2cm]
+    \small
+    Inverter input drives both gates in parallel:\\[0.1em]
+    \normalsize
+    $\displaystyle\boxed{C_{inv} = C_{gg,n} + C_{gg,p} = 0.0318 + 0.0414 = \mathbf{0.0732}\;\text{fF}}$
+    \\[0.3cm]
+    \scriptsize
+    \rule{11cm}{0.4pt}\\[0.2cm]
+    \textbf{Consolidated Results}\\[0.15cm]
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        \textbf{Quantity} & \textbf{Value} \\
+        \midrule
+        $C_{gg,n}$ (model-card)         & 0.0318\,fF \\
+        $C_{gg,p}$ (model-card)         & 0.0414\,fF \\
+        $C_{gg,n}$ (AC, $V_G\!=\!0.8$\,V) & 0.0418\,fF \\
+        $C_{gg,p}$ (AC, $V_G\!=\!0.2$\,V) & 0.0551\,fF \\
+        $C_{inv}$                       & \textbf{0.0732\,fF} \\
+        \midrule
+        NMOS trend   & $C_{gg} \uparrow$ with $V_G$ \\
+        PMOS trend   & $C_{gg} \downarrow$ with $V_G$ \\
+        \bottomrule
+    \end{tabular}\\[0.2cm]
+    \flushleft
+    \scriptsize
+    \textbf{Takeaway:} $C_{gg}$ is bias-dependent; model-card $C_{ox}WL$\\
+    matches simulation. $C_{inv} \approx 73$\,aF sets speed--power trade-off.
 }
 
 \end{document}
