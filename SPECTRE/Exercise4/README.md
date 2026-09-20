@@ -14,12 +14,12 @@ $$C = \dfrac{\mathrm{Im}(I)}{2\pi f \cdot V_{ac}}$$
 
 ### Bias configurations
 
-| Netlist | Device | Drain | Source / Body | Notes |
-|---|---|---|---|---|
-| `nmos_cg_gnd.scs` | NMOS | GND | GND | Standard bias, Vds = 0 |
-| `cgs_nmos_vdd.scs` | NMOS | VDD | VDD | Standard bias, Vds = 0 |
-| `cgs_pmos_gnd.scs` | PMOS | GND | GND | Standard bias, Vds = 0 |
-| `cgs_pmos_vdd.scs` | PMOS | VDD | VDD | Standard bias, Vds = 0 |
+| Netlist | Device | Drain | Source | Body | Notes |
+|---|---|---|---|---|---|
+| `nmos_cg_gnd.scs` | NMOS | GND | GND | GND | Standard bias, Vds = 0 |
+| `cgs_nmos_vdd.scs` | NMOS | VDD | VDD | GND | Cross-biased body ($V_{sb} \neq 0$) |
+| `cgs_pmos_gnd.scs` | PMOS | GND | GND | VDD | Cross-biased body ($V_{sb} \neq 0$) |
+| `cgs_pmos_vdd.scs` | PMOS | VDD | VDD | VDD | Standard bias, Vds = 0 |
 
 ### Extraction formula (OCEAN calculator utility)
 ```lisp
@@ -52,7 +52,7 @@ imag(leafValue( i("PORTx:p" ?result "sweepVG_ac1-sweep" ?resultsDir "./<name>.ra
 ## Key Observations
 - **NMOS Cgg rises with VG_VAL** — effective `Vgs ≈ VG_VAL` in both configs, so higher VG_VAL drives deeper inversion.
 - **PMOS Cgg falls with VG_VAL** — effective `Vsg ≈ VDD − VG_VAL`, so higher VG_VAL reduces overdrive, moving the device toward cutoff.
-- **D=S=GND vs. D=S=VDD configs differ** at matched VG_VAL — this gap reflects the bias-point dependence of inversion-charge partitioning between the two channel terminals.
+- **D=S=GND vs. D=S=VDD configs differ** at matched VG_VAL — this gap reflects the bias-point dependence of the inversion charge as well as the body effect (since $V_{sb} \neq 0$ for the cross-biased body configs).
 
 ---
 

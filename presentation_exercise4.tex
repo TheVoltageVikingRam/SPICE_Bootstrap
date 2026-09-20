@@ -70,12 +70,12 @@
     {\tiny
     \begin{tabular}{@{}lllll@{}}
         \toprule
-        Netlist & Device & D & S\,/\,B & Type \\
+        Netlist & Device & D \& S & B & Type \\
         \midrule
-        \texttt{nmos\_cg\_gnd}  & NMOS & GND & GND & Standard ($V_{ds}\!=\!0$) \\
-        \texttt{cgs\_nmos\_vdd} & NMOS & VDD & VDD & Standard ($V_{ds}\!=\!0$) \\
-        \texttt{cgs\_pmos\_vdd} & PMOS & VDD & VDD & Standard ($V_{ds}\!=\!0$) \\
-        \texttt{cgs\_pmos\_gnd} & PMOS & GND & GND & Standard ($V_{ds}\!=\!0$) \\
+        \texttt{nmos\_cg\_gnd}  & NMOS & GND & GND & Standard ($V_{sb}\!=\!0$) \\
+        \texttt{cgs\_nmos\_vdd} & NMOS & VDD & GND & Cross ($V_{sb}\!=\!V_{DD}$) \\
+        \texttt{cgs\_pmos\_vdd} & PMOS & VDD & VDD & Standard ($V_{sb}\!=\!0$) \\
+        \texttt{cgs\_pmos\_gnd} & PMOS & GND & VDD & Cross ($V_{sb}\!=\!-V_{DD}$) \\
         \bottomrule
     \end{tabular}}
 }
