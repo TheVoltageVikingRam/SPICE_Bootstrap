@@ -87,12 +87,12 @@
     \begin{tabular}{@{}r|cc|cc@{}}
         \toprule
         & \multicolumn{2}{c|}{\textbf{NMOS}} & \multicolumn{2}{c}{\textbf{PMOS}} \\
-        $V_G$ & Std & Cross & Std & Cross \\
+        $V_G$ & D=S=GND & D=S=VDD & D=S=VDD & D=S=GND \\
         \midrule
-        0.2\,V & 0.0314 & 0.0276 & 0.0551 & 0.0494 \\
-        0.4\,V & 0.0329 & 0.0334 & 0.0457 & 0.0461 \\
-        0.6\,V & 0.0399 & 0.0358 & 0.0433 & 0.0397 \\
-        0.8\,V & 0.0418 & 0.0388 & 0.0380 & 0.0330 \\
+        0.2\,V & 0.0314 & 0.0213 & 0.0551 & 0.0301 \\
+        0.4\,V & 0.0329 & 0.0211 & 0.0457 & 0.0267 \\
+        0.6\,V & 0.0399 & 0.0230 & 0.0433 & 0.0254 \\
+        0.8\,V & 0.0418 & 0.0276 & 0.0380 & 0.0250 \\
         \bottomrule
     \end{tabular}\\[0.3cm]
     \flushleft
@@ -100,8 +100,8 @@
     \textbf{Observations:}\\[0.1em]
     $\bullet$ NMOS $C_{gg}$ \textbf{rises} with $V_G$ --- deeper inversion\\[0.1em]
     $\bullet$ PMOS $C_{gg}$ \textbf{falls} with $V_G$ --- $V_{sg} = V_{DD}-V_G$ shrinks\\[0.1em]
-    $\bullet$ Std vs.\ cross differ by \textbf{few aF} --- $V_{ds}$-dependent\\
-    \hspace{0.35cm} inversion-charge partitioning
+    $\bullet$ D=S=GND vs.\ D=S=VDD differ --- reflects bias-point\\
+    \hspace{0.35cm} dependence of inversion charge
 }
 
 \vspace{0.5cm}
@@ -153,8 +153,8 @@
         \midrule
         $C_{gg,n}$ (model-card)         & 0.0318\,fF \\
         $C_{gg,p}$ (model-card)         & 0.0414\,fF \\
-        $C_{gg,n}$ (AC, $V_G\!=\!0.8$\,V) & 0.0418\,fF \\
-        $C_{gg,p}$ (AC, $V_G\!=\!0.2$\,V) & 0.0551\,fF \\
+        $C_{gg,n}$ (AC, D=S=GND, $V_G\!=\!0.8$\,V) & 0.0418\,fF \\
+        $C_{gg,n}$ (AC, D=S=VDD, $V_G\!=\!0.8$\,V) & 0.0276\,fF \\
         $C_{inv}$                       & \textbf{0.0732\,fF} \\
         \midrule
         NMOS trend   & $C_{gg} \uparrow$ with $V_G$ \\

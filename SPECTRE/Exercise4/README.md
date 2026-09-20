@@ -31,12 +31,12 @@ imag(leafValue( i("PORTx:p" ?result "sweepVG_ac1-sweep" ?resultsDir "./<name>.ra
 
 ### Gate capacitance vs VG_VAL (fF)
 
-| VG_VAL (V) | NMOS — standard (D=S=GND) | NMOS — cross (S=VDD) | PMOS — standard (D=S=VDD) | PMOS — cross (S=GND) |
+| VG_VAL (V) | NMOS — D=S=GND | NMOS — D=S=VDD | PMOS — D=S=VDD | PMOS — D=S=GND |
 |---:|---:|---:|---:|---:|
-| 0.2 | 0.0314 | 0.0276 | 0.0551 | 0.0494 |
-| 0.4 | 0.0329 | 0.0334 | 0.0457 | 0.0461 |
-| 0.6 | 0.0399 | 0.0358 | 0.0433 | 0.0397 |
-| 0.8 | 0.0418 | 0.0388 | 0.0380 | 0.0330 |
+| 0.2 | 0.0314 | 0.0213 | 0.0551 | 0.0301 |
+| 0.4 | 0.0329 | 0.0211 | 0.0457 | 0.0267 |
+| 0.6 | 0.0399 | 0.0230 | 0.0433 | 0.0254 |
+| 0.8 | 0.0418 | 0.0276 | 0.0380 | 0.0250 |
 
 *Values are magnitudes; the raw `Im(I)` sign is negative in every file, a current-reference-direction artifact, not a physically negative capacitance.*
 
@@ -45,8 +45,8 @@ imag(leafValue( i("PORTx:p" ?result "sweepVG_ac1-sweep" ?resultsDir "./<name>.ra
 | File | Device | Config |
 |---|---|---|
 | `cgs_with_gnd_cap_value_nmos.csv` | NMOS | D = S = GND |
-| `cgs_with_vdd_cap_value_nmos.csv` | NMOS | S = VDD |
-| `cgs_with_gnd_cap_value_pmos.csv` | PMOS | S = GND |
+| `cgs_with_vdd_cap_value_nmos.csv` | NMOS | D = S = VDD |
+| `cgs_with_gnd_cap_value_pmos.csv` | PMOS | D = S = GND |
 | `cgs_with_vdd_cap_value_pmos.csv` | PMOS | D = S = VDD |
 
 ## Key Observations
