@@ -65,7 +65,7 @@
     \textbf{Sim:} Spectre \texttt{ac}, $f\!=\!100$\,Hz--10\,MHz, $V_{ac}\!=\!1$\,mV\\
     $V_G$ swept: \{0.2,\,0.4,\,0.6,\,0.8\}\,V\\[0.2em]
     \textbf{Extraction:}\; $\displaystyle C = \frac{\mathrm{Im}(I_g)}{2\pi f \cdot V_{ac}}$
-    \;\;{\tiny (flat to 4+ sig.\ fig.\ $\Rightarrow$ purely capacitive)}\\[0.3em]
+    \;\;{\tiny (flat to 4+ sig.\ fig.\ across full sweep)}\\[0.3em]
     \textbf{Bias configurations:}\\[0.1em]
     {\tiny
     \begin{tabular}{@{}lllll@{}}
@@ -132,8 +132,8 @@
     \end{tabular}\\[0.3cm]
     \flushleft
     \scriptsize
-    First-order estimates sit within the range of AC-extracted\\
-    values, confirming consistency with $\varepsilon_{ox}/t_{ox}$.
+    NMOS: 0.0318\,fF vs.\ AC range 0.0314--0.0418\,fF (D=S=GND).\\
+    PMOS: 0.0414\,fF vs.\ AC range 0.0380--0.0551\,fF (D=S=VDD).
 }
 \hfill
 \slidebox{8}{
@@ -163,8 +163,8 @@
     \end{tabular}\\[0.2cm]
     \flushleft
     \scriptsize
-    \textbf{Takeaway:} $C_{gg}$ is bias-dependent; model-card $C_{ox}WL$\\
-    matches simulation. $C_{inv} \approx 73$\,aF sets speed--power trade-off.
+    \textbf{Note:} $C_{gg}$ is bias-dependent; model-card $C_{ox}WL$\\
+    falls within the AC-extracted range. $C_{inv} = 73$\,aF.
 }
 
 \end{document}

@@ -10,7 +10,7 @@ Extract the intrinsic gate capacitance of NMOS and PMOS transistors (22 nm PTM-H
 
 $$C = \dfrac{\mathrm{Im}(I)}{2\pi f \cdot V_{ac}}$$
 
-- Verified flat to 4+ significant figures across the full frequency sweep for every case, confirming purely capacitive (non-resonant) behavior.
+- Verified flat to 4+ significant figures across the full frequency sweep for every case (no resonance observed).
 
 ### Bias configurations
 
@@ -71,7 +71,7 @@ Gate capacitance (parallel-plate, $C_{gg} = C_{ox} \cdot W \cdot L$):
 | NMOS | 44 nm | 22 nm | **0.0318** |
 | PMOS ($k=1.3$) | 57.2 nm | 22 nm | **0.0414** |
 
-These first-order estimates sit comfortably within the range of the AC-extracted values in Part A, confirming that the simulated capacitances are physically consistent with $\varepsilon_{ox}/t_{ox}$.
+NMOS model-card estimate (0.0318 fF) falls between the AC-extracted values at VG=0.2 V (0.0314 fF) and VG=0.8 V (0.0418 fF, D=S=GND). PMOS estimate (0.0414 fF) falls between VG=0.8 V (0.0380 fF) and VG=0.2 V (0.0551 fF, D=S=VDD).
 
 ---
 
