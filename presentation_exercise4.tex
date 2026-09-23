@@ -109,18 +109,11 @@
 \noindent
 \slidebox{7}{
     \centering
-    \textbf{Part B --- Model-Card Estimate}\\[0.2cm]
+    \textbf{Part B --- Model-Card Estimate}\\[0.15cm]
     \small
     \flushleft
-    From the PTM-HP model card:
-    \vspace{-0.1cm}
-    \begin{align*}
-        C_{ox} &= \frac{\varepsilon_{ox}}{t_{ox}}
-               = \frac{3.9 \times 8.854 \times 10^{-12}}{1.05 \times 10^{-9}}
-               \approx 0.03289\;\text{F/m}^2\\[3pt]
-        C_{gg} &= C_{ox} \cdot W \cdot L
-    \end{align*}
-    \vspace{-0.3cm}
+    From the PTM-HP model card ($C_{ox} = \varepsilon_{ox}/t_{ox}$,\; $C_{gg}=C_{ox}WL$):
+    \vspace{0.05cm}
     \centering
     \begin{tabular}{@{}lccc@{}}
         \toprule
@@ -129,11 +122,28 @@
         NMOS          & 44\,nm   & 22\,nm & \textbf{0.0318} \\
         PMOS ($k\!=\!1.3$) & 57.2\,nm & 22\,nm & \textbf{0.0414} \\
         \bottomrule
-    \end{tabular}\\[0.3cm]
+    \end{tabular}\\[0.15cm]
     \flushleft
     \scriptsize
-    NMOS: 0.0318\,fF vs.\ AC range 0.0314--0.0418\,fF (D=S=GND).\\
-    PMOS: 0.0414\,fF vs.\ AC range 0.0380--0.0551\,fF (D=S=VDD).
+    NMOS: 0.0318\,fF vs.\ AC 0.0314--0.0418\,fF (D=S=GND).\quad
+    PMOS: 0.0414\,fF vs.\ AC 0.0380--0.0551\,fF (D=S=VDD).
+    \\[0.15cm]
+    \rule{11.5cm}{0.3pt}\\[0.1cm]
+    % ---------- MiM Cap artifact ----------
+    \small\textbf{Aside --- MOS vs.\ MiM Cap}\\[0.1cm]
+    \scriptsize
+    \begin{tabular}{@{}lllll@{}}
+        \toprule
+        Type & $\varepsilon_r$ & $t_{ox}$ & $C/\text{area}$ & Notes \\
+        \midrule
+        MOS (SiO$_2$) & 3.9  & 1.05\,nm  &
+            $\dfrac{3.9\times8.854\times10^{-12}}{1.05\times10^{-9}}\approx0.0329\;\text{F/m}^2$ &
+            Gate control \\
+        MiM (Si$_3$N$_4$) & 7.3 & 370\,nm &
+            $\dfrac{7.3\times8.854\times10^{-12}}{370\times10^{-9}}\approx1.75\times10^{-7}\;\text{F/m}^2$ &
+            Passive cap \\
+        \bottomrule
+    \end{tabular}
 }
 \hfill
 \slidebox{8}{
@@ -167,37 +177,4 @@
     falls within the AC-extracted range. $C_{inv} = 73$\,aF.
 }
 
-\newpage
-% ==================== PAGE 3 ====================
-
-\noindent
-\slidebox{9}{%
-    \centering
-    \textbf{MOS vs.\ MiM Caps}\\[0.3cm]
-    \flushleft
-    \small
-    $k = 7.3$,\quad $t_{ox} = 370\;\mu\text{m}$\\[0.25cm]
-    \textbf{MOS gate oxide} ($t_{ox} = 1.05\;\text{nm}$):
-    \begin{align*}
-        C_{ox} &= \frac{3.9\cdot\varepsilon_0}{1.05\cdot10^{-9}}
-               \approx 0.0329\;\text{F/m}^2
-    \end{align*}
-    \textbf{MiM capacitor} ($t_{ox} = 370\;\mu\text{m}$):
-    \begin{align*}
-        C_{MiM} &= \frac{7.3\cdot\varepsilon_0}{370\cdot10^{-6}}
-               \approx 1.747\times10^{-7}\;\text{F/m}^2
-    \end{align*}
-    \rule{11cm}{0.4pt}\\[0.2cm]
-    \textcircled{\small a} Find $C$ of min inverter by applying
-    \textcircled{\small b} to P\,\&\,N:\\[0.2cm]
-    \normalsize
-    $\displaystyle\boxed{%
-        C_{inv} = C_{gp,\max} + C_{gn,\max}
-               \approx 7.3218\times10^{-17}\;\text{F}%
-    }$
-}
-\hfill
-\slidebox{10}{} % Empty — professor notes
-
 \end{document}
-
