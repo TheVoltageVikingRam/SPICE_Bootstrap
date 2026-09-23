@@ -167,4 +167,37 @@
     falls within the AC-extracted range. $C_{inv} = 73$\,aF.
 }
 
+\newpage
+% ==================== PAGE 3 ====================
+
+\noindent
+\slidebox{9}{%
+    \centering
+    \textbf{MOS vs.\ MiM Caps}\\[0.3cm]
+    \flushleft
+    \small
+    $k = 7.3$,\quad $t_{ox} = 370\;\mu\text{m}$\\[0.25cm]
+    \textbf{MOS gate oxide} ($t_{ox} = 1.05\;\text{nm}$):
+    \begin{align*}
+        C_{ox} &= \frac{3.9\cdot\varepsilon_0}{1.05\cdot10^{-9}}
+               \approx 0.0329\;\text{F/m}^2
+    \end{align*}
+    \textbf{MiM capacitor} ($t_{ox} = 370\;\mu\text{m}$):
+    \begin{align*}
+        C_{MiM} &= \frac{7.3\cdot\varepsilon_0}{370\cdot10^{-6}}
+               \approx 1.747\times10^{-7}\;\text{F/m}^2
+    \end{align*}
+    \rule{11cm}{0.4pt}\\[0.2cm]
+    \textcircled{\small a} Find $C$ of min inverter by applying
+    \textcircled{\small b} to P\,\&\,N:\\[0.2cm]
+    \normalsize
+    $\displaystyle\boxed{%
+        C_{inv} = C_{gp,\max} + C_{gn,\max}
+               \approx 7.3218\times10^{-17}\;\text{F}%
+    }$
+}
+\hfill
+\slidebox{10}{} % Empty — professor notes
+
 \end{document}
+
