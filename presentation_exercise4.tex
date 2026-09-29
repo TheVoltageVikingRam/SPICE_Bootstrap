@@ -1,8 +1,10 @@
 % ============================================================
-%  Exercise 4 — Gate Capacitance Extraction  (Wednesday Presentation)
-%  2-page landscape handout with 4 slide boxes per page
+%  Exercise 4 — Gate Capacitance Extraction
+%  PowerPoint-style print handout: landscape A4, 4 slides/page,
+%  filled column-first ("4 Slides Vertical" order), date header,
+%  page-number footer, slide number printed below-left of each box.
 % ============================================================
-\documentclass[a4paper,landscape,11pt]{article}
+\documentclass[a4paper,11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -10,39 +12,62 @@
 \usepackage{tikz}
 \usepackage{booktabs}
 \usepackage{helvet}
+\usepackage{fancyhdr}
 \renewcommand{\familydefault}{\sfdefault}
 
-\geometry{margin=1cm}
+\geometry{a4paper,landscape,top=1.3cm,bottom=1.3cm,left=1.3cm,right=1.3cm,
+          headheight=14pt,headsep=8pt,footskip=18pt}
 
-% Slide box: fixed 13.5cm × 8.5cm, content clipped to fit
-\newcommand{\slidebox}[2]{%
+% ---------- header / footer, like a PPT print-out ----------
+\pagestyle{fancy}
+\fancyhf{}
+
+
+% ---------- slide box: fixed 13.5cm x 8.5cm design canvas ----------
+% (unchanged from the original — every slide's internal content is
+%  authored at this size, then the whole box is shrunk to thumbnail
+%  size by \thumb below, exactly like PowerPoint scales a full slide
+%  down into a 4-up handout cell.)
+\newcommand{\slidebox}[1]{%
     \begin{tikzpicture}
-        \draw[thick] (0,0) rectangle (13.5, 8.5);
-        \node[anchor=north west, inner sep=0pt, yshift=-5pt] at (0,0) {\footnotesize #1};
+        \draw[thin] (0,0) rectangle (13.5,8.5);
         \clip (0.1,0.1) rectangle (13.4,8.4);
-        \node[anchor=center] at (6.75, 4.25) {
+        \node[anchor=center] at (6.75,4.25) {
             \begin{minipage}{12.5cm}
-                #2
+                #1
             \end{minipage}
         };
     \end{tikzpicture}%
 }
 
+% ---------- thumbnail cell: scaled box + slide number below-left ----------
+\newlength{\thumbw}
+\setlength{\thumbw}{12.5cm}
+\def\slidescale{0.9259} % 12.5/13.5
+
+\newcommand{\thumb}[2]{%
+    \begin{minipage}[t]{\thumbw}
+        \scalebox{\slidescale}{\slidebox{#2}}\\[0.12cm]
+        {\scriptsize #1}
+    \end{minipage}%
+}
+
 \begin{document}
-\pagestyle{empty}
 
-% ==================== PAGE 1 ====================
+% ==================== PAGE 1 — Slides 1-4 ====================
+% Column-first order: col.1 = slides 1 (top), 2 (bottom)
+%                      col.2 = slides 3 (top), 4 (bottom)
 \noindent
-\slidebox{1}{} % Empty — professor notes
+\thumb{1}{} % Empty — professor notes
 \hfill
-\slidebox{2}{} % Empty — professor notes
+\thumb{3}{} % Empty — professor notes
 
-\vspace{0.5cm}
+\vspace{0.7cm}
 
 \noindent
-\slidebox{3}{} % Empty — professor notes
+\thumb{2}{} % Empty — professor notes
 \hfill
-\slidebox{4}{
+\thumb{4}{
     \vspace{1.5cm}
     \hspace{1cm}
     \begin{tabular}{l}
@@ -53,10 +78,11 @@
 }
 
 \newpage
-% ==================== PAGE 2 ====================
-
+% ==================== PAGE 2 — Slides 5-8 ====================
+% Column-first order: col.1 = slides 5 (top), 6 (bottom)
+%                      col.2 = slides 7 (top), 8 (bottom)
 \noindent
-\slidebox{5}{
+\thumb{5}{
     \centering
     \textbf{Part A --- Setup \& Method}\\[0.15cm]
     \scriptsize
@@ -80,34 +106,7 @@
     \end{tabular}}
 }
 \hfill
-\slidebox{6}{
-    \centering
-    \textbf{Part A --- AC-Extracted $C_{gg}$ (fF)}\\[0.2cm]
-    \small
-    \begin{tabular}{@{}r|cc|cc@{}}
-        \toprule
-        & \multicolumn{2}{c|}{\textbf{NMOS}} & \multicolumn{2}{c}{\textbf{PMOS}} \\
-        $V_G$ & D=S=GND & D=S=VDD & D=S=VDD & D=S=GND \\
-        \midrule
-        0.2\,V & 0.0314 & 0.0185 & 0.0551 & 0.0301 \\
-        0.4\,V & 0.0329 & 0.0194 & 0.0457 & 0.0267 \\
-        0.6\,V & 0.0399 & 0.0218 & 0.0433 & 0.0254 \\
-        0.8\,V & 0.0418 & 0.0268 & 0.0380 & 0.0250 \\
-        \bottomrule
-    \end{tabular}\\[0.3cm]
-    \flushleft
-    \scriptsize
-    \textbf{Observations:}\\[0.1em]
-    $\bullet$ NMOS $C_{gg}$ \textbf{rises} with $V_G$ \\[0.1em]
-    $\bullet$ PMOS $C_{gg}$ \textbf{falls} with $V_G$ --- $V_{sg} = V_{DD}-V_G$ shrinks\\[0.1em]
-    $\bullet$ D=S=GND vs.\ D=S=VDD differ --- reflects bias-point\\
-    \hspace{0.35cm} dependence of inversion charge
-}
-
-\vspace{0.5cm}
-
-\noindent
-\slidebox{7}{
+\thumb{7}{
     \centering
     \textbf{Part B --- Model-Card Estimate}\\[0.15cm]
     \small
@@ -145,8 +144,35 @@
         \bottomrule
     \end{tabular}
 }
+
+\vspace{0.7cm}
+
+\noindent
+\thumb{6}{
+    \centering
+    \textbf{Part A --- AC-Extracted $C_{gg}$ (fF)}\\[0.2cm]
+    \small
+    \begin{tabular}{@{}r|cc|cc@{}}
+        \toprule
+        & \multicolumn{2}{c|}{\textbf{NMOS}} & \multicolumn{2}{c}{\textbf{PMOS}} \\
+        $V_G$ & D=S=GND & D=S=VDD & D=S=VDD & D=S=GND \\
+        \midrule
+        0.2\,V & 0.0314 & 0.0185 & 0.0551 & 0.0301 \\
+        0.4\,V & 0.0329 & 0.0194 & 0.0457 & 0.0267 \\
+        0.6\,V & 0.0399 & 0.0218 & 0.0433 & 0.0254 \\
+        0.8\,V & 0.0418 & 0.0268 & 0.0380 & 0.0250 \\
+        \bottomrule
+    \end{tabular}\\[0.3cm]
+    \flushleft
+    \scriptsize
+    \textbf{Observations:}\\[0.1em]
+    $\bullet$ NMOS $C_{gg}$ \textbf{rises} with $V_G$ \\[0.1em]
+    $\bullet$ PMOS $C_{gg}$ \textbf{falls} with $V_G$ --- $V_{sg} = V_{DD}-V_G$ shrinks\\[0.1em]
+    $\bullet$ D=S=GND vs.\ D=S=VDD differ --- reflects bias-point\\
+    \hspace{0.35cm} dependence of inversion charge
+}
 \hfill
-\slidebox{8}{
+\thumb{8}{
     \centering
     \textbf{Part C \& Summary}\\[0.2cm]
     \small
