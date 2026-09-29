@@ -1,59 +1,79 @@
 # 1 pF CMOS Inverter Chain Delay Study
 
-A comparative study of propagation delay in a geometrically tapered CMOS inverter chain using a **22 nm PTM HP BSIM4 model**.
+A comparative study of propagation delay in a geometrically tapered CMOS inverter chain
+using a **22 nm PTM HP BSIM4 model**.
 
-### Simulation Parameters
+## Simulation Parameters
 
-- Supply voltage: \(V_{DD}=0.8\text{ V}\)
-- Load capacitance: \(C_L=1\text{ pF}\)
-- Channel length: \(L=22\text{ nm}\)
-- Base NMOS width: \(W_n=2L=44\text{ nm}\)
-- PMOS/NMOS width ratio: \(k=1.3\)
-- Tapering: geometric
-- Measurement threshold: \(V_{DD}/2=0.4\text{ V}\)
-- Propagation delay:
+| Parameter | Value |
+|---|---|
+| Supply voltage | $V_{DD} = 0.8\text{ V}$ |
+| Load capacitance | $C_L = 1\text{ pF}$ |
+| Channel length | $L = 22\text{ nm}$ |
+| Base NMOS width | $W_n = 2L = 44\text{ nm}$ |
+| PMOS/NMOS ratio | $k = 1.3$ |
+| Gate poly sheet resistance | $\texttt{rshg} = 0.4\;\Omega/\square$ |
+| Tapering | Geometric |
+| Measurement threshold | $V_{DD}/2 = 0.4\text{ V}$ |
 
-\[
-t_{pd}=\frac{t_{PHL}+t_{PLH}}{2}
-\]
+For each value of $n$, the chain contains $n+1$ inverter stages, with stage $i$ scaled by
 
-For each value of \(n\), the chain contains \(n+1\) inverter stages, with stage \(i\) scaled by
+$$
+W_i = W_0\,\alpha^i, \qquad \alpha = \left(\frac{C_L}{C_{in}}\right)^{1/n}.
+$$
 
-\[
-W_i=W_0\alpha^i.
-\]
+Propagation delay is measured as
+
+$$
+t_{pd} = \frac{t_{PHL} + t_{PLH}}{2}.
+$$
 
 ---
 
-## Case 1 — `rgatemod = 0`
+## Case 1 — Single-device, `rgatemod = 0`
 
-Gate-resistance effects are disabled. The same transistor sizing is used for every \(n\).
+Gate-resistance effects are **disabled**. The total transistor width is set directly in the
+`w` parameter of each MOS device and scaled with the geometric multiplier.
 
-| n | Stages | \(\alpha\) | \(t_{pd}\) (ps) |
-| -: | -----: | ---------: | --------------: |
+**Netlist (subckt):**
+```spectre
+subckt inv ( in out vdd vss )
+parameters L=22n Wn=2*L k=1.3 mult=1
+m1 ( out in vdd vdd ) pmos l=L w=k*Wn*mult
+m2 ( out in vss vss ) nmos l=L w=Wn*mult
+ends inv
+```
+
+| $n$ | Stages | $\alpha$ | $t_{pd}$ (ps) |
+| -: | -: | -: | -: |
 | 3 | 4 | 10.810515 | 66.36 |
 | 4 | 5 | 6.715481 | 56.11 |
 | 5 | 6 | 4.889123 | 52.50 |
-| 6 | 7 | 3.897350 | **51.66** |
+| **6** | **7** | **3.897350** | **51.66** |
 | 7 | 8 | 3.287935 | 52.18 |
 | 8 | 9 | 2.880629 | 53.51 |
 | 9 | 10 | 2.591424 | 55.32 |
 | 10 | 11 | 2.376535 | 57.45 |
 
-Minimum measured delay:
+$$
+\boxed{t_{pd,\min} = 51.66\text{ ps at }n = 6}
+$$
 
-\[
-\boxed{t_{pd}=51.66\text{ ps at }n=6}
-\]
+![Case 1 — propagation delay vs. n (single device, rgatemod=0)](images/case1_single_rg0.png)
 
 ---
 
-## Case 2 — `rgatemod = 1`
+## Case 2 — Single-device, `rgatemod = 1`
 
-Gate-resistance effects are enabled, while the large transistors are represented as **single devices** whose width is directly scaled with the geometric multiplier.
+Gate-resistance effects are **enabled** via the BSIM4 distributed gate-resistance model.
+The transistors are still represented as a **single wide device** with no fingering.
+With `rshg = 0.4 Ohm/sq`, the gate resistance grows as $R_g \propto W^2$, producing
+a strong delay penalty in the large final stages.
 
-| n | Stages | \(\alpha\) | \(t_{pd}\) (ps) |
-| -: | -----: | ---------: | --------------: |
+**Netlist (subckt):** identical to Case 1, but with `+rgatemod=1` set in the model.
+
+| $n$ | Stages | $\alpha$ | $t_{pd}$ (ps) |
+| -: | -: | -: | -: |
 | 3 | 4 | 10.810515 | 86.36 |
 | 4 | 5 | 6.715481 | 113.60 |
 | 5 | 6 | 4.889123 | 165.54 |
@@ -63,125 +83,133 @@ Gate-resistance effects are enabled, while the large transistors are represented
 | 9 | 10 | 2.591424 | 520.41 |
 | 10 | 11 | 2.376535 | 631.53 |
 
-The delay increases strongly with the number of stages under this single-device implementation.
+Delay increases monotonically across the tested range; $n = 3$ gives the lowest value.
+
+$$
+\boxed{t_{pd,\min} = 86.36\text{ ps at }n = 3 \text{ (lower bound of sweep, not a true optimum)}}
+$$
+
+![Case 2 — propagation delay vs. n (single device, rgatemod=1)](images/case2_single_rg1.png)
 
 ---
 
-## Case 3 — `m`-based implementation, `rgatemod = 1`
+## Case 3 — `m`-based parallel multiplicity, `rgatemod = 1`
 
-The geometric scaling is implemented using the MOS `m` parameter, representing parallel device multiplicity, while keeping the base transistor width unchanged.
+The geometric scaling is implemented using the MOS `m` (multiplicity) parameter,
+keeping the **base device width unchanged** and replicating it in parallel.
+Each replica is only $W_n = 44\text{ nm}$ wide, so the gate resistance per unit stays small.
 
-For stage \(i\),
+**Netlist (subckt):**
+```spectre
+subckt inv ( in out vdd vss )
+parameters L=22n Wn=2*L k=1.3 mult=1
+m1 ( out in vdd vdd ) pmos l=L w=k*Wn m=mult
+m2 ( out in vss vss ) nmos l=L w=Wn   m=mult
+ends inv
+```
 
-\[
-m_i=\alpha^i.
-\]
+For stage $i$, $m_i = \alpha^i$.
 
-The table lists the final-stage multiplier \(m_n=\alpha^n\).
+| $n$ | Stages | $\alpha$ | Final-stage $m_n = \alpha^n$ | $t_{pd}$ (ps) |
+| -: | -: | -: | -: | -: |
+| 3 | 4 | 10.810515 | 1263.39 | 62.32 |
+| 4 | 5 | 6.715481 | 2033.80 | 53.11 |
+| 5 | 6 | 4.889123 | 2793.54 | 49.99 |
+| **6** | **7** | **3.897350** | **3504.42** | **49.40** |
+| 7 | 8 | 3.287935 | 4153.96 | 50.08 |
+| 8 | 9 | 2.880629 | 4741.31 | 51.51 |
+| 9 | 10 | 2.591424 | 5270.44 | 53.39 |
+| 10 | 11 | 2.376535 | 5747.00 | 55.55 |
 
-| n | Stages | \(\alpha\) | Final-stage \(m_n\) | \(t_{pd}\) (ps) |
-| -: | -----: | ---------: | ------------------: | --------------: |
-| 3 | 4 | 10.810515 | 1263.394958 | 62.32 |
-| 4 | 5 | 6.715481 | 2033.800805 | 53.11 |
-| 5 | 6 | 4.889123 | 2793.538099 | 49.99 |
-| 6 | 7 | 3.897350 | 3504.420068 | **49.40** |
-| 7 | 8 | 3.287935 | 4153.960176 | 50.08 |
-| 8 | 9 | 2.880629 | 4741.308767 | 51.51 |
-| 9 | 10 | 2.591424 | 5270.441129 | 53.39 |
-| 10 | 11 | 2.376535 | 5747.002426 | 55.55 |
+$$
+\boxed{t_{pd,\min} = 49.40\text{ ps at }n = 6}
+$$
 
-Minimum measured delay:
-
-\[
-\boxed{t_{pd}=49.40\text{ ps at }n=6}
-\]
+![Case 3 — propagation delay vs. n (m-based parallel, rgatemod=1)](images/case3_m_based.png)
 
 ---
 
-## Case 4 — Fine `nf` partitioning, `rgatemod = 1`
+## Case 4 — `nf` multi-finger partitioning, `rgatemod = 1`
 
 The geometric scaling is implemented using **multi-finger MOS devices**.
+For each stage $i$, the required total widths are
 
-For each stage \(i\), the required total transistor widths are
+$$
+W_{n,\text{tot}} = W_n\,\alpha^i, \qquad W_{p,\text{tot}} = k\,W_n\,\alpha^i.
+$$
 
-\[
-W_{n,\mathrm{tot}}=W_n\alpha^i
-\]
+These are partitioned into fingers using a maximum finger-width constraint
+$W_f = 220\text{ nm}$:
 
-and
+$$
+NF_n = \left\lceil \frac{W_{n,\text{tot}}}{220\text{ nm}} \right\rceil, \qquad
+NF_p = \left\lceil \frac{W_{p,\text{tot}}}{220\text{ nm}} \right\rceil.
+$$
 
-\[
-W_{p,\mathrm{tot}}=kW_n\alpha^i.
-\]
+**Netlist (subckt):**
+```spectre
+subckt inv ( in out vdd vss )
+parameters L=22n Wn=2*L k=1.3 mult=1 wf=220n
 
-The total widths are partitioned into fingers using a maximum finger-width constraint of
+parameters Wtot_n=Wn*mult
+parameters Wtot_p=k*Wn*mult
 
-\[
-W_f=220\text{ nm}.
-\]
+parameters nf_n=max(1,ceil(Wtot_n/wf))
+parameters nf_p=max(1,ceil(Wtot_p/wf))
 
-The number of fingers is calculated as
+m1 ( out in vdd vdd ) pmos l=L w=Wtot_p nf=nf_p
+m2 ( out in vss vss ) nmos l=L w=Wtot_n nf=nf_n
 
-\[
-NF_n=
-\left\lceil
-\frac{W_{n,\mathrm{tot}}}{220\text{ nm}}
-\right\rceil
-\]
+ends inv
+```
 
-and
-
-\[
-NF_p=
-\left\lceil
-\frac{W_{p,\mathrm{tot}}}{220\text{ nm}}
-\right\rceil.
-\]
-
-The total transistor width is preserved while the resulting `nf` values are supplied to the BSIM4 device model.
-
-| n | Stages | \(\alpha\) | \(t_{pd}\) (ps) |
-| -: | -----: | ---------: | --------------: |
+| $n$ | Stages | $\alpha$ | $t_{pd}$ (ps) |
+| -: | -: | -: | -: |
 | 3 | 4 | 10.810515 | 65.42 |
 | 4 | 5 | 6.715481 | 55.44 |
 | 5 | 6 | 4.889123 | 51.97 |
-| 6 | 7 | 3.897350 | **51.16** |
+| **6** | **7** | **3.897350** | **51.16** |
 | 7 | 8 | 3.287935 | 51.73 |
 | 8 | 9 | 2.880629 | 53.07 |
 | 9 | 10 | 2.591424 | 54.89 |
 | 10 | 11 | 2.376535 | 57.01 |
 
-Minimum measured delay:
+$$
+\boxed{t_{pd,\min} = 51.16\text{ ps at }n = 6}
+$$
 
-\[
-\boxed{t_{pd}=51.16\text{ ps at }n=6}
-\]
-
-Thus, for the tested range \(n=3\) to \(10\), the fine `nf` partitioning method gives its minimum measured delay for a **7-stage inverter chain**.
+![Case 4 — propagation delay vs. n (nf multi-finger, rgatemod=1)](images/case4_nf_finger.png)
 
 ---
 
 ## Summary
 
-| Case | Implementation | `rgatemod` | Optimal \(n\) | Stages | Minimum \(t_{pd}\) |
-| ----- | ----- | -----: | -----: | -----: | -----: |
+| Case | Implementation | `rgatemod` | Optimal $n$ | Stages | Min $t_{pd}$ |
+| --- | --- | -: | -: | -: | -: |
 | 1 | Single wide device | 0 | 6 | 7 | 51.66 ps |
 | 2 | Single wide device | 1 | 3* | 4 | 86.36 ps |
 | 3 | `m`-based parallel multiplicity | 1 | 6 | 7 | **49.40 ps** |
-| 4 | Fine `nf` multi-finger partitioning | 1 | 6 | 7 | 51.16 ps |
+| 4 | `nf` multi-finger ($W_f = 220\text{ nm}$) | 1 | 6 | 7 | 51.16 ps |
 
-\*For Case 2, the delay increased monotonically over the tested range \(n=3\)–\(10\), so \(n=3\) is simply the lowest-delay point within that range.
+\*Case 2 delay increases monotonically across $n = 3$–$10$; $n = 3$ is the
+lowest-delay point within the tested range, not a true optimum.
 
-### Main Observation
+## Key Observations
 
-For the geometrically tapered inverter chain driving a 1 pF load, the simulations show that the optimum number of stages depends strongly on how the very large devices are represented.
+1. **Case 2 confirms the gate-resistance hazard.** A single wide device with `rgatemod=1`
+   causes delay to grow monotonically with $n$, because larger $\alpha$ means a wider
+   final device and proportionally larger $R_g \propto W^2$.
 
-The single-wide-device implementation with `rgatemod = 1` exhibits a strong increase in delay as the number of stages increases. In contrast, both the `m`-based implementation and the fine `nf` multi-finger implementation exhibit a minimum around
+2. **Case 3 (`m`-based) gives the lowest measured delay (49.40 ps)**, beating even the
+   `rgatemod=0` baseline. The `m` parameter keeps each unit device at $W_n = 44\text{ nm}$
+   so gate resistance per unit stays negligible, while BSIM4 correctly aggregates
+   current and capacitance across the $m$ parallel copies.
 
-\[
-\boxed{n=6\quad\text{(7 inverter stages)}}
-\]
+3. **Case 4 (`nf` multi-finger, 51.16 ps) is close to but slightly worse than Case 3.**
+   With $W_f = 220\text{ nm}$ fingers, each finger accrues two additional source/drain
+   diffusion edges, adding junction capacitance. Because `rshg = 0.4 Ohm/sq` makes
+   gate resistance very small even for a single wide device at 22 nm, the junction-cap
+   penalty of fine fingering is non-negligible relative to the gate-RC benefit.
 
-with measured delays of approximately 49–51 ps.
-
-The `nf` implementation provides an explicit multi-finger representation while maintaining the intended total transistor width.
+4. **All three well-behaved cases share the same optimal chain depth:** $n = 6$ (7 stages),
+   consistent with the branching-effort optimum for this load ratio.
