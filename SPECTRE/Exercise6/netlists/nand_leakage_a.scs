@@ -1,0 +1,44 @@
+simulator lang=spectre
+
+global 0
+
+parameters Wn=44n Ln=22n k=1.3 Wp=k*Wn Lp=22n VDD=0.8
+
+include "./22nm_HP.pm"
+
+VDD_SRC ( vdd 0 ) vsource dc=VDD
+VSS_SRC ( vss 0 ) vsource dc=0
+
+
+parameters VINA=0 VINB=0
+
+*************NAND Inputs****************
+
+VAIN ( a 0 ) vsource dc=VINA
+VBIN ( b 0 ) vsource dc=VINB
+
+
+************NAND gate instantiation**************
+
+M1 ( out a vdd vdd ) pmos w=Wp l=Lp
+M2 ( out b vdd vdd ) pmos w=Wp l=Lp
+
+M3 ( mid a 0 0 ) nmos w=Wn l=Ln
+M4 ( out b mid 0 ) nmos w=Wn l=Ln
+
+
+*****************The logic states*****************
+
+sweepA sweep param=VINA values=[0 0.8] {
+sweepB sweep param=VINB values=[0 0.8]
+
+{
+ dcOp dc
+}
+}
+
+
+
+save out
+save mid 
+save VDD_SRC:p
