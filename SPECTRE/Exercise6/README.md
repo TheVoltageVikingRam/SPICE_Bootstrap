@@ -36,7 +36,7 @@ The four NAND input combinations are:
 | Circuit A | Baseline NAND |
 | Circuit B | PMOS HVT header only |
 | Circuit C | NMOS HVT footer only |
-| Circuit D | __________ |
+| Circuit D | PMOS HVT header + NMOS HVT footer |
 
 ## Leakage Results
 
@@ -46,10 +46,10 @@ Values below are in **nA**.
 
 | Input State | Circuit A | Circuit B | Circuit C | Circuit D |
 |---|---:|---:|---:|---:|
-| 00 | **0.061** | **0.00817** | **0.01271** | ___ |
-| 01 | **1.027** | **0.00765** | **0.00999** | ___ |
-| 10 | **4.144** | **0.00781** | **0.01115** | ___ |
-| 11 | **12.122** | **0.00282** | **0.01131** | ___ |
+| 00 | **0.061** | **0.00817** | **0.01271** | **0.000960** |
+| 01 | **1.027** | **0.00765** | **0.00999** | **0.000642** |
+| 10 | **4.144** | **0.00781** | **0.01115** | **0.000466** |
+| 11 | **12.122** | **0.00282** | **0.01131** | **0.000102** |
 
 ### Circuit A — Obtained Values
 
@@ -106,9 +106,50 @@ V_G=0\text{ V}
 
 so the NMOS HVT footer is OFF.
 
-## Spectre Measurement
+## Circuit D — Obtained Values
 
-The leakage current is extracted using:
+| Input State | Leakage |
+|---|---:|
+| 00 | 0.000960 nA |
+| 01 | 0.000642 nA |
+| 10 | 0.000466 nA |
+| 11 | 0.000102 nA |
+
+## Circuit D — Implementation
+
+Circuit D combines the **PMOS HVT header** and **NMOS HVT footer**.
+
+The NAND core is therefore connected between two virtual supply nodes:
+
+\[
+V_{DD} \rightarrow \text{PMOS HVT} \rightarrow vdd\_int
+\]
+
+and
+
+\[
+vss\_int \rightarrow \text{NMOS HVT} \rightarrow V_{SS}.
+\]
+
+In sleep mode, both devices are OFF:
+
+\[
+V_G(\text{PMOS header})=0.8\text{ V}
+\]
+
+and
+
+\[
+V_G(\text{NMOS footer})=0\text{ V}.
+\]
+
+The virtual nodes \(vdd\_int\) and \(vss\_int\) therefore float to values determined by the leakage paths within the circuit.
+
+### Numerical Convergence Adjustment for Circuit D
+
+The leakage currents in Circuit D were in the **pA range**, making them much smaller than the leakage currents observed in Circuits A–C.
+
+To ensure that the extracted pA-level leakage was not significantly affected by the default DC convergence settings, tighter simulation options were used:
 
 ```spectre
-save VDD_SRC:p
+options gmindc=1e-15 iabstol=1e-15 reltol=1e-4
