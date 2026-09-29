@@ -184,20 +184,33 @@ $$
 
 ## Comparative Analysis — Cases 1, 3 & 4
 
-![Propagation delay comparison: Cases 1, 3 & 4 — fastest, slowest, most/least accurate](images/delay_comparison_c1_c3_c4.png)
+![Propagation delay comparison: Cases 1, 3 & 4](images/delay_comparison_c1_c3_c4.png)
 
-| Attribute | Case | Min $t_{pd}$ |
-|---|---|---|
-| ★ **Fastest** | Case 3 — `m`-based parallel, `rgatemod=1` | **49.40 ps** |
-| ▼ **Slowest** (well-behaved) | Case 1 — single device, `rgatemod=0` | 51.66 ps |
-| ✓ **Most accurate** | Case 3 — `m`-based parallel, `rgatemod=1` | — |
-| ✗ **Least accurate** | Case 1 — single device, `rgatemod=0` | — |
+The three cases are compared here not just by simulated delay but by **modeling effort and
+physical accuracy** — i.e., how much work the designer has to do to set up the netlist, and
+how faithfully it represents what will actually be built in layout.
 
-All three cases share the same optimal depth (**n = 6**, 7 stages). Case 3 is simultaneously the
-fastest *and* the most physically accurate: the `m` parameter keeps each unit device at
-$W_n = 44\text{ nm}$ so gate resistance stays negligible, while BSIM4 aggregates current and
-capacitance correctly across parallel copies. Case 1 (`rgatemod=0`) ignores gate resistance
-entirely, making it the least accurate model — yet it still predicts the correct optimal $n$.
+| Dimension | Case 1 | Case 3 | Case 4 |
+|---|---|---|---|
+| **Setup effort** | ★ Easiest — scale `w` directly | Medium — set `m` parameter | ✗ Most involved — compute $NF = \lceil W_{tot}/W_f \rceil$ per stage |
+| **Physical accuracy** | ✗ Least accurate — gate resistance ignored (`rgatemod=0`) | More accurate — `m` keeps unit device small, $R_g$ negligible | ✓ Most layout-representative — fingers match real layout partitioning |
+| **Layout fidelity** | Low — single wide device doesn't reflect fingering | Medium — parallel units, but no explicit finger geometry | High — $W_f = 220\text{ nm}$ fingers mirror actual drawn geometry |
+| **Gate resistance model** | Disabled | Enabled, naturally mitigated by small unit $W$ | Enabled, explicitly controlled via finger width |
+| **Min $t_{pd}$** | 51.66 ps | **49.40 ps** | 51.16 ps |
+
+**Case 1** is the quickest to write — you just scale the single `w` parameter and run. No
+gate-resistance modelling means it is the least physically accurate, but it is a useful
+first-pass baseline.
+
+**Case 3** strikes a good balance: adding `m` instead of growing `w` keeps each unit device
+at $W_n = 44\text{ nm}$, which naturally limits gate resistance without any extra bookkeeping.
+It is more accurate than Case 1 with almost no additional effort.
+
+**Case 4** demands the most from the designer: for every stage and device type, you must
+compute the total width, apply a ceiling to get the finger count $NF$, and set both `w` and
+`nf` explicitly. This extra work is rewarded with the closest correspondence to what a real
+layout looks like — fingered devices with a maximum finger width constraint directly reflect
+the physical design rules used in tape-out.
 
 ---
 
