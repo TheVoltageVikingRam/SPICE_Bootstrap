@@ -50,36 +50,27 @@ The delay increases strongly with \(n\).
 
 The geometric scaling is implemented using the MOS `m` parameter, representing parallel device multiplicity, while keeping the base transistor width unchanged.
 
-| n | Stages | \(\alpha\) | \(t_{pd}\) (ps) |
-| -: | -----: | ---------: | --------------: |
-| 3 | 4 | 10.810515 | 62.32 |
-| 4 | 5 | 6.715481 | 53.11 |
-| 5 | 6 | 4.889123 | 49.99 |
-| 6 | 7 | 3.897350 | **49.40** |
-| 7 | 8 | 3.287935 | 50.08 |
-| 8 | 9 | 2.880629 | 51.51 |
-| 9 | 10 | 2.591424 | 53.39 |
-| 10 | 11 | 2.376535 | — |
+For stage \(i\),
 
-Minimum measured delay so far:
+\[
+m_i=\alpha^i
+\]
+
+The table lists the final-stage multiplier \(m_n=\alpha^n\).
+
+| n | Stages | \(\alpha\) | Final-stage \(m_n\) | \(t_{pd}\) (ps) |
+| -: | -----: | ---------: | ------------------: | --------------: |
+| 3 | 4 | 10.810515 | 1263.394958 | 62.32 |
+| 4 | 5 | 6.715481 | 2033.800805 | 53.11 |
+| 5 | 6 | 4.889123 | 2793.538099 | 49.99 |
+| 6 | 7 | 3.897350 | 3504.420068 | **49.40** |
+| 7 | 8 | 3.287935 | 4153.960176 | 50.08 |
+| 8 | 9 | 2.880629 | 4741.308767 | 51.51 |
+| 9 | 10 | 2.591424 | 5270.441129 | 53.39 |
+| 10 | 11 | 2.376535 | 5747.002426 | **55.55** |
+
+Minimum measured delay:
 
 \[
 \boxed{t_{pd}=49.40\text{ ps at }n=6}
 \]
-
-## Case 4 — `nf`-based multi-finger implementation
-
-To be added.
-
-`rgatemod = 1`, with the same total transistor widths partitioned into physically fingered devices using `nf`.
-
-| n | Stages | \(\alpha\) | \(t_{pd}\) (ps) |
-| -: | -----: | ---------: | --------------: |
-| 3 | 4 | 10.810515 | — |
-| 4 | 5 | 6.715481 | — |
-| 5 | 6 | 4.889123 | — |
-| 6 | 7 | 3.897350 | — |
-| 7 | 8 | 3.287935 | — |
-| 8 | 9 | 2.880629 | — |
-| 9 | 10 | 2.591424 | — |
-| 10 | 11 | 2.376535 | — |
