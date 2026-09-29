@@ -35,7 +35,7 @@ The four NAND input combinations are:
 |---|---|
 | Circuit A | Baseline NAND |
 | Circuit B | PMOS HVT header only |
-| Circuit C | __________ |
+| Circuit C | NMOS HVT footer only |
 | Circuit D | __________ |
 
 ## Leakage Results
@@ -46,10 +46,10 @@ Values below are in **nA**.
 
 | Input State | Circuit A | Circuit B | Circuit C | Circuit D |
 |---|---:|---:|---:|---:|
-| 00 | **0.061** | **0.00817** | ___ | ___ |
-| 01 | **1.027** | **0.00765** | ___ | ___ |
-| 10 | **4.144** | **0.00781** | ___ | ___ |
-| 11 | **12.122** | **0.00282** | ___ | ___ |
+| 00 | **0.061** | **0.00817** | **0.01271** | ___ |
+| 01 | **1.027** | **0.00765** | **0.00999** | ___ |
+| 10 | **4.144** | **0.00781** | **0.01115** | ___ |
+| 11 | **12.122** | **0.00282** | **0.01131** | ___ |
 
 ### Circuit A — Obtained Values
 
@@ -83,7 +83,28 @@ so the PMOS header is OFF.
 
 The NAND core is connected to the resulting virtual supply node \(vdd\_int\).
 
-The HVT header uses the modified threshold voltage described above.
+## Circuit C — Obtained Values
+
+| Input State | Leakage |
+|---|---:|
+| 00 | 0.01271 nA |
+| 01 | 0.00999 nA |
+| 10 | 0.01115 nA |
+| 11 | 0.01131 nA |
+
+## Circuit C — Implementation
+
+Circuit C adds an **NMOS HVT footer** between the NAND core and ground.
+
+The NAND core is connected to the virtual ground node \(vss\_int\).
+
+In sleep mode, the footer gate is held at 0 V:
+
+\[
+V_G=0\text{ V}
+\]
+
+so the NMOS HVT footer is OFF.
 
 ## Spectre Measurement
 
