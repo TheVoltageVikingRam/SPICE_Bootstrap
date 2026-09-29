@@ -1,0 +1,40 @@
+simulator lang=spectre
+
+parameters Wn=44n Ln=22n k=1.3 Wp=k*Wn Lp=22n VDD=0.8
+
+include "./22nm_HP.pm"
+include "./hi_vt_22nm_HP.pm"
+
+VDD_SRC ( vdd 0 ) vsource dc=VDD
+VSS_SRC ( vss 0 ) vsource dc=0
+
+parameters S=0.8
+
+VSLEEP ( s 0 ) vsource dc=S
+
+MHEAD ( vdd_int s vdd vdd ) pmos_hvt w=Wp l=Lp
+
+M1 ( out a vdd_int vdd ) pmos w=Wp l=Lp
+M2 ( out b vdd_int vdd ) pmos w=Wp l=Lp
+
+M3 ( mid a vss vss ) nmos w=Wn l=Ln
+M4 ( out b mid 0 ) nmos w=Wn l=Ln
+
+parameters VAIN=0 VBIN=0
+VINA ( a 0 ) vsource dc=VAIN
+VINB ( b 0 ) vsource dc=VBIN
+
+sweepA sweep param=VAIN values=[0 0.8] {
+sweepB sweep param=VBIN values=[0 0.8]
+
+{
+ dcOp dc
+}
+}
+
+
+save out
+save vdd_int
+save mid
+save VDD_SRC:p
+
