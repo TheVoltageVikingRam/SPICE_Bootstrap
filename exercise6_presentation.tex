@@ -1,0 +1,231 @@
+% ============================================================
+%  Exercise 6 -- NAND Gate Sleep-Mode Leakage Analysis
+%  1-page landscape handout, 4 slide boxes (numbered 9--12)
+%  Continues from Exercise 5 presentation (boxes 1--8)
+%
+%  HOW TO COMPILE ON OVERLEAF:
+%  Upload this file.  No external images required -- all
+%  visuals are generated with TikZ.
+% ============================================================
+\documentclass[a4paper,landscape,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usepackage{helvet}
+\usepackage{xcolor}
+\usepackage{siunitx}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\geometry{margin=1cm}
+
+% ---- Slide box (same as Ex 5) ----
+\newcommand{\slidebox}[2]{%
+    \begin{tikzpicture}
+        \draw[thick] (0,0) rectangle (13.5, 8.5);
+        \node[anchor=north west, inner sep=0pt, yshift=-5pt] at (0,0) {\footnotesize #1};
+        \clip (0.1,0.1) rectangle (13.4,8.4);
+        \node[anchor=center] at (6.75, 4.25) {
+            \begin{minipage}{12.5cm}
+                #2
+            \end{minipage}
+        };
+    \end{tikzpicture}%
+}
+
+% ---- Heat-map colour definitions ----
+% Five-level colour scale from green (lowest leakage) to red (highest)
+\definecolor{hm0}{HTML}{1B7837}   % deep green   (< 1 pA)
+\definecolor{hm1}{HTML}{7FBC41}   % light green  (1–10 pA)
+\definecolor{hm2}{HTML}{FEE08B}   % yellow       (10–100 pA)
+\definecolor{hm3}{HTML}{FC8D59}   % orange       (0.1–1 nA)
+\definecolor{hm4}{HTML}{D73027}   % red          (1–10+ nA)
+
+% Convenience command: coloured cell for the heat map
+% #1 = background colour name, #2 = text
+\newcommand{\hmcell}[2]{%
+    \tikz[baseline=(X.base)]{%
+        \node[fill=#1, text=white, font=\sffamily\bfseries\scriptsize,
+              minimum width=2.4cm, minimum height=0.65cm, inner sep=1pt] (X) {#2};%
+    }%
+}
+
+\begin{document}
+\pagestyle{empty}
+
+% ==================== PAGE (Exercise 6) ====================
+
+% ---- Box 9 : Leakage Current Summary Table ----
+\noindent
+\slidebox{9}{
+    \centering
+    \textbf{Sleep-Mode Leakage \textemdash{} CMOS 2-Input NAND, 22\,nm PTM-HP}\\[0.2cm]
+    \scriptsize
+    \begin{tabular}{@{}l l l l@{}}
+        \toprule
+        & \multicolumn{3}{c}{\textbf{Circuit Topology}} \\
+        \cmidrule(l){2-4}
+        & \textbf{B}\;(PMOS HVT header)
+        & \textbf{C}\;(NMOS HVT footer)
+        & \textbf{D}\;(header + footer) \\
+        \midrule
+        Sleep signal & $S = V_{DD}$\;(header OFF) & $\overline{S} = 0$\;(footer OFF) & Both OFF \\
+        HVT $V_T$    & $1.5\times$ nominal        & $1.5\times$ nominal               & $1.5\times$ nominal \\
+        \bottomrule
+    \end{tabular}\\[0.25cm]
+    \small
+    \begin{tabular}{@{}c r r r r@{}}
+        \toprule
+        \textbf{Input (AB)} & \textbf{Ckt\,A (nA)} & \textbf{Ckt\,B (nA)} & \textbf{Ckt\,C (nA)} & \textbf{Ckt\,D (nA)} \\
+        \midrule
+        00 &  0.0607  & 0.00817 & 0.01271 & 0.000960 \\
+        01 &  1.027   & 0.00765 & 0.00999 & 0.000642 \\
+        10 &  4.144   & 0.00781 & 0.01115 & 0.000466 \\
+        11 & \textbf{12.122}  & 0.00282 & 0.01131 & \textbf{0.000102} \\
+        \bottomrule
+    \end{tabular}\\[0.15cm]
+    \flushleft\scriptsize
+    $\bullet$\;Leakage = $|I_{DD}|$ from Spectre DC operating-point analysis (nested sweep of A, B).\\
+    $\bullet$\;Circuit\,A leakage spans $200\times$ across input states; Circuits B--D are nearly flat.\\
+    $\bullet$\;Circuit\,D uses tightened convergence: \texttt{gmindc=1e-15, iabstol=1e-15, reltol=1e-4}.
+}
+\hfill
+% ---- Box 10 : TikZ Heat Map ----
+\slidebox{10}{
+    \centering
+    \textbf{Leakage Heat Map \textemdash{} $\log_{10}|I_{DD}|$ (Amperes)}\\[0.15cm]
+    \begin{tikzpicture}[
+        cell/.style={minimum width=2.5cm, minimum height=0.72cm,
+                     font=\sffamily\bfseries\scriptsize, text=white, inner sep=1pt},
+        lbl/.style={font=\sffamily\scriptsize, minimum width=1.1cm,
+                    minimum height=0.72cm, inner sep=2pt, anchor=east}
+    ]
+    % Column headers
+    \node[font=\sffamily\footnotesize\bfseries] at (1.25, 0.55) {Ckt\,A};
+    \node[font=\sffamily\footnotesize\bfseries] at (3.75, 0.55) {Ckt\,B};
+    \node[font=\sffamily\footnotesize\bfseries] at (6.25, 0.55) {Ckt\,C};
+    \node[font=\sffamily\footnotesize\bfseries] at (8.75, 0.55) {Ckt\,D};
+
+    % ---- Row 1: AB = 00 ----
+    \node[lbl] at (0, 0) {AB=00};
+    \node[cell, fill=hm3] at (1.25, 0) {$-$10.22};   % 6.07e-11 → log = -10.22
+    \node[cell, fill=hm2, text=black] at (3.75, 0) {$-$11.09};   % 8.17e-12 → log = -11.09
+    \node[cell, fill=hm2, text=black] at (6.25, 0) {$-$10.90};   % 1.27e-11 → log = -10.90
+    \node[cell, fill=hm1] at (8.75, 0) {$-$12.02};   % 9.60e-13 → log = -12.02
+
+    % ---- Row 2: AB = 01 ----
+    \node[lbl] at (0, -0.82) {AB=01};
+    \node[cell, fill=hm4] at (1.25, -0.82) {$-$8.99};    % 1.03e-9 → log = -8.99
+    \node[cell, fill=hm2, text=black] at (3.75, -0.82) {$-$11.12};
+    \node[cell, fill=hm2, text=black] at (6.25, -0.82) {$-$11.00};
+    \node[cell, fill=hm1] at (8.75, -0.82) {$-$12.19};
+
+    % ---- Row 3: AB = 10 ----
+    \node[lbl] at (0, -1.64) {AB=10};
+    \node[cell, fill=hm4] at (1.25, -1.64) {$-$8.38};    % 4.14e-9 → log = -8.38
+    \node[cell, fill=hm2, text=black] at (3.75, -1.64) {$-$11.11};
+    \node[cell, fill=hm2, text=black] at (6.25, -1.64) {$-$10.95};
+    \node[cell, fill=hm1] at (8.75, -1.64) {$-$12.33};
+
+    % ---- Row 4: AB = 11 ----
+    \node[lbl] at (0, -2.46) {AB=11};
+    \node[cell, fill=hm4] at (1.25, -2.46) {$-$7.92};    % 1.21e-8 → log = -7.92
+    \node[cell, fill=hm2, text=black] at (3.75, -2.46) {$-$11.55};
+    \node[cell, fill=hm2, text=black] at (6.25, -2.46) {$-$10.95};
+    \node[cell, fill=hm0] at (8.75, -2.46) {$-$12.99};
+
+    % ---- Colour legend ----
+    \node[font=\sffamily\tiny, anchor=west] at (0, -3.5) {%
+        \tikz{\node[fill=hm4, minimum width=0.5cm, minimum height=0.3cm] {};}
+        \;nA--$\mu$A\quad
+        \tikz{\node[fill=hm3, minimum width=0.5cm, minimum height=0.3cm] {};}
+        \;100\,pA\quad
+        \tikz{\node[fill=hm2, minimum width=0.5cm, minimum height=0.3cm] {};}
+        \;1--10\,pA\quad
+        \tikz{\node[fill=hm1, minimum width=0.5cm, minimum height=0.3cm] {};}
+        \;sub-pA\quad
+        \tikz{\node[fill=hm0, minimum width=0.5cm, minimum height=0.3cm] {};}
+        \;$<\!0.1$\,pA%
+    };
+    \end{tikzpicture}\\[0.1cm]
+    \flushleft\scriptsize
+    $\bullet$\;Colour encodes leakage magnitude on a logarithmic scale (per-cell value is $\log_{10}|I_{DD}|$ in Amperes).\\
+    $\bullet$\;Circuit\,A spans 4 decades red$\to$orange; B\,\&\,C collapse to a narrow yellow band; D reaches deep green.
+}
+
+\vspace{0.5cm}
+
+\noindent
+% ---- Box 11 : Reduction Ratios & Physical Discussion ----
+\slidebox{11}{
+    \centering
+    \textbf{Leakage Reduction Ratios \textemdash{} $I_{leak}^\text{(A)} \,/\, I_{leak}^\text{(X)}$}\\[0.15cm]
+    \small
+    \begin{tabular}{@{}c r r r@{}}
+        \toprule
+        \textbf{Input (AB)} & \textbf{A\,/\,B} & \textbf{A\,/\,C} & \textbf{A\,/\,D} \\
+        \midrule
+        00 &          $7.4\times$ &         $4.8\times$ &           $63\times$ \\
+        01 &        $134\times$   &       $103\times$   &       $1{,}600\times$ \\
+        10 &        $531\times$   &       $372\times$   &       $8{,}900\times$ \\
+        11 & $\mathbf{4{,}300\times}$ & $\mathbf{1{,}070\times}$ & $\mathbf{118{,}800\times}$ \\
+        \bottomrule
+    \end{tabular}\\[0.2cm]
+    \flushleft\scriptsize
+    $\bullet$\;\textbf{AB\,=\,11 is worst-case:} Both NMOS ON $\Rightarrow$ low-$R$ pull-down; full $V_{DD}$ appears
+    across the two OFF PMOS devices, maximising sub-threshold leakage.\\[0.04cm]
+    $\bullet$\;\textbf{Header $>$ footer at AB\,=\,11:} The dominant leakage path pulls current from $V_{DD}$ through the
+    OFF PMOS pair.  A supply-side HVT header directly strangles this path ($4{,}300\times$ vs.\
+    footer's $1{,}070\times$).\\[0.04cm]
+    $\bullet$\;\textbf{B \& C flatten state dependence:} A single HVT device becomes the bottleneck,
+    capping $I_{DD}$ to its own sub-threshold current regardless of NAND-core state
+    (B spans only $3\times$ vs.\ A's $200\times$).\\[0.04cm]
+    $\bullet$\;\textbf{D = multiplicative suppression:} Leakage must tunnel through \emph{two} HVT barriers,
+    yielding up to $\sim\!5$ orders of magnitude reduction.
+}
+\hfill
+% ---- Box 12 : Virtual Node Voltages & Key Takeaways ----
+\slidebox{12}{
+    \centering
+    \textbf{Virtual-Node Voltages in Sleep Mode}\\[0.15cm]
+    \scriptsize
+    \begin{tabular}{@{}c c c c c@{}}
+        \toprule
+        \textbf{AB}
+        & \textbf{B:}\;$V_\text{dd\_int}$
+        & \textbf{C:}\;$V_\text{ss\_int}$
+        & \textbf{D:}\;$V_\text{dd\_int}$
+        & \textbf{D:}\;$V_\text{ss\_int}$ \\
+        \midrule
+        00 &  84\,mV & 127\,mV & 250\,mV & 119\,mV \\
+        01 &  95\,mV & 269\,mV & 304\,mV & 297\,mV \\
+        10 &  98\,mV & 203\,mV & 350\,mV & 159\,mV \\
+        11 & 531\,mV & 673\,mV & 589\,mV & 381\,mV \\
+        \bottomrule
+    \end{tabular}\\[0.15cm]
+    \small
+    \centering
+    \textbf{Effective Core Supply ($V_\text{dd\_int} - V_\text{ss\_int}$) in Circuit\,D}\\[0.1cm]
+    \scriptsize
+    \begin{tabular}{@{}c c c@{}}
+        \toprule
+        \textbf{AB} & $\Delta V_\text{core}$ & vs.\ nominal 800\,mV \\
+        \midrule
+        00 & 131\,mV & $16\,\%$ \\
+        01 &   7\,mV &  $1\,\%$ \\
+        10 & 191\,mV & $24\,\%$ \\
+        11 & 208\,mV & $26\,\%$ \\
+        \bottomrule
+    \end{tabular}\\[0.15cm]
+    \flushleft\scriptsize
+    $\bullet$\;When gating devices are OFF, virtual nodes float to voltages set by leakage balance.\\
+    $\bullet$\;In Circuit\,D the effective supply across the NAND core collapses to $1$--$26\,\%$ of $V_{DD}$,
+    providing a \emph{third} suppression mechanism beyond the elevated $V_T$ alone.\\
+    $\bullet$\;\textbf{Bottom line:} Dual HVT power gating at 22\,nm achieves $\sim\!5$ decades of leakage reduction
+    at the cost of two extra transistors and a sleep-signal pair.
+}
+
+\end{document}
