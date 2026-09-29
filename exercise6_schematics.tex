@@ -1,0 +1,353 @@
+% ============================================================
+%  Exercise 6 — NAND Gate Sleep-Mode Circuit Schematics
+%  Standalone compilable file.  Uses circuitikz for standard
+%  IEEE MOSFET symbols.
+%
+%  Four configurations:
+%    A — Baseline NAND (no power gating)
+%    B — PMOS HVT header
+%    C — NMOS HVT footer
+%    D — PMOS HVT header + NMOS HVT footer
+%
+%  HVT devices are highlighted with yellow fill.
+%  Pin order in netlists: (drain gate source body)
+% ============================================================
+\documentclass[a4paper]{article}
+\usepackage[margin=1.2cm]{geometry}
+\usepackage[american]{circuitikz}
+\usepackage{amsmath}
+\usepackage{subcaption}
+\usepackage{caption}
+
+\begin{document}
+
+\begin{figure}[htbp]
+\centering
+
+% ============================================================
+%  Circuit A — Baseline NAND
+%  M1 (out a vdd vdd) pmos      M2 (out b vdd vdd) pmos
+%  M3 (mid a  0   0 ) nmos      M4 (out b mid  0 ) nmos
+% ============================================================
+\begin{subfigure}[t]{0.45\textwidth}
+\centering
+\begin{circuitikz}[american, scale=0.75, transform shape]
+
+    % --- PMOS pull-up (parallel) ---
+    \node[pmos] (M1) at (-1.3, 5) {};
+    \node[pmos, xscale=-1] (M2) at (1.3, 5) {};
+
+    % Source rail  →  V_DD
+    \draw (M1.S) -- (M2.S);
+    \path (M1.S) -- (M2.S) coordinate[midway](vsrc);
+    \draw (vsrc) -- ++(0,0.6)
+          node[ocirc]{} node[above, font=\normalsize]{$V_{DD}$};
+
+    % Drain rail  →  output
+    \draw (M1.D) -- (M2.D);
+    \path (M1.D) -- (M2.D) coordinate[midway](out);
+    \node[circ] at (out) {};
+    \node[right, font=\normalsize] at ([xshift=2pt]out) {\textsf{out}};
+
+    % --- NMOS pull-down (series) ---
+    \node[nmos] (M4) at (0, 2.5) {};
+    \draw (out) -- (M4.D);
+
+    \node[circ] at (M4.S) {};
+    \node[right, font=\normalsize] at ([xshift=2pt]M4.S) {\textsf{mid}};
+
+    \node[nmos] (M3) at (0, 0.5) {};
+    \draw (M4.S) -- (M3.D);
+
+    % GND
+    \draw (M3.S) -- ++(0,-0.4) node[ground]{};
+
+    % --- Gate labels ---
+    \draw (M1.G) -- ++(-0.4,0) node[left, font=\normalsize]{$A$};
+    \draw (M2.G) -- ++(0.4,0)  node[right, font=\normalsize]{$B$};
+    \draw (M4.G) -- ++(-0.4,0) node[left, font=\normalsize]{$B$};
+    \draw (M3.G) -- ++(-0.4,0) node[left, font=\normalsize]{$A$};
+
+    % --- Transistor names ---
+    \node[font=\scriptsize, text=blue!70!black, anchor=east]
+        at ([xshift=-8pt]M1.center) {M\textsubscript{1}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=8pt]M2.center) {M\textsubscript{2}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=10pt]M4.center) {M\textsubscript{4}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=10pt]M3.center) {M\textsubscript{3}};
+
+\end{circuitikz}
+\caption{Circuit A --- Baseline NAND}
+\label{fig:cktA}
+\end{subfigure}
+\hfill
+% ============================================================
+%  Circuit B — PMOS HVT header
+%  MHEAD (vdd_int s vdd vdd) pmos_hvt
+%  M1 (out a vdd_int vdd) pmos    M2 (out b vdd_int vdd) pmos
+%  M3 (mid a vss    vss) nmos     M4 (out b mid     0  ) nmos
+% ============================================================
+\begin{subfigure}[t]{0.45\textwidth}
+\centering
+\begin{circuitikz}[american, scale=0.75, transform shape]
+
+    % --- PMOS pull-up (parallel) ---
+    \node[pmos] (M1) at (-1.3, 5) {};
+    \node[pmos, xscale=-1] (M2) at (1.3, 5) {};
+
+    % Source rail  →  vdd_int
+    \draw (M1.S) -- (M2.S);
+    \path (M1.S) -- (M2.S) coordinate[midway](vddint);
+    \node[circ] at (vddint) {};
+    \node[right, font=\small, text=red!70!black]
+        at ([xshift=2pt]vddint) {$vdd\_int$};
+
+    % Drain rail  →  output
+    \draw (M1.D) -- (M2.D);
+    \path (M1.D) -- (M2.D) coordinate[midway](out);
+    \node[circ] at (out) {};
+    \node[right, font=\normalsize] at ([xshift=2pt]out) {\textsf{out}};
+
+    % --- MHEAD: PMOS HVT header ---
+    \node[pmos, fill=yellow!25] (MHEAD) at (0, 7.5) {};
+    \draw (vddint) -- (MHEAD.D);
+    \draw (MHEAD.G) -- ++(-0.4,0) node[left, font=\normalsize]{$S$};
+    \node[font=\scriptsize, text=red!70!black, anchor=west]
+        at ([xshift=10pt]MHEAD.center) {M\textsubscript{HEAD}};
+    \node[font=\tiny, text=red!70!black, anchor=south]
+        at ([yshift=6pt]MHEAD.center) {\textbf{HVT}};
+
+    % VDD above header
+    \draw (MHEAD.S) -- ++(0,0.6)
+          node[ocirc]{} node[above, font=\normalsize]{$V_{DD}$};
+
+    % --- NMOS pull-down (series) ---
+    \node[nmos] (M4) at (0, 2.5) {};
+    \draw (out) -- (M4.D);
+
+    \node[circ] at (M4.S) {};
+    \node[right, font=\normalsize] at ([xshift=2pt]M4.S) {\textsf{mid}};
+
+    \node[nmos] (M3) at (0, 0.5) {};
+    \draw (M4.S) -- (M3.D);
+
+    % GND
+    \draw (M3.S) -- ++(0,-0.4) node[ground]{};
+
+    % --- Gate labels ---
+    \draw (M1.G) -- ++(-0.4,0) node[left, font=\normalsize]{$A$};
+    \draw (M2.G) -- ++(0.4,0)  node[right, font=\normalsize]{$B$};
+    \draw (M4.G) -- ++(-0.4,0) node[left, font=\normalsize]{$B$};
+    \draw (M3.G) -- ++(-0.4,0) node[left, font=\normalsize]{$A$};
+
+    % --- Transistor names ---
+    \node[font=\scriptsize, text=blue!70!black, anchor=east]
+        at ([xshift=-8pt]M1.center) {M\textsubscript{1}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=8pt]M2.center) {M\textsubscript{2}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=10pt]M4.center) {M\textsubscript{4}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=10pt]M3.center) {M\textsubscript{3}};
+
+    % --- Sleep annotation ---
+    \node[font=\tiny, text=gray, anchor=west]
+        at ([xshift=12pt, yshift=-6pt]MHEAD.center)
+        {$S\!=\!V_{DD}$ in sleep};
+
+\end{circuitikz}
+\caption{Circuit B --- PMOS HVT Header}
+\label{fig:cktB}
+\end{subfigure}
+
+\vspace{1.5cm}
+
+% ============================================================
+%  Circuit C — NMOS HVT footer
+%  M1 (out a vdd vdd) pmos        M2 (out b vdd vdd) pmos
+%  M3 (mid a vss_int vss) nmos    M4 (out b mid vss) nmos
+%  MFOOT (vss_int sf vss vss) nmos_hvt
+% ============================================================
+\begin{subfigure}[t]{0.45\textwidth}
+\centering
+\begin{circuitikz}[american, scale=0.75, transform shape]
+
+    % --- PMOS pull-up (parallel) ---
+    \node[pmos] (M1) at (-1.3, 5) {};
+    \node[pmos, xscale=-1] (M2) at (1.3, 5) {};
+
+    % Source rail  →  V_DD (direct)
+    \draw (M1.S) -- (M2.S);
+    \path (M1.S) -- (M2.S) coordinate[midway](vsrc);
+    \draw (vsrc) -- ++(0,0.6)
+          node[ocirc]{} node[above, font=\normalsize]{$V_{DD}$};
+
+    % Drain rail  →  output
+    \draw (M1.D) -- (M2.D);
+    \path (M1.D) -- (M2.D) coordinate[midway](out);
+    \node[circ] at (out) {};
+    \node[right, font=\normalsize] at ([xshift=2pt]out) {\textsf{out}};
+
+    % --- NMOS pull-down (series) ---
+    \node[nmos] (M4) at (0, 2.5) {};
+    \draw (out) -- (M4.D);
+
+    \node[circ] at (M4.S) {};
+    \node[right, font=\normalsize] at ([xshift=2pt]M4.S) {\textsf{mid}};
+
+    \node[nmos] (M3) at (0, 0.5) {};
+    \draw (M4.S) -- (M3.D);
+
+    % vss_int node at M3 source
+    \node[circ] at (M3.S) {};
+    \node[right, font=\small, text=red!70!black]
+        at ([xshift=2pt]M3.S) {$vss\_int$};
+
+    % --- MFOOT: NMOS HVT footer ---
+    \node[nmos, fill=yellow!25] (MFOOT) at (0, -1.5) {};
+    \draw (M3.S) -- (MFOOT.D);
+    \draw (MFOOT.G) -- ++(-0.4,0) node[left, font=\normalsize]{$\overline{S}$};
+    \node[font=\scriptsize, text=red!70!black, anchor=west]
+        at ([xshift=10pt]MFOOT.center) {M\textsubscript{FOOT}};
+    \node[font=\tiny, text=red!70!black, anchor=north]
+        at ([yshift=-6pt]MFOOT.center) {\textbf{HVT}};
+
+    % GND below footer
+    \draw (MFOOT.S) -- ++(0,-0.4) node[ground]{};
+
+    % --- Gate labels ---
+    \draw (M1.G) -- ++(-0.4,0) node[left, font=\normalsize]{$A$};
+    \draw (M2.G) -- ++(0.4,0)  node[right, font=\normalsize]{$B$};
+    \draw (M4.G) -- ++(-0.4,0) node[left, font=\normalsize]{$B$};
+    \draw (M3.G) -- ++(-0.4,0) node[left, font=\normalsize]{$A$};
+
+    % --- Transistor names ---
+    \node[font=\scriptsize, text=blue!70!black, anchor=east]
+        at ([xshift=-8pt]M1.center) {M\textsubscript{1}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=8pt]M2.center) {M\textsubscript{2}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=10pt]M4.center) {M\textsubscript{4}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=10pt]M3.center) {M\textsubscript{3}};
+
+    % --- Sleep annotation ---
+    \node[font=\tiny, text=gray, anchor=west]
+        at ([xshift=12pt, yshift=-6pt]MFOOT.center)
+        {$\overline{S}\!=\!0$ in sleep};
+
+\end{circuitikz}
+\caption{Circuit C --- NMOS HVT Footer}
+\label{fig:cktC}
+\end{subfigure}
+\hfill
+% ============================================================
+%  Circuit D — PMOS HVT header + NMOS HVT footer
+%  MHEAD (vdd_int s  vdd vdd) pmos_hvt
+%  M1    (out    a vdd_int vdd) pmos
+%  M2    (out    b vdd_int vdd) pmos
+%  M3    (mid    a vss_int vss) nmos
+%  M4    (out    b mid     vss) nmos
+%  MFOOT (vss_int sf vss   vss) nmos_hvt
+% ============================================================
+\begin{subfigure}[t]{0.45\textwidth}
+\centering
+\begin{circuitikz}[american, scale=0.75, transform shape]
+
+    % --- PMOS pull-up (parallel) ---
+    \node[pmos] (M1) at (-1.3, 5) {};
+    \node[pmos, xscale=-1] (M2) at (1.3, 5) {};
+
+    % Source rail  →  vdd_int
+    \draw (M1.S) -- (M2.S);
+    \path (M1.S) -- (M2.S) coordinate[midway](vddint);
+    \node[circ] at (vddint) {};
+    \node[right, font=\small, text=red!70!black]
+        at ([xshift=2pt]vddint) {$vdd\_int$};
+
+    % Drain rail  →  output
+    \draw (M1.D) -- (M2.D);
+    \path (M1.D) -- (M2.D) coordinate[midway](out);
+    \node[circ] at (out) {};
+    \node[right, font=\normalsize] at ([xshift=2pt]out) {\textsf{out}};
+
+    % --- MHEAD: PMOS HVT header ---
+    \node[pmos, fill=yellow!25] (MHEAD) at (0, 7.5) {};
+    \draw (vddint) -- (MHEAD.D);
+    \draw (MHEAD.G) -- ++(-0.4,0) node[left, font=\normalsize]{$S$};
+    \node[font=\scriptsize, text=red!70!black, anchor=west]
+        at ([xshift=10pt]MHEAD.center) {M\textsubscript{HEAD}};
+    \node[font=\tiny, text=red!70!black, anchor=south]
+        at ([yshift=6pt]MHEAD.center) {\textbf{HVT}};
+
+    % VDD above header
+    \draw (MHEAD.S) -- ++(0,0.6)
+          node[ocirc]{} node[above, font=\normalsize]{$V_{DD}$};
+
+    % --- NMOS pull-down (series) ---
+    \node[nmos] (M4) at (0, 2.5) {};
+    \draw (out) -- (M4.D);
+
+    \node[circ] at (M4.S) {};
+    \node[right, font=\normalsize] at ([xshift=2pt]M4.S) {\textsf{mid}};
+
+    \node[nmos] (M3) at (0, 0.5) {};
+    \draw (M4.S) -- (M3.D);
+
+    % vss_int node at M3 source
+    \node[circ] at (M3.S) {};
+    \node[right, font=\small, text=red!70!black]
+        at ([xshift=2pt]M3.S) {$vss\_int$};
+
+    % --- MFOOT: NMOS HVT footer ---
+    \node[nmos, fill=yellow!25] (MFOOT) at (0, -1.5) {};
+    \draw (M3.S) -- (MFOOT.D);
+    \draw (MFOOT.G) -- ++(-0.4,0) node[left, font=\normalsize]{$\overline{S}$};
+    \node[font=\scriptsize, text=red!70!black, anchor=west]
+        at ([xshift=10pt]MFOOT.center) {M\textsubscript{FOOT}};
+    \node[font=\tiny, text=red!70!black, anchor=north]
+        at ([yshift=-6pt]MFOOT.center) {\textbf{HVT}};
+
+    % GND below footer
+    \draw (MFOOT.S) -- ++(0,-0.4) node[ground]{};
+
+    % --- Gate labels ---
+    \draw (M1.G) -- ++(-0.4,0) node[left, font=\normalsize]{$A$};
+    \draw (M2.G) -- ++(0.4,0)  node[right, font=\normalsize]{$B$};
+    \draw (M4.G) -- ++(-0.4,0) node[left, font=\normalsize]{$B$};
+    \draw (M3.G) -- ++(-0.4,0) node[left, font=\normalsize]{$A$};
+
+    % --- Transistor names ---
+    \node[font=\scriptsize, text=blue!70!black, anchor=east]
+        at ([xshift=-8pt]M1.center) {M\textsubscript{1}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=8pt]M2.center) {M\textsubscript{2}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=10pt]M4.center) {M\textsubscript{4}};
+    \node[font=\scriptsize, text=blue!70!black, anchor=west]
+        at ([xshift=10pt]M3.center) {M\textsubscript{3}};
+
+    % --- Sleep annotations ---
+    \node[font=\tiny, text=gray, anchor=west]
+        at ([xshift=12pt, yshift=-6pt]MHEAD.center)
+        {$S\!=\!V_{DD}$};
+    \node[font=\tiny, text=gray, anchor=west]
+        at ([xshift=12pt, yshift=-6pt]MFOOT.center)
+        {$\overline{S}\!=\!0$};
+
+\end{circuitikz}
+\caption{Circuit D --- Header + Footer}
+\label{fig:cktD}
+\end{subfigure}
+
+\caption{NAND gate sleep-mode circuit configurations (22\,nm PTM-HP).
+HVT devices (yellow fill) have $V_T = 1.5\times$ nominal.
+In sleep mode all gating devices are OFF.
+Body terminals: PMOS bulk $\to V_{DD}$, NMOS bulk $\to V_{SS}$
+(connected to real rails, not virtual nodes).}
+\label{fig:nand-sleep-configs}
+\end{figure}
+
+\end{document}
