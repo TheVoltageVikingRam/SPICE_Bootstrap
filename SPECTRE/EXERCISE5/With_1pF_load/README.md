@@ -182,6 +182,25 @@ $$
 
 ---
 
+## Comparative Analysis — Cases 1, 3 & 4
+
+![Propagation delay comparison: Cases 1, 3 & 4 — fastest, slowest, most/least accurate](images/delay_comparison_c1_c3_c4.png)
+
+| Attribute | Case | Min $t_{pd}$ |
+|---|---|---|
+| ★ **Fastest** | Case 3 — `m`-based parallel, `rgatemod=1` | **49.40 ps** |
+| ▼ **Slowest** (well-behaved) | Case 1 — single device, `rgatemod=0` | 51.66 ps |
+| ✓ **Most accurate** | Case 3 — `m`-based parallel, `rgatemod=1` | — |
+| ✗ **Least accurate** | Case 1 — single device, `rgatemod=0` | — |
+
+All three cases share the same optimal depth (**n = 6**, 7 stages). Case 3 is simultaneously the
+fastest *and* the most physically accurate: the `m` parameter keeps each unit device at
+$W_n = 44\text{ nm}$ so gate resistance stays negligible, while BSIM4 aggregates current and
+capacitance correctly across parallel copies. Case 1 (`rgatemod=0`) ignores gate resistance
+entirely, making it the least accurate model — yet it still predicts the correct optimal $n$.
+
+---
+
 ## Summary
 
 | Case | Implementation | `rgatemod` | Optimal $n$ | Stages | Min $t_{pd}$ |
