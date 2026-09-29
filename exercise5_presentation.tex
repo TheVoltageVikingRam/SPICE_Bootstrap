@@ -19,6 +19,8 @@
 \usepackage{tikz}
 \usepackage{booktabs}
 \usepackage{helvet}
+\usepackage[colorlinks=true, urlcolor=blue]{hyperref}
+
 \renewcommand{\familydefault}{\sfdefault}
 
 \geometry{margin=1cm}
@@ -59,9 +61,9 @@
     \hspace{1cm}
     \begin{tabular}{l}
         \LARGE \textbf{Exercise 5 Redone} \\[0.3em]
-        \scriptsize CMOS Inverter Chain Delay Optimisation \\[0.15em]
-        \scriptsize 22\,nm PTM HP BSIM4 $\cdot$ $V_{DD}=0.8$\,V \\[0.15em]
-        \scriptsize Geometric Tapering $\cdot$ Multi-finger Partitioning
+        \vspace{0.4cm}
+\scriptsize \href{https://drive.google.com/file/d/1HsAws_kU7poEELz8WfXPL0r3M5Wf-Fd4/view?usp=sharing}{View Back-of-the-Envelope Calculations (PDF)}
+
     \end{tabular}
 }
 
@@ -95,10 +97,7 @@
         Delay trend          & Convex, clear min.\ & Monotonically rising \\
         \bottomrule
     \end{tabular}\\[0.1cm]
-    \flushleft\scriptsize
-    $\bullet$\;Case 2: single wide transistor $\Rightarrow$ $R_g \!\propto\! W^2$;
-    larger $\alpha$ $\Rightarrow$ wider final stage $\Rightarrow$ dominant gate-RC penalty.\\
-    $\bullet$\;No true minimum within $n=3\ldots10$; delay diverges with increasing $n$.
+   
 }
 \hfill
 % ---- Box 6 : Case 3 vs Case 4  (1 pF, m-based vs nf multi-finger) ----
@@ -124,13 +123,11 @@
         Scaling          & \texttt{m} multiplicity   & $NF=\lceil W_{tot}/W_f\rceil$ \\
         Min $t_{pd}$     & \textbf{49.40\,ps}        & 51.16\,ps \\
         Optimal $n$      & 6                          & 6 \\
-        Setup effort     & Low                        & High \\
+        Setup effort     & Lower                        & High \\
         Layout fidelity  & Medium                     & \textbf{High} \\
         \bottomrule
     \end{tabular}\\[0.1cm]
-    \flushleft\scriptsize
-    $\bullet$\;Case 3 unit device stays at $W_n\!=\!44\,$nm $\Rightarrow$ $R_g$ naturally negligible; fastest simulated delay.\\
-    $\bullet$\;Case 4 explicit finger partitioning ($W_f\!=\!220\,$nm) mirrors real layout design rules.
+    
 }
 
 \vspace{0.5cm}
@@ -175,10 +172,7 @@
         Optimal $\alpha$    & 3.897     & \textbf{3.721} \\
         \bottomrule
     \end{tabular}\\[0.06cm]
-    \flushleft\scriptsize
-    $\bullet$\;10$\times$ load $\Rightarrow$ optimal depth shifts right by 2 stages ($n\!=\!6\!\to\!8$).\\
-    $\bullet$\;Min delay $+13\,$ps ($+26\,\%$); optimal $\alpha$ barely changes ($M^{1/(n+1)}$ scaling).\\
-    $\bullet$\;$\alpha = M^{1/(n+1)}$,\quad $C_{in}=0.0732\,$fF (Exercise~4 model-card value).
+    
 }
 
 \end{document}
