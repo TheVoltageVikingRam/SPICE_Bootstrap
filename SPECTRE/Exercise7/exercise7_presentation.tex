@@ -57,12 +57,12 @@
     \Large \textbf{Interconnect / Wire Delay Models} \\[0.25cm]
     \normalsize
     \textbf{Setup:} $R = 100\,\Omega$, $C = 1\,$pF. \quad $\pi$-Model: $R_\pi = \frac{R}{N}, C_\pi = \frac{C}{2N}$ \quad T-Model: $R_T = \frac{R}{2N}, C_T = \frac{C}{N}$ \\[0.25cm]
-    \textbf{Comparing Delay to Step Response ($t_r \ll \frac{RC}{2}$)} \\
+    \textbf{Comparing Delay to Step Response ($t_r = 5.65\,$ps $\ll \frac{RC}{2}$)} \\
     Input approximates a step: $V_c(t) = V_s(1 - e^{-t/\tau}) \implies t = -\tau \ln\left(1 - \frac{V_{out}}{V_{DD}}\right)$ \,\, ($\tau = \frac{RC}{2}$) \\[0.15cm]
-    \textbf{At $\mathbf{V_{out} / V_{DD} = 0.632}$ ($1 - e^{-1}$):} \quad Calculated $t \approx 0.99\frac{RC}{2}$ \quad Simulated $t \approx 0.984\frac{RC}{2}$ \\[0.15cm]
-    \textbf{At $\mathbf{V_{out} / V_{DD} = 0.5}$:} \quad Calculated $t \approx 0.69\frac{RC}{2}$ \quad Simulated $t \approx 0.76\frac{RC}{2}$ \\[0.25cm]
-    \textbf{Slow Edge Regime ($t_r \gg \frac{RC}{2}$):} \\
-    Threshold ratio does not matter; simulated delay approaches Elmore delay ($\frac{RC}{2}$).
+    \textbf{At $\mathbf{V_{out} / V_{DD} = 0.632}$ ($1 - e^{-1}$):} \quad Calculated $t = \frac{RC}{2}$ \quad Simulated $t \approx 0.99\frac{RC}{2}$ ($49.6\,$ps) \\[0.15cm]
+    \textbf{At $\mathbf{V_{out} / V_{DD} = 0.5}$:} \quad Calculated $t \approx 0.69\frac{RC}{2}$ \quad Simulated $t \approx 0.76\frac{RC}{2}$ ($37.9\,$ps) \\[0.25cm]
+    \textbf{Slow Edge Regime ($t_r = 400\,$ps $\gg \frac{RC}{2}$):} \\
+    Threshold ratio does not matter; simulated delay approaches Elmore delay ($\approx 50\,$ps).
 }
 
 \newpage
