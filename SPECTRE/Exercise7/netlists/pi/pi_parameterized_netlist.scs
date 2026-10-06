@@ -5,9 +5,9 @@ global 0
 parameters VDD=0.8
 parameters Rtot=100
 parameters Ctot=1p
-parameters N=8
+parameters N=1
 parameters TRP=0.632
-
+parameters VTH=TRP*VDD
 
 // Input
 
@@ -92,8 +92,8 @@ if (N==4) {
 if (N==5) {
 
 	parameters Rs=Rtot/5
-	parameters Ci=Ctot/10
-	parameters Ce=Ctot/5
+	parameters Ce=Ctot/10
+	parameters Ci=Ctot/5
 
 
 
@@ -166,7 +166,7 @@ if (N == 7) {
 
 	R1 (in n1) resistor r=Rs
 	C1 (in 0) capacitor c=Ce
-	C2 (n1 0) capacitpr c=Ci
+	C2 (n1 0) capacitor c=Ci
 
 	
 	R2 (n1 n2) resistor r=Rs
@@ -308,6 +308,65 @@ if (N == 9) {
 
 
 
+if (N == 10) {
+
+	parameters Rs=Rtot/10
+        parameters Ce=Ctot/20
+        parameters Ci=Ctot/10
+
+
+
+        R1 (in n1) resistor r=Rs
+        C1 (in 0) capacitor c=Ce
+        C2 (n1 0) capacitor c=Ci
+
+
+        R2 (n1 n2) resistor r=Rs
+        C3 (n2 0) capacitor c=Ci
+
+
+
+        R3 (n2 n3) resistor r=Rs
+        C4 (n3 0) capacitor c=Ci
+
+
+        R4 (n3 n4) resistor r=Rs
+        C5 (n4 0) capacitor c=Ci
+
+
+        R5 (n4 n5) resistor r=Rs
+        C6 (n5 0) capacitor c=Ci
+
+
+        R6 (n5 n6) resistor r=Rs
+        C7 (n6 0) capacitor c=Ci
+
+
+
+        R7 (n6 n7) resistor r=Rs
+        C8 (n7 0) capacitor c=Ci
+
+
+        R8 (n7 n8) resistor r=Rs
+        C9 (n8 0) capacitor c=Ci
+
+        R9 (n8 n9) resistor r=Rs
+        C10 (n9 0) capacitor c=Ci
+
+	R10 (n9 out) resistor r=Rs
+	C11 (out 0) capacitor c=Ce
+
+
+
+
+
+}
+
+
+
+
+
+
 
 
 
@@ -326,6 +385,6 @@ simulator lang=spice
 
 .MEASURE TRAN tpd
 
-+ TRIG V(in) VAL=TRP*VDD RISE=1
-+ TARG V(out) VAL=TRP*VDD RISE=1
++ TRIG V(in) VAL=VTH RISE=1
++ TARG V(out) VAL=VTH RISE=1
 
