@@ -1,0 +1,158 @@
+simulator lang=spectre
+
+global 0
+
+parameters VDD=0.8
+parameters Rtot=100
+parameters Ctot=1p
+parameters N=6
+
+parameters TRP=0.632
+parameters VTH=TRP*VDD
+
+parameters Rhalf=Rtot/(2*N)
+parameters Rseg=Rtot/N
+parameters Cseg=Ctot/N
+
+
+Vin ( in 0 ) vsource type=pulse val0=0 val1=VDD delay=0 rise=5.65p fall=5.65p width=500p period=1n
+
+
+
+if (N==1) {
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+R2 (n1 out) resistor r=Rhalf
+}
+
+
+
+
+if (N==2) {
+
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+
+R2 (n1 n2) resistor r=Rseg
+C2 (n2 0) capacitor c=Cseg
+
+R3 (n2 out) resistor r=Rhalf
+
+
+}
+
+
+
+if (N==3) {
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+
+R2 (n1 n2) resistor r=Rseg
+C2 (n2 0) capacitor c=Cseg
+
+R3 (n2 n3) resistor r=Rseg
+C3 (n3 0) capacitor c=Cseg
+
+R4 (n3 out) resistor r=Rhalf
+
+
+}
+
+
+
+if (N==4) {
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+
+R2 (n1 n2) resistor r=Rseg
+C2 (n2 0) capacitor c=Cseg
+
+R3 (n2 n3) resistor r=Rseg
+C3 (n3 0) capacitor c=Cseg
+
+R4 (n3 n4) resistor r=Rseg
+C4 (n4 0) capacitor c=Cseg
+
+R5 (n4 out) resistor r=Rhalf
+
+
+
+}
+
+
+
+if (N==5) {
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+
+
+R2 (n1 n2) resistor r=Rseg
+C2 (n2 0) capacitor c=Cseg
+
+
+R3 (n2 n3) resistor r=Rseg
+C3 (n3 0 ) capacitor c=Cseg
+
+
+R4 (n3 n4) resistor r=Rseg
+C4 (n4 0) capacitor c=Cseg
+
+
+R5 (n4 n5) resistor r=Rseg
+C5 (n5 0) capacitor c=Cseg
+
+
+R6 (n5 out) resistor r=Rhalf
+
+
+
+}
+
+
+
+if (N==6) {
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+
+R2 (n1 n2) resistor r=Rseg
+C2 (n2 0) capacitor c=Cseg
+
+R3 (n2 n3) resistor r=Rseg
+C3 (n3 0) capacitor c=Cseg
+
+R4 (n3 n4) resistor r=Rseg
+C4 (n4 0) capacitor c=Cseg
+
+R5 (n4 n5) resistor r=Rseg
+C5 (n5 0) capacitor c=Cseg
+
+
+R6 (n5 n6) resistor r=Rseg
+C6 (n6 0) capacitor c=Cseg
+
+R7 (n6 out) resistor r=Rhalf
+
+
+
+}
+
+
+
+
+
+tran1 tran stop=1n maxstep=0.1p
+
+save in out 
+
+simulator lang=spice
+
+.MEASURE TRAN tpd
+
++ TRIG V(in) VAL=VTH RISE=1
++ TARG V(out) VAL=VTH RISE=1
