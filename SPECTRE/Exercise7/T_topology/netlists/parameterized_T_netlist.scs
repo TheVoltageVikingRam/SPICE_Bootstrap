@@ -5,7 +5,7 @@ global 0
 parameters VDD=0.8
 parameters Rtot=100
 parameters Ctot=1p
-parameters N=6
+parameters N=1
 
 parameters TRP=0.632
 parameters VTH=TRP*VDD
@@ -143,6 +143,166 @@ R7 (n6 out) resistor r=Rhalf
 }
 
 
+
+
+if (N==7) {
+
+
+
+
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+
+R2 (n1 n2) resistor r=Rseg
+C2 (n2 0) capacitor c=Cseg
+
+R3 (n2 n3) resistor r=Rseg
+C3 (n3 0) capacitor c=Cseg
+
+R4 (n3 n4) resistor r=Rseg
+C4 (n4 0) capacitor c=Cseg
+
+R5 (n4 n5) resistor r=Rseg
+C5 (n5 0) capacitor c=Cseg
+
+
+R6 (n5 n6) resistor r=Rseg
+C6 (n6 0) capacitor c=Cseg
+
+
+R7 (n6 n7) resistor r=Rseg
+C7 (n7 0) capacitor c=Cseg
+
+R8 (n7 out) resistor r=Rhalf
+
+
+
+}
+
+
+
+
+
+
+if (N==8) {
+
+
+
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+
+R2 (n1 n2) resistor r=Rseg
+C2 (n2 0) capacitor c=Cseg
+
+R3 (n2 n3) resistor r=Rseg
+C3 (n3 0) capacitor c=Cseg
+
+R4 (n3 n4) resistor r=Rseg
+C4 (n4 0) capacitor c=Cseg
+
+R5 (n4 n5) resistor r=Rseg
+C5 (n5 0) capacitor c=Cseg
+
+
+R6 (n5 n6) resistor r=Rseg
+C6 (n6 0) capacitor c=Cseg
+
+
+R7 (n6 n7) resistor r=Rseg
+C7 (n7 0) capacitor c=Cseg
+
+R8 (n7 n8) resistor r=Rseg
+C8 (n8 0) capacitor c=Cseg
+
+
+R9 (n8 out) resistor r=Rhalf 
+
+
+}
+
+
+
+if (N==9) {
+
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+
+R2 (n1 n2) resistor r=Rseg
+C2 (n2 0) capacitor c=Cseg
+
+R3 (n2 n3) resistor r=Rseg
+C3 (n3 0) capacitor c=Cseg
+
+R4 (n3 n4) resistor r=Rseg
+C4 (n4 0) capacitor c=Cseg
+
+R5 (n4 n5) resistor r=Rseg
+C5 (n5 0) capacitor c=Cseg
+
+
+R6 (n5 n6) resistor r=Rseg
+C6 (n6 0) capacitor c=Cseg
+
+
+R7 (n6 n7) resistor r=Rseg
+C7 (n7 0) capacitor c=Cseg
+
+R8 (n7 n8) resistor r=Rseg
+C8 (n8 0) capacitor c=Cseg
+
+R9 (n8 n9) resistor r=Rseg
+C9 (n9 0) capacitor c=Cseg
+
+R10 (n9 out) resistor r=Rhalf
+
+} 
+
+
+
+if (N==10) {
+
+
+
+R1 (in n1) resistor r=Rhalf
+C1 (n1 0) capacitor c=Cseg
+
+R2 (n1 n2) resistor r=Rseg
+C2 (n2 0) capacitor c=Cseg
+
+R3 (n2 n3) resistor r=Rseg
+C3 (n3 0) capacitor c=Cseg
+
+R4 (n3 n4) resistor r=Rseg
+C4 (n4 0) capacitor c=Cseg
+
+R5 (n4 n5) resistor r=Rseg
+C5 (n5 0) capacitor c=Cseg
+
+
+R6 (n5 n6) resistor r=Rseg
+C6 (n6 0) capacitor c=Cseg
+
+
+R7 (n6 n7) resistor r=Rseg
+C7 (n7 0) capacitor c=Cseg
+
+R8 (n7 n8) resistor r=Rseg
+C8 (n8 0) capacitor c=Cseg
+
+R9 (n8 n9) resistor r=Rseg
+C9 (n9 0) capacitor c=Cseg
+
+R10 (n9 n10) resistor r=Rseg
+C10 (n10 0) capacitor c=Cseg
+
+
+R11 (n10 out) resistor r=Rhalf
+
+
+}
 
 
 
