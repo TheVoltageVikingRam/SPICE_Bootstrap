@@ -52,11 +52,16 @@
 \hfill
 \slidebox{4}{
     \centering
-    \vspace{1.5cm}
-    \Huge \textbf{Exercise 7} \\[0.6cm]
-    \Large \textbf{Transmission Lines} \\[0.8cm]
+    \vspace{0.5cm}
+    \Huge \textbf{Exercise 7} \\[0.3cm]
+    \Large \textbf{Interconnect / Wire Delay Models} \\[0.5cm]
     \normalsize
-    \textcolor{black!70}{Distributed RC Models, Propagation Delay, \\ \& Slow-Edge Analysis}
+    \textbf{Setup:} $R = 100\,\Omega$, $C = 1\,$pF \quad \textbf{Models ($N$ segments):} \\
+    $\pi$-Model: $R_\pi = \frac{R}{N}, C_\pi = \frac{C}{2N}$ \quad T-Model: $R_T = \frac{R}{2N}, C_T = \frac{C}{N}$ \\[0.4cm]
+    \textbf{Method:} Spectre \texttt{if} construct to select $N \in \{1..10\}$ stages. \\[0.4cm]
+    \textbf{Analysis:} Fast edge ($t_r = 5.65\,$ps) vs Slow edge ($t_r = 400\,$ps). \\
+    Fast edge ($t_r \ll \frac{RC}{2}$): delay at $0.632 V_{DD}$ approaches Elmore delay ($\tau = \frac{RC}{2}$). \\
+    Slow edge: delay approaches Elmore delay regardless of threshold.
 }
 
 \newpage
