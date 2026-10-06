@@ -1,0 +1,160 @@
+Exported variables from results directory:  ././T_N1.raw/
+
+date               :  10:33:42 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.46836e-11 
+
+
+
+
+
+Exported variables from results directory:  ././T_N10.raw/
+
+date               :  10:34:06 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.79004e-11 
+
+
+
+
+
+Exported variables from results directory:  ././T_N2.raw/
+
+date               :  10:33:44 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.75386e-11 
+
+
+
+
+
+Exported variables from results directory:  ././T_N3.raw/
+
+date               :  10:33:47 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.77972e-11 
+
+
+
+
+
+Exported variables from results directory:  ././T_N4.raw/
+
+date               :  10:33:50 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.78548e-11 
+
+
+
+
+
+Exported variables from results directory:  ././T_N5.raw/
+
+date               :  10:33:52 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.78763e-11 
+
+
+
+
+
+Exported variables from results directory:  ././T_N6.raw/
+
+date               :  10:33:55 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.78867e-11 
+
+
+
+
+
+Exported variables from results directory:  ././T_N7.raw/
+
+date               :  10:33:58 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.78926e-11 
+
+
+
+
+
+Exported variables from results directory:  ././T_N8.raw/
+
+date               :  10:34:01 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.78962e-11 
+
+
+
+
+
+Exported variables from results directory:  ././T_N9.raw/
+
+date               :  10:34:03 PM, Tue Oct 6, 2026
+design             :  (no title)
+simulator          :  spectre
+version            :  24.1.0.288.isr5
+
+
+Measurement Name   :  tran1
+Analysis Type      :  tran
+tpd                   =  3.78987e-11 
+
+
+
+
+
