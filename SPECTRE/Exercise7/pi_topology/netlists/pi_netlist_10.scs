@@ -1,12 +1,24 @@
 simulator lang=spectre
 
 global 0
-parameters TRP=0.632
+parameters TRP=0.5
 parameters VDD=0.8
 parameters Rtot=100
 parameters Ctot=1p
 
-Vin ( in 0 ) vsource type=pulse val0=0 va11=VDD delay=0 rise=5.65p fall=5.65p width=500p period=1.1n
+parameters TR=1p
+
+
+parameters TSTOP = ( TR < 1n ) ? ( TR + 200p ) : ( TR + 1n )
+
+parameters TMAX = ( TR < 10p ) ? 0.05p : ( TR < 100p ) ? 0.1p : ( TR < 1n ) ? 0.5p : (TR < 1u) ? 1p : ( TR < 1m ) ? 1n : 1u 
+
+** Vin ( in 0 ) vsource type=pulse val0=0 val1=VDD delay=0 rise=5.65p fall=5.65p width=500p period=1n
+
+Vin ( in 0 ) vsource type=pwl wave=[0 0 TR VDD (TR+500p) VDD ]
+
+
+
 
 R1 ( in n1 ) resistor r=10
 C1 ( in 0 ) capacitor c=50f
@@ -41,9 +53,20 @@ C10 ( n9 0 ) capacitor c=100f
 R10 ( n9 out ) resistor r=10
 C11 ( out 0 ) capacitor c=50f
 
-tran10 tran stop=1n maxstep=0.1p
 
-save in out n1 n2 n3 n4 n5 n6 n7 n8 n9
+
+
+
+
+SweepTR sweep param=TR start=1p stop=1s dec=16 {
+
+tran10 tran stop=TSTOP maxstep=TMAX
+}
+
+
+
+
+** save in out n1 n2 n3 n4 n5 n6 n7 n8 n9
 
 simulator lang=spice
 
